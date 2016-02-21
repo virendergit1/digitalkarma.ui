@@ -1,0 +1,111 @@
+﻿<div ng-controller="registrationController">
+    <div class="col-md-6 col-lg-6 col-md-offset-3" ng-if="showMessageRegistration">
+        <div class="row">
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                Thank you for signing up. Please check your email@example.com to complete Sign-up process.
+            </div>
+        </div>
+    </div>
+    <div class="container" id="registration">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">User Registration</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" name="registration">
+                            <div class="form-group" ng-class="{'has-error': registration.firstName.$error.required && (submitted)}">
+                                <label>First Name</label>
+                                <input class="form-control"
+                                       placeholder="Enter First Name"
+                                       name="firstName"
+                                       type="text"
+                                       ng-model="firstName"
+                                       ng-required="true"
+                                       ng-minlength="2" />
+                                <p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>
+                                <label class="help-block has-error" ng-if="registration.firstName.$error.required && (submitted)">First Name is required</label>
+                            </div>
+                            <div class="form-group">
+                                <label>Middle Initial</label>
+                                <input class="form-control" placeholder="Enter Middle Initial">
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': registration.firstName.$error.required && (submitted)}">
+                                <label>Last Name</label>
+                                <input class="form-control"
+                                       placeholder="Enter Last Name"
+                                       name="lastName"
+                                       type="text"
+                                       ng-model="lastName"
+                                       ng-required="true"
+                                       ng-minlength="2">
+                                <p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>
+                                <label class="help-block has-error" ng-if="registration.lastName.$error.required && (submitted)">Last Name is required</label>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': registration.email.$error.pattern || registration.email.$error.required && (submitted)}">
+                                <label>Email</label>
+                                <input class="form-control"
+                                       placeholder="E-mail"
+                                       name="email"
+                                       type="email"
+                                       autofocus value=""
+                                       ng-model="email"
+                                       ng-required="true"
+                                       ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" />
+                                <label class="help-block" ng-if="registration.email.$error.pattern && (submitted)">The Email is invalid</label>
+                                <label class="help-block has-error" ng-if="registration.email.$error.required && (submitted)">Email is required</label>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': registration.password.$error.pattern || registration.password.$error.required && (submitted)}">
+                                <label>Password</label>
+                                <input class="form-control"
+                                       placeholder="Password"
+                                       name="password"
+                                       type="password"
+                                       ng-required="true"
+                                       ng-model="password"
+                                       ng-minlength="3" 
+                                       ng-maxlength="15" />
+                                <p class="help-block" ng-if="registration.password.$error.required && (!submitted && !registration.password.$dirty)">Minimum 8 characters and one special character and 1 number</p>
+                                <label class="help-block has-error" ng-show="registration.password.$dirty && registration.password.$error.minlength && (submitted)">Too short. Minimum 8 characters and one special character and 1 number</label>
+                                <label class="help-block has-error" ng-if="registration.password.$error.pattern && (submitted)">Invalid password. Minimum 8 characters and one special character and one number </label>
+                                <label class="help-block has-error" ng-if="registration.password.$error.required && (submitted)">Password is required</label>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': registration.confirmPassword.$error.pattern || registration.confirmPassword.$error.required && (submitted)}">
+                                <label>Confirm Password</label>
+                                <input class="form-control"
+                                       placeholder="Confirm password"
+                                       name="confirmPassword"
+                                       type="password"
+                                       ng-required="true"
+                                       ng-model="confirmPassword"
+                                       ng-minlength="3"
+                                       ng-maxlength="15"/>
+                                <label class="help-block has-error" ng-if="registration.confirmPassword.$error.required && (submitted)">Password is required</label>
+                                <label class="help-block has-error" ng-if="(registration.password.$dirty && registration.confirmPassword.$dirty && (password === confirmPassword))">
+                                    Password is a match(poor, good, strong)
+                                </label>
+                                <label class="help-block has-error" ng-if="(registration.password.$dirty && registration.confirmPassword.$dirty && (password !== confirmPassword) && ! registration.confirmPassword.$error.required)">
+                                    Password mismatched
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>User Role</label>
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option>Power User</option>
+                                    <option>Contributer</option>
+                                </select>
+                            </div>
+                            <a class="btn btn-success" ng-click="RegisterUser()">Sign Up</a>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        Go to <a href="#/login" ui-sref="login">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
