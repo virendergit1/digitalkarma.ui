@@ -1,0 +1,457 @@
+
+module.exports = function(grunt) {
+    'use strict';
+
+    var setHtml2JsDefaultOptions = function(moduleTemplateNamespace) {
+        return {
+            rename: function(moduleName) {
+                return '/' + moduleName;
+            },
+            base: '',
+            module: moduleTemplateNamespace,
+            useStrict: true,
+            htmlmin: {
+                collapseBooleanAttributes: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true,
+                removeComments: true,
+                removeCommentsFromCDATA: true,
+                removeEmptyAttributes: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                useShortDoctype: true,
+                keepClosingSlash: true,
+                caseSensitive: true,
+                minifyJS: true,
+                minifyCSS: true,
+                minifyURLs: true
+            },
+            watch: true
+        };
+    };
+
+    grunt.initConfig({
+        distDirectory: 'dist',
+        distMainDirectory: '<%= distDirectory %>/src',
+        distChartTesterCompDirectory: '<%= distDirectory %>/chartTester',
+        cssDistDirectory: '<%= distDirectory %>/src/css',
+        distLibs: '<%= distDirectory %>/libs',
+        distBower: '<%= distDirectory %>/bower',
+        pkg: grunt.file.readJSON('package.json'),
+        src: {
+            js: ['<%= pkg.sourceDir %>/src/**/*.js'],
+            html: ['<%= pkg.sourceDir %>/src/**/*.html'],
+            indexHtml: ['index.html'],
+            mainJs: ['main.js'],
+            srcJs: ['<%= pkg.sourceDir %>/src/*.js'],
+            configJs: ['<%= pkg.sourceDir %>/src/config/*.js'],
+            serviceJs: ['<%= pkg.sourceDir %>/src/services/**/*.js'],
+            chartTesterJs: ['<%= pkg.sourceDir %>/src/chartTester/js/*.js'],
+            loginJs: ['<%= pkg.sourceDir %>/src/login/*.js'],
+            cssDirectory: '<%= pkg.sourceDir %>/src/assets/css/*.css',
+            lessMain: ['<%= pkg.sourceDir %>/src/less/app-common.less'],
+            lessVariables: ['<%= pkg.sourceDir %>/src/less/app-common-variables.less'],
+            lessMixins: ['<%= pkg.sourceDir %>/src/less/app-common-mixins.less'],
+            htmlPages: ['<%= pkg.sourceDir %>/src/pages/*.html'],
+            pocPages: ['<%= pkg.sourceDir %>/src/poc/*.*']
+        },
+        meta: {
+            banner: '/**\n' +
+                ' * <%= pkg.name %> - <%= grunt.template.today("UTC:yyyy/mm/dd HH:MM:ss Z") %>\n' +
+                '*/'
+        },
+        test: {
+            karmaConfig: '<%= pkg.sourceDir %>/tests/config/karma.conf.js',
+            unit: ['<%= pkg.sourceDir %>/tests/unit/**/*.js']
+        },
+        jshint: {
+            options: {
+                jshintrc: 'jshintrc.json',
+                reporter: require('jshint-stylish')
+            },
+            files: {
+                src: ['Gruntfile.js', '<%= src.js %>', '<%= test.unit %>']
+            }
+        },
+        karma: {
+            options: {
+                configFile: '<%= test.karmaConfig %>'
+            },
+            local: {
+                browsers: ['Chrome'],
+                singleRun: false
+            },
+            localIE: {
+                browsers: ['IE']
+            },
+            localFF: {
+                browsers: ['Firefox']
+            },
+            localPJ: {
+                browsers: ['PhantomJS2'],
+                singleRun: true
+            },
+            allTests: {
+                singleRun: true,
+                browsers: ['Chrome', 'IE', 'Firefox', 'PhantomJS2']
+            },
+            integration: {
+                configFile: '<%= test.karmaConfig %>',
+                singleRun: true,
+                browsers: ['PhantomJS2'],
+                reporters: ['dots', 'coverage', 'junit'],
+                coverageReporter: {
+                    type: 'lcov',
+                    dir: 'src/tests/reports',
+                    subdir: 'coverage'
+                }
+            }
+        },
+        watch: {
+            jshint: {
+                files: ['<%= src.js %>', '<%= test.unit %>', '<%= test.karmaConfig %>', 'Gruntfile.js'],
+                tasks: ['jshint'],
+                options: {
+                    spawn: false,
+                    interrupt: true,
+                    reload: false
+                }
+            },
+            less: {
+                files: ['<%= src.lessAll %>'],
+                tasks: ['buildcss']
+            },
+            release: {
+                files: ['<%= src.js %>', '<%= src.html %>', '<%= test.unit %>'],
+                tasks: ['release'],
+                options: {
+                    spawn: false,
+                    interrupt: true,
+                    reload: false
+                }
+            }
+        },
+        clean: {
+            distChartTesterCompDirectory: ["<%= distChartTesterCompDirectory%>"],
+            appRelease: ['<%= distMainDirectory %>/src'],
+            testResults: ['<%=pkg.sourceDir %>/tests/reports'],
+            css: ['<%= cssDistDirectory %>']
+        },
+        html2js: {
+            chartTester: {
+                options: setHtml2JsDefaultOptions('chartTester.template'),
+                src: '<%= pkg.sourceDir %>/src/chartTester/templates/*.html',
+                dest: '<%= distMainDirectory %>/src/chartTester/chartTesterTemplate.js'
+            }
+        },
+        copy: {
+            chartTester: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.chartTesterJs %>'],
+                        dest: '<%= distMainDirectory %>/src/chartTester'
+                    }
+                ]
+            },
+            login: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.loginJs %>'],
+                        dest: '<%= distMainDirectory %>/src/login'
+                    }
+                ]
+            },
+            indexHtml: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.indexHtml %>'],
+                        dest: '<%= distMainDirectory %>'
+                    }
+                ]
+            },
+            services: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.serviceJs %>'],
+                        dest: '<%= distMainDirectory %>/src/services'
+                    }
+                ]
+            },
+            mainJs: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.mainJs %>', '<%= src.configJs %>'],
+                        dest: '<%= distMainDirectory %>'
+                    }
+                ]
+            },
+            srcJs: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.srcJs %>'],
+                        dest: '<%= distMainDirectory %>'
+                    }
+                ]
+            },
+            appCss: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.cssDirectory %>'],
+                        dest: '<%= cssDistDirectory %>'
+                    }
+                ]
+            },
+            htmlPages: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.htmlPages %>'],
+                        dest: '<%= distMainDirectory %>/pages'
+                    }
+                ]
+            },
+           pocPages: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.pocPages %>'],
+                        dest: '<%= distMainDirectory %>/poc'
+                    }
+                ]
+            }
+        },
+        requirejs: {
+            compile: {
+                options: {
+                    optimize: "none",
+                    logLevel: 0,
+                    mainConfigFile: 'main.js',
+                    name: 'chartTester/chartTesterModule',
+                    out: 'dist/src/chartTester/chartTesterModule.js',
+                    paths: {
+                        'chartTester': './dist/src/src/chartTester',
+                        'angular': 'empty:'
+                    }
+                }
+            },
+            login: {
+                options: {
+                    optimize: "none",
+                    logLevel: 0,
+                    name: 'login/loginModule',
+                    out: 'dist/src/login/loginModule.js',
+                    paths: {
+                        'login': './dist/src/src/login',
+                        'angular': 'empty:'
+                    }
+                }
+            }
+
+        },
+        versionCopyBowerComponents: {
+            options: {
+                exclude: [],
+                dest: '<%= distBower %>',
+                cwd: 'components',
+                filesReferencingComponents: {
+                    files: [],
+                    useComponentMin: true
+                }
+            }
+        },
+        uglify: {
+            options: {
+                no_squeeze: true,
+                toplevel: true,
+                mangle: false,
+                beautify: false,
+                lint: false,
+                compress: false,
+                warnings: false,
+                sourceMap: true
+            },
+            chartTester: {
+                files: {
+
+                }
+            }
+        },
+        usebanner: {
+            dist: {
+                options: {
+                    banner: '<%= meta.banner %>'
+                },
+                files: {
+                    src: [
+                        '<%= distDirectory%>/src/*.js',
+                        '<%= distChartTesterCompDirectory%>/*.js'
+                    ]
+                }
+            },
+            css: {
+                options: {
+                    banner: '<%= meta.banner %>'
+                },
+                files: {
+                    src: [
+                        '<%= cssDirectory %>/*.css'
+                    ]
+                }
+            }
+        },
+        less: {
+            options: {
+                compress: false, // Choose ONLY 1: 'compress' OR 'cleancss'
+                cleancss: false, // cleancss 2.2.16 currently removes CSS sourceMappingURL in minification [https://github.com/jakubpawlowicz/clean-css/issues/125, https://github.com/less/less.js/issues/1656]
+                ieCompat: false, // default is 'true' for IE8 compat... sooooo we don't want it.
+                report: 'min', // Either report only minification result or report minification and gzip results.
+                optimization: 10, // Set the parser's optimization level. The lower the number, the less nodes it will create in the tree. This could matter for debugging, or if you want to access the individual nodes in the tree.
+                sourceMap: true, // Enable source maps for .css & .min.css
+                outputSourceFiles: true
+            },
+            compilecss_main: {
+                // compile LESS to CSS and create LESS sourcemap
+                files: {
+                    '<%= cssDistDirectory %>/<%= pkg.cssname %>.css': '<%= src.lessMain %>'
+                },
+                options: {
+                    // sourcemap for .css
+                    sourceMapFilename: '<%= cssDistDirectory %>/<%= pkg.cssname %>.css.map', // where file is generated and located relative from gruntfile.js
+                    sourceMapURL: '<%= pkg.cssname %>.css.map' // Override the default url, form 'sourceMapFilename:', that points to the source map from the compiled css file (relative or absolute URL).
+                }
+            },
+            compilecss_variables: {
+                // compile LESS to CSS and create LESS sourcemap
+                files: {
+                    '<%= cssDistDirectory %>/<%= pkg.cssname %>-variables.css': '<%= src.lessVariables %>'
+                },
+                options: {
+                    sourceMap: false
+                }
+            },
+            compilecss_mixins: {
+                // compile LESS to CSS and create LESS sourcemap
+                files: {
+                    '<%= cssDistDirectory %>/<%= pkg.cssname %>-mixins.css': '<%= src.lessMixins %>'
+                },
+                options: {
+                    sourceMap: false
+                }
+            },
+            minifycss: {
+                // minify CSS to '.min' file and create LESS sourcemap
+                files: {
+                    '<%= cssDistDirectory %>/<%= pkg.cssname %>.min.css': '<%= src.lessMain %>'
+                },
+                options: {
+                    compress: true, // Choose ONLY 1: 'compress' OR 'cleancss'
+                    // sourcemap for .min.css
+                    sourceMapFilename: '<%= cssDistDirectory %>/<%= pkg.cssname %>.min.css.map', // where file is generated and located relative from gruntfile.js
+                    sourceMapURL: '<%= pkg.cssname %>.min.css.map' // Override the default url, form 'sourceMapFilename:', that points to the source map from the compiled css file (relative or absolute URL).
+                }
+            }
+        },
+        concurrent: {
+            dev: {
+                tasks: ['watch:release', 'jshint', 'watch'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            }
+        },
+        express: {
+            app: {
+                options: {
+                    port: 59456,
+                    hostname: 'localhost',
+                    scheme: 'http',
+                    showStack: true
+                }
+            }
+        },
+        open: {
+            app: {
+                path: 'http://localhost:<%= express.app.options.port %>/<%= distMainDirectory %>/index.html'
+            }
+        },
+        concat: {
+            chartTester: {
+                src: [],
+                dest: ''
+            }
+        }
+    });
+
+    grunt.registerTask('release', [
+        'clean:distChartTesterCompDirectory',
+        'buildcss',
+        'jshint',
+        //'karma:integration',
+        //"replaceClassname:reports",
+        //'versionCopyBowerComponents',
+        'copyfiles',
+        'html2js:chartTester',
+        'requirejs',
+        'usebanner:dist',
+        'clean:appRelease'
+        //'copy:testFiles',
+        //'copy:libs',
+        //'compress:chartTester'//,
+        //'compress:libs'
+    ]);
+
+    grunt.registerTask('default', ['release']);
+
+    grunt.registerTask('buildcss', [
+        'clean:css',
+        'less',
+        'usebanner:css'
+    ]);
+
+    grunt.registerTask('copyfiles', [
+        'copy:chartTester',
+        'copy:login',
+        'copy:indexHtml',
+        'copy:services',
+        'copy:mainJs',
+        'copy:srcJs',
+        'copy:appCss',
+        'copy:htmlPages',
+        'copy:pocPages'
+    ]);
+
+    grunt.registerTask('web-start', ['release', 'express:app', 'open:app', 'express-keepalive']);
+    grunt.registerTask('dev', ['release', 'concurrent']);
+
+    require('load-grunt-tasks')(grunt);
+    require('time-grunt')(grunt);
+
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-html2js');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-express');
+    grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-version-copy-bower-components');
+
+};

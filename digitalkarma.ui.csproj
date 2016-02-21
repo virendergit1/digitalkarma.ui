@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9490068B-4037-4D84-8E64-DB495C9F2E9B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>digitalkarma.ui</RootNamespace>
+    <AssemblyName>digitalkarma.ui</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="app\src\assets\img\" />
+    <Folder Include="app\src\temlapteTester\" />
+    <Folder Include="app\tests\lib\" />
+    <Folder Include="app\tests\unit\chartTester\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="app\src\apiProxies\baseApiProxy.js" />
+    <Content Include="app\src\apiProxies\loginApiProxy.js" />
+    <Content Include="app\src\app.js" />
+    <Content Include="app\src\assets\css\timeline.css" />
+    <Content Include="app\src\chartTester\js\chartTesterModule.js" />
+    <Content Include="app\src\chartTester\js\chartTesterController.js" />
+    <Content Include="app\src\chartTester\js\chartTesterDirective.js" />
+    <Content Include="app\src\chartTester\js\chartTesterService.js" />
+    <Content Include="app\src\chartTester\templates\chartTesterTemplate.html" />
+    <Content Include="app\src\config\config.js" />
+    <Content Include="app\src\login\forgotPasswordController.js" />
+    <Content Include="app\src\login\registrationController.js" />
+    <Content Include="app\src\pages\forgotpassword.html" />
+    <Content Include="app\src\pages\login.html" />
+    <Content Include="app\src\login\loginController.js" />
+    <Content Include="app\src\login\loginModule.js" />
+    <Content Include="app\src\login\loginService.js" />
+    <Content Include="app\src\pages\home.html" />
+    <Content Include="app\src\pages\index.html" />
+    <Content Include="app\src\pages\registration.html" />
+    <Content Include="app\src\pages\testerPage.html" />
+    <Content Include="app\src\routes.js" />
+    <Content Include="app\src\services\serviceConstant.js" />
+    <Content Include="app\src\services\validatorService.js" />
+    <Content Include="app\src\theme.js" />
+    <Content Include="app\tests\config\karma.conf.js" />
+    <Content Include="app\tests\config\main.js" />
+    <Content Include="Gruntfile.js" />
+    <Content Include="index.html" />
+    <Content Include="main.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\less\app-common-mixins.less" />
+    <None Include="app\src\less\app-common.less" />
+    <None Include="app\src\less\app-common-variables.less" />
+    <None Include="bower.json" />
+    <None Include="jshintrc.json" />
+    <None Include="package.json" />
+    <None Include="README.md" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
