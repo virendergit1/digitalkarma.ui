@@ -1,6 +1,8 @@
-﻿angular.module('myApp').constant('services.apiConstants', {
-    "httpVerb": {
-        GET: "GET",
-        POST: "POST"
-    }
+﻿define(function () {
+    return {
+        "httpVerb": {
+            GET: "GET",
+            POST: "POST"
+        }
+    };
 });
