@@ -15,13 +15,20 @@
             return config;
         };
 
+        var isApiResponseInvalid = function (response) {
+            return (!response);
+        };
+
         self.validateTheUser = function (httpConfig) {
             var deferred = $q.defer();
-
             $http(httpConfig).success(function (data) {
-               //+--validate user and return required data--
+                if (isApiResponseInvalid(data)) {
+                    deferred.reject(data);
+                } else {
+                    deferred.resolve(data);
+                }
             }).error(function (error) {
-                deferred.reject("requestFailed");
+                deferred.reject(error);
             });
             return deferred.promise;
         };

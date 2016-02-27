@@ -47,6 +47,7 @@ module.exports = function(grunt) {
             srcJs: ['<%= pkg.sourceDir %>/src/*.js'],
             configJs: ['<%= pkg.sourceDir %>/src/config/*.js'],
             serviceJs: ['<%= pkg.sourceDir %>/src/services/**/*.js'],
+            apiProxiesJs: ['<%= pkg.sourceDir %>/src/apiProxies/**/*.js'],
             chartTesterJs: ['<%= pkg.sourceDir %>/src/chartTester/js/*.js'],
             loginJs: ['<%= pkg.sourceDir %>/src/login/*.js'],
             cssDirectory: '<%= pkg.sourceDir %>/src/assets/css/*.css',
@@ -186,6 +187,16 @@ module.exports = function(grunt) {
                     }
                 ]
             },
+            apiProxies: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.apiProxiesJs %>'],
+                        dest: '<%= distMainDirectory %>/src/apiProxies'
+                    }
+                ]
+            },
             mainJs: {
                 files: [
                     {
@@ -202,7 +213,7 @@ module.exports = function(grunt) {
                         expand: true,
                         flatten: true,
                         src: ['<%= src.srcJs %>'],
-                        dest: '<%= distMainDirectory %>'
+                        dest: '<%= distMainDirectory %>/src/digitalKarma'
                     }
                 ]
             },
@@ -226,7 +237,7 @@ module.exports = function(grunt) {
                     }
                 ]
             },
-           pocPages: {
+            pocPages: {
                 files: [
                     {
                         expand: true,
@@ -239,6 +250,27 @@ module.exports = function(grunt) {
         },
         requirejs: {
             compile: {
+                options: {
+                    optimize: "none",
+                    logLevel: 0,
+                    name: "app",
+                    out: "dist/src/app.js",
+                    baseUrl: "<%= distDirectory %>",
+                    paths: {
+                        'app': './src/src/digitalKarma/app',
+                        'apiProxies/baseApiProxy': './src/src/apiProxies/baseApiProxy',
+                        'apiProxies/userApiProxy': './src/src/apiProxies/userApiProxy',
+                        'services/serviceConstant': './src/src/services/serviceConstant',
+                        'services/validatorService': './src/src/services/validatorService',
+                        'angular': 'empty:',
+                        'uiRouter': 'empty:',
+                        'login/loginModule': 'empty:',
+                        'chartTester/chartTesterModule': 'empty:'
+                        
+                    }
+                }
+            },
+            chartTester: {
                 options: {
                     optimize: "none",
                     logLevel: 0,
@@ -430,6 +462,7 @@ module.exports = function(grunt) {
         'copy:login',
         'copy:indexHtml',
         'copy:services',
+        'copy:apiProxies',
         'copy:mainJs',
         'copy:srcJs',
         'copy:appCss',

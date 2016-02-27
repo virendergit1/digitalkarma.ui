@@ -1,14 +1,23 @@
 ﻿
 define([
         'angular',
+        'apiProxies/baseApiProxy',
+        'apiProxies/userApiProxy',
+        'services/serviceConstant',
+        'services/validatorService',
         'uiRouter',
         'login/loginModule',
         'chartTester/chartTesterModule'
     ],
-    function(angular) {
+    function(angular, baseApi, userApi) {
         'use strict';
 
         var app = angular.module('myApp', ['ui.router', 'my.login', 'my.chartTester']);
+
+        app
+            .service('baseApi', baseApi)
+            .service('userApi', userApi);
+
 
         app.init = function() {
             angular.bootstrap(document, ['myApp']);

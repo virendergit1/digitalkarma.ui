@@ -6,7 +6,7 @@
     var registrationController = require('login/registrationController');
     var forgotPasswordController = require('login/forgotPasswordController');
 
-    var loginrService = require('login/loginService');
+    var authenticationService = require('login/authenticationService');
 
     var loginModule = angular.module('my.login', []);
 
@@ -14,7 +14,7 @@
         .controller('loginController', loginController)
         .controller('registrationController', registrationController)
         .controller('forgotPasswordController', forgotPasswordController)
-        .service('loginrService', loginrService);
+        .service('authenticationService', authenticationService);
 
     return loginModule;
 });

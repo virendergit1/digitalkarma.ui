@@ -39,7 +39,7 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="app\src\apiProxies\baseApiProxy.js" />
-    <Content Include="app\src\apiProxies\loginApiProxy.js" />
+    <Content Include="app\src\apiProxies\userApiProxy.js" />
     <Content Include="app\src\app.js" />
     <Content Include="app\src\assets\css\timeline.css" />
     <Content Include="app\src\chartTester\js\chartTesterModule.js" />
@@ -54,7 +54,7 @@
     <Content Include="app\src\pages\login.html" />
     <Content Include="app\src\login\loginController.js" />
     <Content Include="app\src\login\loginModule.js" />
-    <Content Include="app\src\login\loginService.js" />
+    <Content Include="app\src\login\authenticationService.js" />
     <Content Include="app\src\pages\home.html" />
     <Content Include="app\src\pages\index.html" />
     <Content Include="app\src\pages\registration.html" />
@@ -650,7 +650,6 @@
     <Content Include="dist\src\index.html" />
     <Content Include="dist\src\login\loginModule.js" />
     <Content Include="dist\src\main.js" />
-    <Content Include="dist\src\my.lib.js" />
     <Content Include="dist\src\pages\forgotpassword.html" />
     <Content Include="dist\src\pages\home.html" />
     <Content Include="dist\src\pages\index.html" />

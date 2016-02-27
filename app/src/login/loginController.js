@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var loginController = function ($scope, loginrService, $state) {
+    var loginController = function ($scope, $state) {
         var self = this;
 
         $scope.submitted = false;
@@ -16,7 +16,7 @@
         };
     };
 
-    loginController.$inject = ['$scope', 'loginrService', '$state'];
+    loginController.$inject = ['$scope', '$state'];
 
     return loginController;
 });
