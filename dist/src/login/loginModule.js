@@ -1,7 +1,7 @@
 define('login/loginController',[],function () {
     'use strict';
 
-    var loginController = function ($scope, $state) {
+    var loginController = function ($scope, $state, authenticationService) {
         var self = this;
 
         $scope.submitted = false;
@@ -11,12 +11,13 @@ define('login/loginController',[],function () {
 
             if ($scope.login.email.$valid && $scope.login.password.$valid) {
                 //--+--validate user here--
+                console.log(authenticationService.validateUser());
                 $state.transitionTo('home');
-            }
+            } 
         };
     };
 
-    loginController.$inject = ['$scope', '$state'];
+    loginController.$inject = ['$scope', '$state', 'dk.authenticationService'];
 
     return loginController;
 });
@@ -58,137 +59,123 @@ define('login/forgotPasswordController',[],function () {
 
     return forgotPasswordController;
 });
-define('login/authenticationService',[],function() {
+define('src/src/services/validatorService',[],function () {
     'user strict';
-    var loginService = function($q, $rootScope, $http, $cookieStore) {
+    var validatorSerice = function () {
         var self = this;
-
-        self.validateUser = function(userId, password) {
-            return 'user validated';
+        self.isValidJson = function (jsonObj) {
+            return jsonObj && typeof jsonObj === "object" ? true : false;
         };
 
-        function SetCredentials(username, password) {
-            var authdata = Base64.encode(username + ':' + password);
+        self.isValidFunction = function (functionToTest) {
+            return functionToTest instanceof Function;
+        };
+    };
+    validatorSerice.$inject = [];
+    return validatorSerice;
+});
+define('src/src/config/config',[],function () {
+    'use strict';
 
-            $rootScope.globals = {
-                currentUser: {
-                    username: username,
-                    authdata: authdata
-                }
+    return {
+        dashboard: {
+            limit: 30
+        },
+        url1: 'test url1',
+        url2: 'test url2'
+    };
+});
+define('src/src/services/serviceConstant',[],function () {
+    return {
+        "httpVerb": {
+            GET: "GET",
+            POST: "POST",
+            DELETE: "DELETE",
+            PUT: "PUT"
+        }
+    };
+});
+define('src/src/apiProxies/userApiProxy',[],function () {
+    'use strict';
+
+    var userApiProxy = function (validatorService) {
+        var self = this;
+
+        self.getHttpConfig = function (api, method, params, data) {
+            var config = {
+                url: api,
+                method: method,
+                data: data,
+                params: params,
+                timeout: 10000
             };
+            return config;
+        };
 
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
-            $cookieStore.put('globals', $rootScope.globals);
-        }
+        var isApiResponseInvalid = function (response) {
+            return (!response && validatorService.isValidJson(response));
+        };
 
-        function ClearCredentials() {
-            $rootScope.globals = {};
-            $cookieStore.remove('globals');
-            $http.defaults.headers.common.Authorization = 'Basic';
-        }
-
-        // Base64 encoding service used by AuthenticationService
-        var Base64 = {
-            keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
-
-            encode: function(input) {
-                var output = "";
-                var chr1, chr2, chr3 = "";
-                var enc1, enc2, enc3, enc4 = "";
-                var i = 0;
-
-                do {
-                    chr1 = input.charCodeAt(i++);
-                    chr2 = input.charCodeAt(i++);
-                    chr3 = input.charCodeAt(i++);
-
-                    enc1 = chr1 >> 2;
-                    enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-                    enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-                    enc4 = chr3 & 63;
-
-                    if (isNaN(chr2)) {
-                        enc3 = enc4 = 64;
-                    } else if (isNaN(chr3)) {
-                        enc4 = 64;
-                    }
-
-                    output = output +
-                        this.keyStr.charAt(enc1) +
-                        this.keyStr.charAt(enc2) +
-                        this.keyStr.charAt(enc3) +
-                        this.keyStr.charAt(enc4);
-                    chr1 = chr2 = chr3 = "";
-                    enc1 = enc2 = enc3 = enc4 = "";
-                } while (i < input.length);
-
-                return output;
-            },
-
-            decode: function(input) {
-                var output = "";
-                var chr1, chr2, chr3 = "";
-                var enc1, enc2, enc3, enc4 = "";
-                var i = 0;
-
-                // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
-                var base64test = /[^A-Za-z0-9\+\/\=]/g;
-                if (base64test.exec(input)) {
-                    window.alert("There were invalid base64 characters in the input text.\n" +
-                        "Valid base64 characters are A-Z, a-z, 0-9, '+', '/',and '='\n" +
-                        "Expect errors in decoding.");
-                }
-                input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-
-                do {
-                    enc1 = this.keyStr.indexOf(input.charAt(i++));
-                    enc2 = this.keyStr.indexOf(input.charAt(i++));
-                    enc3 = this.keyStr.indexOf(input.charAt(i++));
-                    enc4 = this.keyStr.indexOf(input.charAt(i++));
-
-                    chr1 = (enc1 << 2) | (enc2 >> 4);
-                    chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-                    chr3 = ((enc3 & 3) << 6) | enc4;
-
-                    output = output + String.fromCharCode(chr1);
-
-                    if (enc3 !== 64) {
-                        output = output + String.fromCharCode(chr2);
-                    }
-                    if (enc4 !== 64) {
-                        output = output + String.fromCharCode(chr3);
-                    }
-
-                    chr1 = chr2 = chr3 = "";
-                    enc1 = enc2 = enc3 = enc4 = "";
-
-                } while (i < input.length);
-
-                return output;
-            }
+        self.checkUserLogins = function (userId, password) {
+            return 'responseFromProxy';
+            //var deferred = $q.defer();
+            //$http(httpConfig).success(function (data) {
+            //    if (isApiResponseInvalid(data)) {
+            //        deferred.reject(data);
+            //    } else {
+            //        deferred.resolve(data);
+            //    }
+            //}).error(function (error) {
+            //    deferred.reject(error);
+            //});
+            //return deferred.promise;
         };
     };
 
-    loginService.$inject = ['$q', '$rootScope', '$http', '$cookieStore'];
-    return loginService;
+    userApiProxy.$inject = ['dk.validatorService'];
+    return userApiProxy;
 });
-define('login/loginModule',['require','angular','login/loginController','login/registrationController','login/forgotPasswordController','login/authenticationService'],function (require) {
+define('login/authenticationService',[],function() {
+    'user strict';
+    var authenticationService = function ($q, $rootScope, $http, userApiProxy) {
+        var self = this;
+
+        self.validateUser = function (userId, password) {
+            return userApiProxy.checkUserLogins(userId, password);
+        };
+
+
+    };
+
+    authenticationService.$inject = ['$q', '$rootScope', '$http', 'dk.userApiProxy'];
+    return authenticationService;
+});
+define('login/loginModule',['require','angular','login/loginController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/userApiProxy','login/authenticationService'],function(require) {
     'use strict';
 
     var angular = require('angular');
     var loginController = require('login/loginController');
     var registrationController = require('login/registrationController');
     var forgotPasswordController = require('login/forgotPasswordController');
-
+    var validatorService = require('src/src/services/validatorService');
+    var configConstant = require('src/src/config/config');
+    var serviceConstant = require('src/src/services/serviceConstant');
+    var userApiProxy = require('src/src/apiProxies/userApiProxy');
+   
     var authenticationService = require('login/authenticationService');
-
+    
     var loginModule = angular.module('my.login', []);
 
     loginModule
         .controller('loginController', loginController)
         .controller('registrationController', registrationController)
         .controller('forgotPasswordController', forgotPasswordController)
-        .service('authenticationService', authenticationService);
+        .service('dk.validatorService', validatorService)
+        .service('dk.authenticationService', authenticationService)
+        .service('dk.userApiProxy', userApiProxy)
+        .constant('dk.serviceConstant', serviceConstant)
+        .constant('dk.configConstant', configConstant)
+    ;
 
     return loginModule;
 });

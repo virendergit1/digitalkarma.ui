@@ -202,7 +202,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        src: ['<%= src.mainJs %>', '<%= src.configJs %>'],
+                        src: ['<%= src.mainJs %>'],
                         dest: '<%= distMainDirectory %>'
                     }
                 ]
@@ -214,6 +214,16 @@ module.exports = function(grunt) {
                         flatten: true,
                         src: ['<%= src.srcJs %>'],
                         dest: '<%= distMainDirectory %>/src/digitalKarma'
+                    }
+                ]
+            },
+            configJs: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.configJs %>'],
+                        dest: '<%= distMainDirectory %>/src/config'
                     }
                 ]
             },
@@ -258,15 +268,10 @@ module.exports = function(grunt) {
                     baseUrl: "<%= distDirectory %>",
                     paths: {
                         'app': './src/src/digitalKarma/app',
-                        'apiProxies/baseApiProxy': './src/src/apiProxies/baseApiProxy',
-                        'apiProxies/userApiProxy': './src/src/apiProxies/userApiProxy',
-                        'services/serviceConstant': './src/src/services/serviceConstant',
-                        'services/validatorService': './src/src/services/validatorService',
                         'angular': 'empty:',
                         'uiRouter': 'empty:',
                         'login/loginModule': 'empty:',
                         'chartTester/chartTesterModule': 'empty:'
-                        
                     }
                 }
             },
@@ -289,8 +294,9 @@ module.exports = function(grunt) {
                     logLevel: 0,
                     name: 'login/loginModule',
                     out: 'dist/src/login/loginModule.js',
+                    baseUrl: "<%= distDirectory %>",
                     paths: {
-                        'login': './dist/src/src/login',
+                        'login': './src/src/login',
                         'angular': 'empty:'
                     }
                 }
@@ -442,7 +448,7 @@ module.exports = function(grunt) {
         'html2js:chartTester',
         'requirejs',
         'usebanner:dist',
-        'clean:appRelease'
+        //'clean:appRelease'
         //'copy:testFiles',
         //'copy:libs',
         //'compress:chartTester'//,
@@ -465,6 +471,7 @@ module.exports = function(grunt) {
         'copy:apiProxies',
         'copy:mainJs',
         'copy:srcJs',
+        'copy:configJs',
         'copy:appCss',
         'copy:htmlPages',
         'copy:pocPages'
