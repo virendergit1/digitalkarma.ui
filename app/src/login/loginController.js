@@ -9,9 +9,9 @@
         $scope.isShowLoginError = false;
         $scope.loginErrorMessage = "";
 
-        var onUserLoginReject = function(erro) {
+        var onUserLoginReject = function(error) {
             $scope.isShowLoginError = true;
-            $scope.loginErrorMessage = erro.response;
+            $scope.loginErrorMessage = error.response;
         };
 
         $scope.validateUser = function (email, password) {
