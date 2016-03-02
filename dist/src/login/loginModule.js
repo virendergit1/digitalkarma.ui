@@ -1,19 +1,38 @@
-define('login/loginController',[],function () {
+define('login/loginController',[],function() {
     'use strict';
 
-    var loginController = function ($scope, $state, authenticationService) {
-        var self = this;
+    var loginController = function($scope, $state, authenticationService) {
+        var self = this,
+            loginValidationError = "There was an error validation the user.";
 
         $scope.submitted = false;
-        
+        $scope.isShowLoginError = false;
+        $scope.loginErrorMessage = "";
+
+        var onUserLoginReject = function(erro) {
+            $scope.isShowLoginError = true;
+            $scope.loginErrorMessage = erro.response;
+        };
+
         $scope.validateUser = function (email, password) {
             $scope.submitted = true;
 
             if ($scope.login.email.$valid && $scope.login.password.$valid) {
                 //--+--validate user here--
-                console.log(authenticationService.validateUser());
-                $state.transitionTo('home');
-            } 
+                var promise = authenticationService.validateUser(email, password);
+
+                promise.then(function(data) {
+                    data = data || {};
+                    if (data.isValidUser) {
+                        $state.transitionTo('home');
+                    } else {
+                        $scope.isShowLoginError = true;
+                        $scope.loginErrorMessage = data.response;
+                    }
+                }, function(error) {
+                    onUserLoginReject(error);
+                });
+            }
         };
     };
 
@@ -81,8 +100,8 @@ define('src/src/config/config',[],function () {
         dashboard: {
             limit: 30
         },
-        url1: 'test url1',
-        url2: 'test url2'
+        loginUrl: "https://apmcore.herokuapp.com/user/login",
+        url2: "test url2"
     };
 });
 define('src/src/services/serviceConstant',[],function () {
@@ -95,13 +114,13 @@ define('src/src/services/serviceConstant',[],function () {
         }
     };
 });
-define('src/src/apiProxies/userApiProxy',[],function () {
+define('src/src/apiProxies/baseApiProxy',[], function() {
     'use strict';
 
-    var userApiProxy = function (validatorService) {
+    var baseApiProxy = function() {
         var self = this;
 
-        self.getHttpConfig = function (api, method, params, data) {
+        self.getJSONHttpConfig = function (api, method, params, data) {
             var config = {
                 url: api,
                 method: method,
@@ -111,46 +130,108 @@ define('src/src/apiProxies/userApiProxy',[],function () {
             };
             return config;
         };
+    };
 
-        var isApiResponseInvalid = function (response) {
+    baseApiProxy.$inject = [];
+    return baseApiProxy;
+});
+define('src/src/apiProxies/userApiProxy',[],function() {
+    'use strict';
+
+    var userApiProxy = function($http, $q, validatorService, config, serviceConstant, baseApiProxy) {
+        var self = this;
+
+        var isApiResponseInvalid = function(response) {
             return (!response && validatorService.isValidJson(response));
         };
 
-        self.checkUserLogins = function (userId, password) {
-            return 'responseFromProxy';
-            //var deferred = $q.defer();
-            //$http(httpConfig).success(function (data) {
-            //    if (isApiResponseInvalid(data)) {
-            //        deferred.reject(data);
-            //    } else {
-            //        deferred.resolve(data);
-            //    }
-            //}).error(function (error) {
-            //    deferred.reject(error);
-            //});
-            //return deferred.promise;
+        self.checkUserLogins = function(userId, password) {
+            var deferred = $q.defer();
+            var formData = { "username": userId, "password": password };
+
+            var httpConfig = baseApiProxy.getJSONHttpConfig(config.loginUrl, serviceConstant.httpVerb.POST, '', formData);
+
+            $http(httpConfig)
+                .success(function(data) {
+                    if (isApiResponseInvalid(data)) {
+                        deferred.reject(data);
+                    } else {
+                        deferred.resolve(data);
+                    }
+                }).error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
         };
     };
 
-    userApiProxy.$inject = ['dk.validatorService'];
+    userApiProxy.$inject = ['$http', '$q', 'dk.validatorService', 'dk.configConstant', 'dk.serviceConstant', 'dk.baseApiProxy'];
     return userApiProxy;
 });
 define('login/authenticationService',[],function() {
     'user strict';
-    var authenticationService = function ($q, $rootScope, $http, userApiProxy) {
+    var authenticationService = function($q, $rootScope, $http, userApiProxy) {
         var self = this;
 
-        self.validateUser = function (userId, password) {
-            return userApiProxy.checkUserLogins(userId, password);
+        var responseMessage = {
+            badPassword: "Invalid username or password",
+            notFound: "Not a registerd user. Please Register.",
+            NOT_PROVIDED : "Not provide"
         };
 
+        self.validateUser = function(userId, password) {
+            var deferred = $q.defer();
 
+            userApiProxy.checkUserLogins(userId, password)
+                .then(function(data) {
+                    if (!_.isEmpty(data)) {
+                        if (data.username === userId) {
+                            deferred.resolve({
+                                isValidUser: true
+                            });
+                        }
+                        //if (data === "BAD_PASSWORD") {
+                        //    deferred.resolve({
+                        //        response: responseMessage.badPassword,
+                        //        isValidUser: false
+                        //    });
+                        //}
+                        //if (data === "NOT_FOUND") {
+                        //    deferred.resolve({
+                        //        response: responseMessage.notFound,
+                        //        isValidUser: false
+                        //    });
+                        //}
+                    }
+                }, function(error) {
+                    //deferred.reject(error);
+                    if (error === "BAD_PASSWORD") {
+                        deferred.reject({
+                            response: responseMessage.badPassword,
+                            isValidUser: false
+                        });
+                    }
+                    if (error === "NOT_FOUND") {
+                        deferred.reject({
+                            response: responseMessage.notFound,
+                            isValidUser: false
+                        });
+                    }
+                    if (error === "NOT_PROVIDED") {
+                        deferred.reject({
+                            response: responseMessage.NOT_PROVIDED,
+                            isValidUser: false
+                        });
+                    }
+                });
+            return deferred.promise;
+        };
     };
 
     authenticationService.$inject = ['$q', '$rootScope', '$http', 'dk.userApiProxy'];
     return authenticationService;
 });
-define('login/loginModule',['require','angular','login/loginController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/userApiProxy','login/authenticationService'],function(require) {
+define('login/loginModule',['require','angular','login/loginController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','login/authenticationService'],function(require) {
     'use strict';
 
     var angular = require('angular');
@@ -160,6 +241,7 @@ define('login/loginModule',['require','angular','login/loginController','login/r
     var validatorService = require('src/src/services/validatorService');
     var configConstant = require('src/src/config/config');
     var serviceConstant = require('src/src/services/serviceConstant');
+    var baseApiProxy = require('src/src/apiProxies/baseApiProxy');
     var userApiProxy = require('src/src/apiProxies/userApiProxy');
    
     var authenticationService = require('login/authenticationService');
@@ -172,6 +254,7 @@ define('login/loginModule',['require','angular','login/loginController','login/r
         .controller('forgotPasswordController', forgotPasswordController)
         .service('dk.validatorService', validatorService)
         .service('dk.authenticationService', authenticationService)
+        .service('dk.baseApiProxy', baseApiProxy)
         .service('dk.userApiProxy', userApiProxy)
         .constant('dk.serviceConstant', serviceConstant)
         .constant('dk.configConstant', configConstant)

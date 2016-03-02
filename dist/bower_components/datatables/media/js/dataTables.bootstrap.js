@@ -1,51 +1,3 @@
-/**
- * digitalkarma - 2016/01/28 22:29:23 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:29:00 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:28:08 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:27:18 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:26:56 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:23:59 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:23:10 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:22:03 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:14:19 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:12:47 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:11:34 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:11:20 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:10:20 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 20:24:36 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 20:23:30 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 20:20:05 UTC
-*/
 /*! DataTables Bootstrap 3 integration
  * ©2011-2015 SpryMedia Ltd - datatables.net/license
  */
@@ -224,44 +176,6 @@ DataTable.ext.renderer.pageButton.bootstrap = function ( settings, host, idx, bu
 		$(host).find( '[data-dt-idx='+activeEl+']' ).focus();
 	}
 };
-
-
-/*
- * TableTools Bootstrap compatibility
- * Required TableTools 2.1+
- */
-if ( DataTable.TableTools ) {
-	// Set the classes that TableTools uses to something suitable for Bootstrap
-	$.extend( true, DataTable.TableTools.classes, {
-		"container": "DTTT btn-group",
-		"buttons": {
-			"normal": "btn btn-default",
-			"disabled": "disabled"
-		},
-		"collection": {
-			"container": "DTTT_dropdown dropdown-menu",
-			"buttons": {
-				"normal": "",
-				"disabled": "disabled"
-			}
-		},
-		"print": {
-			"info": "DTTT_print_info"
-		},
-		"select": {
-			"row": "active"
-		}
-	} );
-
-	// Have the collection use a bootstrap compatible drop down
-	$.extend( true, DataTable.TableTools.DEFAULTS.oTags, {
-		"collection": {
-			"container": "ul",
-			"button": "li",
-			"liner": "a"
-		}
-	} );
-}
 
 
 return DataTable;

@@ -5,7 +5,7 @@
         dashboard: {
             limit: 30
         },
-        url1: 'test url1',
-        url2: 'test url2'
+        loginUrl: "https://apmcore.herokuapp.com/user/login",
+        url2: "test url2"
     };
 });

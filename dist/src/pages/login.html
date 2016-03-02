@@ -31,6 +31,9 @@
                                    ng-required="true">
                                <label class="help-block" ng-if="login.password.$error.pattern || login.password.$error.required && (submitted)">Password is required</label>
                            </div>
+                           <div class="form-group has-error" ng-show="isShowLoginError">
+                               <label class="control-label"><i class="fa fa-exclamation-circle"></i> &nbsp;{{loginErrorMessage}}</label>
+                           </div>
                            <div class="checkbox">
                                <label>
                                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
@@ -45,7 +48,7 @@
                            </div>
 
                            <!-- Change this to a button or input when using this as a form -->
-                           <a class="btn btn-success" ng-click="validateUser(login.email, login.password)">Login</a>
+                           <a class="btn btn-success" ng-click="validateUser(email, password)">Login</a>
                            <a href="#/forgotpassword" ui-sref="forgotpassword">Forgot password</a>
                        </fieldset>
                    </form>

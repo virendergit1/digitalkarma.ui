@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/02/29 00:21:35 UTC
+ * digitalkarma - 2016/03/02 21:59:51 UTC
 */
 
 require.config({
@@ -18,7 +18,8 @@ require.config({
         text: '../bower_components/requirejs-text/text',
         morris: '../bower_components/morris.js/morris',
         raphael: '../bower_components/raphael/raphael',
-        metisMenu: '../bower_components/metisMenu/dist/metisMenu.min'
+        metisMenu: '../bower_components/metisMenu/dist/metisMenu.min',
+        lodash: '../bower_components/lodash/dist/lodash.min'
     },
     shim: {
         'jquery': {
@@ -66,6 +67,9 @@ require.config({
         },
         'metisMenu': {
             'metisMenu': 'metisMenu'
+        },
+        'lodash': {
+            'lodash': 'lodash'
         }
     },
     priority: [
@@ -78,14 +82,16 @@ require(
         'routes',
         'app',
         'c3',
+        'lodash',
         'jquery',
         'bootstrap',
         'metisMenu',
         'theme'
     ],
-    function(routes, app, c3) {
+    function (routes, app, c3, lodash) {
         app.init();
         window.c3 = c3;
+        window._ = lodash;
     }
 );
 

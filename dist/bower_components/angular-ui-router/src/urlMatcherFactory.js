@@ -1,51 +1,3 @@
-/**
- * digitalkarma - 2016/01/28 22:29:23 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:29:00 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:28:08 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:27:18 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:26:56 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:23:59 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:23:10 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:22:03 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:14:19 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:12:47 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:11:34 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:11:20 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 22:10:20 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 20:24:36 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 20:23:30 UTC
-*/
-/**
- * digitalkarma - 2016/01/28 20:20:05 UTC
-*/
 var $$UMFP; // reference to $UrlMatcherFactoryProvider
 
 /**
@@ -647,7 +599,7 @@ function $UrlMatcherFactory() {
   function valFromString(val) { return val != null ? val.toString().replace(/~2F/g, "/").replace(/~~/g, "~") : val; }
 
   var $types = {}, enqueue = true, typeQueue = [], injector, defaultTypes = {
-    string: {
+    "string": {
       encode: valToString,
       decode: valFromString,
       // TODO: in 1.0, make string .is() return false if value is undefined/null by default.
@@ -655,19 +607,19 @@ function $UrlMatcherFactory() {
       is: function(val) { return val == null || !isDefined(val) || typeof val === "string"; },
       pattern: /[^/]*/
     },
-    int: {
+    "int": {
       encode: valToString,
       decode: function(val) { return parseInt(val, 10); },
       is: function(val) { return isDefined(val) && this.decode(val.toString()) === val; },
       pattern: /\d+/
     },
-    bool: {
+    "bool": {
       encode: function(val) { return val ? 1 : 0; },
       decode: function(val) { return parseInt(val, 10) !== 0; },
       is: function(val) { return val === true || val === false; },
       pattern: /0|1/
     },
-    date: {
+    "date": {
       encode: function (val) {
         if (!this.is(val))
           return undefined;
@@ -686,14 +638,14 @@ function $UrlMatcherFactory() {
       pattern: /[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[1-2][0-9]|3[0-1])/,
       capture: /([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
     },
-    json: {
+    "json": {
       encode: angular.toJson,
       decode: angular.fromJson,
       is: angular.isObject,
       equals: angular.equals,
       pattern: /[^/]*/
     },
-    any: { // does not encode/decode
+    "any": { // does not encode/decode
       encode: angular.identity,
       decode: angular.identity,
       equals: angular.equals,
