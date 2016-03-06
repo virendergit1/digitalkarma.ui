@@ -289,7 +289,8 @@ module.exports = function(grunt) {
                         'angular': 'empty:',
                         'uiRouter': 'empty:',
                         'spin': 'empty:',
-                        'chartTester/chartTesterModule': 'empty:'
+                        'chartTester/chartTesterModule': 'empty:',
+                        'ngidle': 'empty:'
                     }
                 }
             },

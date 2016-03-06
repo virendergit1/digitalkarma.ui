@@ -6,15 +6,18 @@
         $stateProvider
             .state('login', {
                 url: "/login",
-                templateUrl: "login.html"
+                templateUrl: "login.html",
+                controller: 'loginController'
             })
             .state('registration', {
                 url: "/registration",
-                templateUrl: "registration.html"
+                templateUrl: "registration.html",
+                controller: 'registrationController'
             })
             .state('forgotpassword', {
                 url: "/forgotpassword",
-                templateUrl: "forgotpassword.html"
+                templateUrl: "forgotpassword.html",
+                controller: 'forgotPasswordController'
             })
             .state('home', {
                 url: "/home",

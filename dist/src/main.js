@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/06 15:41:16 UTC
+ * digitalkarma - 2016/03/06 22:54:22 UTC
 */
 
 require.config({
@@ -20,7 +20,8 @@ require.config({
         raphael: '../bower_components/raphael/raphael',
         metisMenu: '../bower_components/metisMenu/dist/metisMenu.min',
         lodash: '../bower_components/lodash/dist/lodash.min',
-        spin: '../bower_components/spin.js/spin.min'
+        spin: '../bower_components/spin.js/spin.min',
+        ngIdle: '../bower_components/ng-idle/angular-idle.min'
     },
     shim: {
         'jquery': {
@@ -30,7 +31,8 @@ require.config({
             deps: ['jquery']
         },
         'angularBootstrap': {
-            deps: ['jquery', 'bootstrap']
+            deps: ['angular', 'jquery', 'bootstrap'],
+            'exports': 'angularBootstrap'
         },
         'angularBootstrapTpl': {
             deps: ['angularBootstrap']
@@ -64,7 +66,9 @@ require.config({
                 'c3',
                 'd3',
                 'uiRouter',
-                'spin'
+                'spin',
+                'ngIdle',
+                'angularBootstrapTpl'
             ]
         },
         'metisMenu': {
@@ -75,6 +79,10 @@ require.config({
         },
         'spin': {
             "spin": { exports: "Spinner" }
+        },
+        'ngIdle': {
+            deps: ['angular'],
+            'ngIdle': { exports: "ngIdle" }
         }
     },
     priority: [
@@ -86,13 +94,9 @@ require(
     [
         'app',
         'c3',
-        'lodash',
-        'jquery',
-        'bootstrap',
-        'metisMenu',
-        'theme'
+        'lodash'
     ],
-    function (app, c3, lodash) {
+    function(app, c3, lodash) {
         app.init();
         window.c3 = c3;
         window._ = lodash;

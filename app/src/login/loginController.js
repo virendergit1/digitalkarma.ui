@@ -1,13 +1,17 @@
 ﻿define(function() {
     'use strict';
 
-    var loginController = function ($scope, $rootScope, $state, $window, authenticationService) {
+    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle) {
         var self = this;
+
+        $scope.isUserLoggedIn = false;
 
         var onUserLoginReject = function(error) {
             $scope.isShowLoginError = true;
             $scope.loginErrorMessage = error.response;
         };
+
+        $scope.uiRouterState = $state;
 
         $scope.validateUser = function(email, password) {
             $scope.submitted = true;
@@ -20,6 +24,7 @@
                     data = data || {};
                     if (data.isValidUser) {
                         $state.transitionTo('home');
+                        idle.watch();
                     } else {
                         $scope.isShowLoginError = true;
                         $scope.loginErrorMessage = data.response;
@@ -31,7 +36,7 @@
         };
     };
 
-    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth'];
+    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle'];
 
     return loginController;
 });

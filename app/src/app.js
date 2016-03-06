@@ -20,15 +20,22 @@
     var loginConstant = require('login/loginConstant');
     var routes = require('route/routes');
 
-    var app = angular.module('myApp', ['ui.router']);
+    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap']);
 
-    app.config(function($httpProvider) {
+    app.config(function ($httpProvider) {
         $httpProvider.defaults.headers.common = {};
         $httpProvider.defaults.headers.post = {};
         $httpProvider.defaults.headers.put = {};
         $httpProvider.defaults.headers.patch = {};
     });
 
+    app.config(['KeepaliveProvider', 'IdleProvider', function (keepaliveProvider, idleProvider) {
+        idleProvider.idle(5);
+        idleProvider.timeout(5);
+        keepaliveProvider.interval(10);
+    }]);
+
+    
     app.config(routes);
 
     app

@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/06 15:41:16 UTC
+ * digitalkarma - 2016/03/06 22:54:22 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -43,13 +43,17 @@ define('login/authIntercepter',[],function() {
 define('login/loginController',[],function() {
     'use strict';
 
-    var loginController = function ($scope, $rootScope, $state, $window, authenticationService) {
+    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle) {
         var self = this;
+
+        $scope.isUserLoggedIn = false;
 
         var onUserLoginReject = function(error) {
             $scope.isShowLoginError = true;
             $scope.loginErrorMessage = error.response;
         };
+
+        $scope.uiRouterState = $state;
 
         $scope.validateUser = function(email, password) {
             $scope.submitted = true;
@@ -62,6 +66,7 @@ define('login/loginController',[],function() {
                     data = data || {};
                     if (data.isValidUser) {
                         $state.transitionTo('home');
+                        idle.watch();
                     } else {
                         $scope.isShowLoginError = true;
                         $scope.loginErrorMessage = data.response;
@@ -73,17 +78,16 @@ define('login/loginController',[],function() {
         };
     };
 
-    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth'];
+    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle'];
 
     return loginController;
 });
 define('login/parentController',[],function() {
     'use strict';
 
-    var parentController = function ($scope, $rootScope, $state, Auth, AUTH_EVENTS, USER_ROLES) {
+    var parentController = function ($scope, $rootScope, $state, Auth, AUTH_EVENTS, USER_ROLES, $uibModal) {
         var showLoginPage = function() {
             $state.go('login');
-            $scope.isUserLoggedIn = false;
         };
 
         var setCurrentUser = function() {
@@ -95,6 +99,45 @@ define('login/parentController',[],function() {
             console.log("Not Authorized");
         };
 
+
+        $scope.started = false;
+
+        function closeModals() {
+            if ($scope.warning) {
+                $scope.warning.close();
+                $scope.warning = null;
+            }
+
+            if ($scope.timedout) {
+                $scope.timedout.close();
+                $scope.timedout = null;
+            }
+        }
+
+        $scope.$on('IdleStart', function () {
+            closeModals();
+
+            $scope.warning = $uibModal.open({
+                templateUrl: 'warning-dialog.html',
+                windowClass: 'modal-danger'
+            });
+        });
+
+        $scope.$on('IdleEnd', function () {
+            closeModals();
+        });
+
+        $scope.$on('IdleTimeout', function () {
+            closeModals();
+            $scope.timedout = $uibModal.open({
+                templateUrl: 'timedout-dialog.html',
+                windowClass: 'modal-danger'
+            });
+            console.log($scope.isUserLoggedIn);
+
+            $scope.isUserLoggedIn = false;
+            $state.go('login');
+        });
        
         $scope.currentUser = null;
         $scope.userRoles = USER_ROLES;
@@ -108,7 +151,7 @@ define('login/parentController',[],function() {
         $rootScope.$on(AUTH_EVENTS.loginSuccess, setCurrentUser);
     };
 
-    parentController.$inject = ['$scope', '$rootScope', '$state', 'Auth', 'AUTH_EVENTS', 'USER_ROLES'];
+    parentController.$inject = ['$scope', '$rootScope', '$state', 'Auth', 'AUTH_EVENTS', 'USER_ROLES', '$uibModal'];
 
     return parentController;
 });
@@ -117,6 +160,8 @@ define('login/registrationController',[],function () {
 
     var registrationController = function ($scope) {
         var self = this;
+
+        $scope.isUserLoggedIn = false;
 
         $scope.submitted = false;
 
@@ -136,6 +181,7 @@ define('login/forgotPasswordController',[],function () {
 
     var forgotPasswordController = function ($scope) {
         var self = this;
+        $scope.isUserLoggedIn = false;
 
         $scope.controllerName = "forgotPasswordController";
 
@@ -387,15 +433,18 @@ define('route/routes',[],function () {
         $stateProvider
             .state('login', {
                 url: "/login",
-                templateUrl: "login.html"
+                templateUrl: "login.html",
+                controller: 'loginController'
             })
             .state('registration', {
                 url: "/registration",
-                templateUrl: "registration.html"
+                templateUrl: "registration.html",
+                controller: 'registrationController'
             })
             .state('forgotpassword', {
                 url: "/forgotpassword",
-                templateUrl: "forgotpassword.html"
+                templateUrl: "forgotpassword.html",
+                controller: 'forgotPasswordController'
             })
             .state('home', {
                 url: "/home",
@@ -436,15 +485,22 @@ define('app',['require','angular','login/session','login/authIntercepter','login
     var loginConstant = require('login/loginConstant');
     var routes = require('route/routes');
 
-    var app = angular.module('myApp', ['ui.router']);
+    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap']);
 
-    app.config(function($httpProvider) {
+    app.config(function ($httpProvider) {
         $httpProvider.defaults.headers.common = {};
         $httpProvider.defaults.headers.post = {};
         $httpProvider.defaults.headers.put = {};
         $httpProvider.defaults.headers.patch = {};
     });
 
+    app.config(['KeepaliveProvider', 'IdleProvider', function (keepaliveProvider, idleProvider) {
+        idleProvider.idle(5);
+        idleProvider.timeout(5);
+        keepaliveProvider.interval(10);
+    }]);
+
+    
     app.config(routes);
 
     app

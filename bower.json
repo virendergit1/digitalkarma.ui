@@ -9,14 +9,14 @@
   ],
   "description": "test",
   "dependencies": {
-    "angular": "~1.3.0",
+    "angular": "1.5.0",
     "angular-ui-router": "~0.2.10",
     "angular-mocks": "~1.2.15",
     "requirejs": "~2.1.22",
     "requirejs-text": "~2.0.14",
     "almond": "~0.2.9",
     "jquery": "~2.1.0",
-    "angular-bootstrap": "~0.10.0",
+    "angular-bootstrap": "^1.2.4",
     "bootstrap": "~3.3.6",
     "datatables": "~1.10.4",
     "datatables-plugins": "~1.0.1",
@@ -34,9 +34,11 @@
     "angular-scenario": "~1.2.15",
     "angular-resource": "~1.2.16",
     "lodash": "~4.6.1",
-    "angular-spinner": "^0.8.1"
+    "angular-spinner": "^0.8.1",
+    "ng-idle": "^1.2.0",
+    "angular-animate": "^1.5.0"
   },
   "resolutions": {
-    "angular": ">= 1.0.8"
+    "angular": "1.5.0"
   }
 }

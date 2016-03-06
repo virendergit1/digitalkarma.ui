@@ -3,6 +3,7 @@
 
     var forgotPasswordController = function ($scope) {
         var self = this;
+        $scope.isUserLoggedIn = false;
 
         $scope.controllerName = "forgotPasswordController";
 

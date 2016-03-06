@@ -29,6 +29,26 @@
     <script data-main="../main.js" src="../../bower_components/requirejs/require.js"></script>
 </head>
 <body>
+
+    <script type="text/ng-template" id="warning-dialog.html">
+        <div class="modal-header">
+            <h3>You're Idle. Do Something!</h3>
+        </div>
+        <div idle-countdown="countdown" ng-init="countdown=5" class="modal-body">
+            <progressbar max="5" value="5" animate="false" class="progress-striped active">You'll be logged out in {{countdown}} second(s).</progressbar>
+        </div>
+    </script>
+    <script type="text/ng-template" id="timedout-dialog.html">
+        <div class="modal-header">
+            <h3>You've Timed Out!</h3>
+        </div>
+        <div class="modal-body">
+            <p>
+                You were idle too long. Your session has timed-out.
+            </p>
+        </div>
+    </script>
+
 <div id="wrapper" ng-controller="ParentController">
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -44,22 +64,15 @@
         <ul class="nav navbar-top-links navbar-right" ng-show="isUserLoggedIn">
             <!--<li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
             </li>-->
-            
+
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li>
-                        <i class="fa fa-user fa-fw"></i> User Profile
-                    </li>
-                    <li>
-                        <i class="fa fa-gear fa-fw"></i> Settings
-                    </li>
-                    <li class="divider"></li>
                     <li>
                         <a href="#" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
@@ -81,7 +94,7 @@
                                 </button>
                             </span>
                         </div>
-                         /input-group 
+                        /input-group
                     </li>
                     <li>
                         <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
@@ -90,21 +103,21 @@
             </div>
         </div>-->
     </nav>
-   <div ui-view></div>
+    <div ui-view></div>
 </div>
 
-        <!-- /#wrapper -->
-        <!-- jQuery -->
-        <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-        <!-- Bootstrap Core JavaScript -->
-        <!--<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>-->
-        <!-- Metis Menu Plugin JavaScript -->
-        <!--<script src="../../bower_components/metisMenu/dist/metisMenu.min.js"></script>-->
-        <!-- Morris Charts JavaScript -->
-        <!--<script src="../bower_components/raphael/raphael-min.js"></script>-->
-        <!--<script src="../bower_components/morrisjs/morris.min.js"></script>-->
-        <!--<script src="../js/morris-data.js"></script>-->
-        <!-- Custom Theme JavaScript -->
-        <!--<script src="../theme.js"></script>-->
+<!-- /#wrapper -->
+<!-- jQuery -->
+<script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<!--<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>-->
+<!-- Metis Menu Plugin JavaScript -->
+<!--<script src="../../bower_components/metisMenu/dist/metisMenu.min.js"></script>-->
+<!-- Morris Charts JavaScript -->
+<!--<script src="../bower_components/raphael/raphael-min.js"></script>-->
+<!--<script src="../bower_components/morrisjs/morris.min.js"></script>-->
+<!--<script src="../js/morris-data.js"></script>-->
+<!-- Custom Theme JavaScript -->
+<!--<script src="../theme.js"></script>-->
 </body>
 </html>

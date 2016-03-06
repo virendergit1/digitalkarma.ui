@@ -4,6 +4,8 @@
     var registrationController = function ($scope) {
         var self = this;
 
+        $scope.isUserLoggedIn = false;
+
         $scope.submitted = false;
 
         $scope.showMessageRegistration = false;
