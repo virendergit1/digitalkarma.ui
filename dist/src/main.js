@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/02 21:59:51 UTC
+ * digitalkarma - 2016/03/06 15:41:16 UTC
 */
 
 require.config({
@@ -19,7 +19,8 @@ require.config({
         morris: '../bower_components/morris.js/morris',
         raphael: '../bower_components/raphael/raphael',
         metisMenu: '../bower_components/metisMenu/dist/metisMenu.min',
-        lodash: '../bower_components/lodash/dist/lodash.min'
+        lodash: '../bower_components/lodash/dist/lodash.min',
+        spin: '../bower_components/spin.js/spin.min'
     },
     shim: {
         'jquery': {
@@ -62,7 +63,8 @@ require.config({
                 'angular',
                 'c3',
                 'd3',
-                'uiRouter'
+                'uiRouter',
+                'spin'
             ]
         },
         'metisMenu': {
@@ -70,6 +72,9 @@ require.config({
         },
         'lodash': {
             'lodash': 'lodash'
+        },
+        'spin': {
+            "spin": { exports: "Spinner" }
         }
     },
     priority: [
@@ -79,7 +84,6 @@ require.config({
 });
 require(
     [
-        'routes',
         'app',
         'c3',
         'lodash',
@@ -88,7 +92,7 @@ require(
         'metisMenu',
         'theme'
     ],
-    function (routes, app, c3, lodash) {
+    function (app, c3, lodash) {
         app.init();
         window.c3 = c3;
         window._ = lodash;

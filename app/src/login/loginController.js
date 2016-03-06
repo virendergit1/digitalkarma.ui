@@ -1,24 +1,19 @@
 ﻿define(function() {
     'use strict';
 
-    var loginController = function($scope, $state, authenticationService) {
-        var self = this,
-            loginValidationError = "There was an error validation the user.";
-
-        $scope.submitted = false;
-        $scope.isShowLoginError = false;
-        $scope.loginErrorMessage = "";
+    var loginController = function ($scope, $rootScope, $state, $window, authenticationService) {
+        var self = this;
 
         var onUserLoginReject = function(error) {
             $scope.isShowLoginError = true;
             $scope.loginErrorMessage = error.response;
         };
 
-        $scope.validateUser = function (email, password) {
+        $scope.validateUser = function(email, password) {
             $scope.submitted = true;
 
             if ($scope.login.email.$valid && $scope.login.password.$valid) {
-                //--+--validate user here--
+
                 var promise = authenticationService.validateUser(email, password);
 
                 promise.then(function(data) {
@@ -36,7 +31,7 @@
         };
     };
 
-    loginController.$inject = ['$scope', '$state', 'dk.authenticationService'];
+    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth'];
 
     return loginController;
 });

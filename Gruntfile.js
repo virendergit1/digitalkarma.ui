@@ -49,6 +49,7 @@ module.exports = function(grunt) {
             serviceJs: ['<%= pkg.sourceDir %>/src/services/**/*.js'],
             apiProxiesJs: ['<%= pkg.sourceDir %>/src/apiProxies/**/*.js'],
             chartTesterJs: ['<%= pkg.sourceDir %>/src/chartTester/js/*.js'],
+            waitSpinnerJs: ['<%= pkg.sourceDir %>/src/waitSpinner/*.js'],
             loginJs: ['<%= pkg.sourceDir %>/src/login/*.js'],
             cssDirectory: '<%= pkg.sourceDir %>/src/assets/css/*.css',
             lessMain: ['<%= pkg.sourceDir %>/src/less/app-common.less'],
@@ -111,7 +112,7 @@ module.exports = function(grunt) {
         },
         watch: {
             jshint: {
-                files: ['<%= src.js %>', '<%= test.unit %>', '<%= test.karmaConfig %>', 'Gruntfile.js'],
+                files: ['<%= src.js %>', '<%= test.unit %>', '<%= test.karmaConfig %>', 'Gruntfile.js', 'mainJs'],
                 tasks: ['jshint'],
                 options: {
                     spawn: false,
@@ -144,6 +145,11 @@ module.exports = function(grunt) {
                 options: setHtml2JsDefaultOptions('chartTester.template'),
                 src: '<%= pkg.sourceDir %>/src/chartTester/templates/*.html',
                 dest: '<%= distMainDirectory %>/src/chartTester/chartTesterTemplate.js'
+            },
+            waitSpinner: {
+                options: setHtml2JsDefaultOptions('waitSpinner.template'),
+                src: '<%= pkg.sourceDir %>/src/waitSpinner/*.html',
+                dest: '<%= distMainDirectory %>/src/waitSpinner/waitSpinnerTemplate.js'
             }
         },
         copy: {
@@ -154,6 +160,16 @@ module.exports = function(grunt) {
                         flatten: true,
                         src: ['<%= src.chartTesterJs %>'],
                         dest: '<%= distMainDirectory %>/src/chartTester'
+                    }
+                ]
+            },
+            waitSpinner: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.waitSpinnerJs %>'],
+                        dest: '<%= distMainDirectory %>/src/waitSpinner'
                     }
                 ]
             },
@@ -268,9 +284,11 @@ module.exports = function(grunt) {
                     baseUrl: "<%= distDirectory %>",
                     paths: {
                         'app': './src/src/digitalKarma/app',
+                        'login': './src/src/login',
+                        'route': './src/src/digitalKarma',
                         'angular': 'empty:',
                         'uiRouter': 'empty:',
-                        'login/loginModule': 'empty:',
+                        'spin': 'empty:',
                         'chartTester/chartTesterModule': 'empty:'
                     }
                 }
@@ -288,20 +306,19 @@ module.exports = function(grunt) {
                     }
                 }
             },
-            login: {
+            waitSpinner: {
                 options: {
                     optimize: "none",
                     logLevel: 0,
-                    name: 'login/loginModule',
-                    out: 'dist/src/login/loginModule.js',
-                    baseUrl: "<%= distDirectory %>",
+                    mainConfigFile: 'main.js',
+                    name: 'waitSpinner/waitSpinnerModule',
+                    out: 'dist/src/waitSpinner/waitSpinnerModule.js',
                     paths: {
-                        'login': './src/src/login',
+                        'waitSpinner': './dist/src/src/waitSpinner',
                         'angular': 'empty:'
                     }
                 }
             }
-
         },
         versionCopyBowerComponents: {
             options: {
@@ -445,10 +462,10 @@ module.exports = function(grunt) {
         //"replaceClassname:reports",
         //'versionCopyBowerComponents',
         'copyfiles',
-        'html2js:chartTester',
+        'html2JS',
         'requirejs',
         'usebanner:dist',
-        //'clean:appRelease'
+        'clean:appRelease'
         //'copy:testFiles',
         //'copy:libs',
         //'compress:chartTester'//,
@@ -463,9 +480,15 @@ module.exports = function(grunt) {
         'usebanner:css'
     ]);
 
+    grunt.registerTask('html2JS', [
+           'html2js:chartTester',
+           'html2js:waitSpinner'
+    ]);
+
     grunt.registerTask('copyfiles', [
         'copy:chartTester',
         'copy:login',
+        'copy:waitSpinner',
         'copy:indexHtml',
         'copy:services',
         'copy:apiProxies',
