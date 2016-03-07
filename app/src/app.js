@@ -32,7 +32,7 @@
     app.config(['KeepaliveProvider', 'IdleProvider', function (keepaliveProvider, idleProvider) {
         idleProvider.idle(5);
         idleProvider.timeout(5);
-        keepaliveProvider.interval(10);
+        keepaliveProvider.interval(600);
     }]);
 
     

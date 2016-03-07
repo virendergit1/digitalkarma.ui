@@ -18,13 +18,13 @@
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         };
 
-        self.validateUser = function(userId, password) {
+        self.validateUser = function(userName, password) {
             var deferred = $q.defer();
 
-            userApiProxy.checkUserLogins(userId, password)
+            userApiProxy.checkUserLogins(userName, password)
                 .then(function(data) {
                     if (!_.isEmpty(data)) {
-                        if (data.username === userId) {
+                        if (data.username === userName) {
                             var loginData = {
                                 user: data.username,
                                 userRole: data.authorities

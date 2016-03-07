@@ -26,6 +26,10 @@
                 });
             return deferred.promise;
         };
+
+        self.logout = function() {
+            
+        };
     };
 
     userApiProxy.$inject = ['$http', '$q', 'dk.validatorService', 'dk.configConstant', 'dk.serviceConstant', 'dk.baseApiProxy'];

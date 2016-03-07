@@ -13,12 +13,12 @@
 
         $scope.uiRouterState = $state;
 
-        $scope.validateUser = function(email, password) {
+        $scope.validateUser = function(userName, password) {
             $scope.submitted = true;
 
             if ($scope.login.email.$valid && $scope.login.password.$valid) {
 
-                var promise = authenticationService.validateUser(email, password);
+                var promise = authenticationService.validateUser(userName, password);
 
                 promise.then(function(data) {
                     data = data || {};

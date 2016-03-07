@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/06 22:54:22 UTC
+ * digitalkarma - 2016/03/07 00:16:45 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -55,12 +55,12 @@ define('login/loginController',[],function() {
 
         $scope.uiRouterState = $state;
 
-        $scope.validateUser = function(email, password) {
+        $scope.validateUser = function(userName, password) {
             $scope.submitted = true;
 
             if ($scope.login.email.$valid && $scope.login.password.$valid) {
 
-                var promise = authenticationService.validateUser(email, password);
+                var promise = authenticationService.validateUser(userName, password);
 
                 promise.then(function(data) {
                     data = data || {};
@@ -281,6 +281,10 @@ define('src/src/apiProxies/userApiProxy',[],function() {
                 });
             return deferred.promise;
         };
+
+        self.logout = function() {
+            
+        };
     };
 
     userApiProxy.$inject = ['$http', '$q', 'dk.validatorService', 'dk.configConstant', 'dk.serviceConstant', 'dk.baseApiProxy'];
@@ -306,13 +310,13 @@ define('login/authenticationService',[],function() {
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         };
 
-        self.validateUser = function(userId, password) {
+        self.validateUser = function(userName, password) {
             var deferred = $q.defer();
 
-            userApiProxy.checkUserLogins(userId, password)
+            userApiProxy.checkUserLogins(userName, password)
                 .then(function(data) {
                     if (!_.isEmpty(data)) {
-                        if (data.username === userId) {
+                        if (data.username === userName) {
                             var loginData = {
                                 user: data.username,
                                 userRole: data.authorities
