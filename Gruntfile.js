@@ -49,7 +49,7 @@ module.exports = function(grunt) {
             serviceJs: ['<%= pkg.sourceDir %>/src/services/**/*.js'],
             apiProxiesJs: ['<%= pkg.sourceDir %>/src/apiProxies/**/*.js'],
             chartTesterJs: ['<%= pkg.sourceDir %>/src/chartTester/js/*.js'],
-            waitSpinnerJs: ['<%= pkg.sourceDir %>/src/waitSpinner/*.js'],
+            libsJs: ['<%= pkg.sourceDir %>/src/libs/*.js'],
             loginJs: ['<%= pkg.sourceDir %>/src/login/*.js'],
             cssDirectory: '<%= pkg.sourceDir %>/src/assets/css/*.css',
             lessMain: ['<%= pkg.sourceDir %>/src/less/app-common.less'],
@@ -145,11 +145,6 @@ module.exports = function(grunt) {
                 options: setHtml2JsDefaultOptions('chartTester.template'),
                 src: '<%= pkg.sourceDir %>/src/chartTester/templates/*.html',
                 dest: '<%= distMainDirectory %>/src/chartTester/chartTesterTemplate.js'
-            },
-            waitSpinner: {
-                options: setHtml2JsDefaultOptions('waitSpinner.template'),
-                src: '<%= pkg.sourceDir %>/src/waitSpinner/*.html',
-                dest: '<%= distMainDirectory %>/src/waitSpinner/waitSpinnerTemplate.js'
             }
         },
         copy: {
@@ -160,16 +155,6 @@ module.exports = function(grunt) {
                         flatten: true,
                         src: ['<%= src.chartTesterJs %>'],
                         dest: '<%= distMainDirectory %>/src/chartTester'
-                    }
-                ]
-            },
-            waitSpinner: {
-                files: [
-                    {
-                        expand: true,
-                        flatten: true,
-                        src: ['<%= src.waitSpinnerJs %>'],
-                        dest: '<%= distMainDirectory %>/src/waitSpinner'
                     }
                 ]
             },
@@ -263,6 +248,16 @@ module.exports = function(grunt) {
                     }
                 ]
             },
+            libsJs: { 
+                files: [
+                   {
+                       expand: true,
+                       flatten: true,
+                       src: ['<%= src.libsJs %>'],
+                       dest: '<%= distMainDirectory %>/libs'
+                   }
+                ]
+            },
             pocPages: {
                 files: [
                     {
@@ -303,19 +298,6 @@ module.exports = function(grunt) {
                     out: 'dist/src/chartTester/chartTesterModule.js',
                     paths: {
                         'chartTester': './dist/src/src/chartTester',
-                        'angular': 'empty:'
-                    }
-                }
-            },
-            waitSpinner: {
-                options: {
-                    optimize: "none",
-                    logLevel: 0,
-                    mainConfigFile: 'main.js',
-                    name: 'waitSpinner/waitSpinnerModule',
-                    out: 'dist/src/waitSpinner/waitSpinnerModule.js',
-                    paths: {
-                        'waitSpinner': './dist/src/src/waitSpinner',
                         'angular': 'empty:'
                     }
                 }
@@ -482,14 +464,12 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('html2JS', [
-           'html2js:chartTester',
-           'html2js:waitSpinner'
+        'html2js:chartTester'
     ]);
 
     grunt.registerTask('copyfiles', [
         'copy:chartTester',
         'copy:login',
-        'copy:waitSpinner',
         'copy:indexHtml',
         'copy:services',
         'copy:apiProxies',
@@ -498,6 +478,7 @@ module.exports = function(grunt) {
         'copy:configJs',
         'copy:appCss',
         'copy:htmlPages',
+        'copy:libsJs',
         'copy:pocPages'
     ]);
 

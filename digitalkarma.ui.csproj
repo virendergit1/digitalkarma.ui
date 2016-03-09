@@ -38,9 +38,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="app\src\libs\angular-busy.js" />
     <Content Include="app\src\apiProxies\baseApiProxy.js" />
     <Content Include="app\src\apiProxies\userApiProxy.js" />
     <Content Include="app\src\app.js" />
+    <Content Include="app\src\assets\css\angular-busy.css" />
     <Content Include="app\src\assets\css\timeline.css" />
     <Content Include="app\src\chartTester\js\chartTesterModule.js" />
     <Content Include="app\src\chartTester\js\chartTesterController.js" />
@@ -67,8 +69,6 @@
     <Content Include="app\src\services\serviceConstant.js" />
     <Content Include="app\src\services\validatorService.js" />
     <Content Include="app\src\theme.js" />
-    <Content Include="app\src\waitSpinner\spinnerTemplate.html" />
-    <Content Include="app\src\waitSpinner\waitSpinnerModule.js" />
     <Content Include="app\tests\config\karma.conf.js" />
     <Content Include="app\tests\config\main.js" />
     <Content Include="dist\bower_components\almond\.gitignore" />
@@ -778,12 +778,14 @@
     <Content Include="dist\bower_components\spin.js\spin.min.js" />
     <Content Include="dist\src\app.js" />
     <Content Include="dist\src\chartTester\chartTesterModule.js" />
+    <Content Include="dist\src\css\angular-busy.css" />
     <Content Include="dist\src\css\app-common-mixins.css" />
     <Content Include="dist\src\css\app-common-variables.css" />
     <Content Include="dist\src\css\app-common.css" />
     <Content Include="dist\src\css\app-common.min.css" />
     <Content Include="dist\src\css\timeline.css" />
     <Content Include="dist\src\index.html" />
+    <Content Include="dist\src\libs\angular-busy.js" />
     <Content Include="dist\src\main.js" />
     <Content Include="dist\src\pages\forgotpassword.html" />
     <Content Include="dist\src\pages\home.html" />
@@ -794,7 +796,6 @@
     <Content Include="dist\src\pages\testerPage.html" />
     <Content Include="dist\src\poc\pocpage.html" />
     <Content Include="dist\src\theme.js" />
-    <Content Include="dist\src\waitSpinner\waitSpinnerModule.js" />
     <Content Include="Gruntfile.js" />
     <Content Include="index.html" />
     <Content Include="main.js" />

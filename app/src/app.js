@@ -20,7 +20,7 @@
     var loginConstant = require('login/loginConstant');
     var routes = require('route/routes');
 
-    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap']);
+    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap','cgBusy']);
 
     app.config(function ($httpProvider) {
         $httpProvider.defaults.headers.common = {};
@@ -30,8 +30,8 @@
     });
 
     app.config(['KeepaliveProvider', 'IdleProvider', function (keepaliveProvider, idleProvider) {
-        idleProvider.idle(5);
-        idleProvider.timeout(5);
+        idleProvider.idle(900);
+        idleProvider.timeout(60);
         keepaliveProvider.interval(600);
     }]);
 

@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/07 00:16:45 UTC
+ * digitalkarma - 2016/03/09 02:31:48 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -48,6 +48,12 @@ define('login/loginController',[],function() {
 
         $scope.isUserLoggedIn = false;
 
+        $scope.delay = 0;
+        $scope.minDuration = 0;
+        $scope.message = 'Validating...';
+        $scope.backdrop = true;
+        $scope.promise = null;
+
         var onUserLoginReject = function(error) {
             $scope.isShowLoginError = true;
             $scope.loginErrorMessage = error.response;
@@ -55,14 +61,14 @@ define('login/loginController',[],function() {
 
         $scope.uiRouterState = $state;
 
-        $scope.validateUser = function(userName, password) {
+        $scope.validateUser = function (userName, password) {
             $scope.submitted = true;
 
             if ($scope.login.email.$valid && $scope.login.password.$valid) {
 
-                var promise = authenticationService.validateUser(userName, password);
+                $scope.promise = authenticationService.validateUser(userName, password);
 
-                promise.then(function(data) {
+                $scope.promise.then(function (data) {
                     data = data || {};
                     if (data.isValidUser) {
                         $state.transitionTo('home');
@@ -244,7 +250,7 @@ define('src/src/apiProxies/baseApiProxy',[], function() {
                 method: method,
                 data: data,
                 params: params,
-                timeout: 10000
+                timeout: 30000
             };
             return config;
         };
@@ -489,7 +495,7 @@ define('app',['require','angular','login/session','login/authIntercepter','login
     var loginConstant = require('login/loginConstant');
     var routes = require('route/routes');
 
-    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap']);
+    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap','cgBusy']);
 
     app.config(function ($httpProvider) {
         $httpProvider.defaults.headers.common = {};
@@ -499,9 +505,9 @@ define('app',['require','angular','login/session','login/authIntercepter','login
     });
 
     app.config(['KeepaliveProvider', 'IdleProvider', function (keepaliveProvider, idleProvider) {
-        idleProvider.idle(5);
-        idleProvider.timeout(5);
-        keepaliveProvider.interval(10);
+        idleProvider.idle(900);
+        idleProvider.timeout(60);
+        keepaliveProvider.interval(600);
     }]);
 
     

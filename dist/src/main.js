@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/07 00:16:45 UTC
+ * digitalkarma - 2016/03/09 02:31:48 UTC
 */
 
 require.config({
@@ -21,7 +21,8 @@ require.config({
         metisMenu: '../bower_components/metisMenu/dist/metisMenu.min',
         lodash: '../bower_components/lodash/dist/lodash.min',
         spin: '../bower_components/spin.js/spin.min',
-        ngIdle: '../bower_components/ng-idle/angular-idle.min'
+        ngIdle: '../bower_components/ng-idle/angular-idle.min',
+        cgBusy: '../src/libs/angular-busy'
     },
     shim: {
         'jquery': {
@@ -68,7 +69,8 @@ require.config({
                 'uiRouter',
                 'spin',
                 'ngIdle',
-                'angularBootstrapTpl'
+                'angularBootstrapTpl',
+                'cgBusy'
             ]
         },
         'metisMenu': {
@@ -83,6 +85,10 @@ require.config({
         'ngIdle': {
             deps: ['angular'],
             'ngIdle': { exports: "ngIdle" }
+        },
+        'cgBusy': {
+            deps: ['angular'],
+            'cgBusy': { exports: "cgBusy" }
         }
     },
     priority: [

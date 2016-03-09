@@ -6,6 +6,12 @@
 
         $scope.isUserLoggedIn = false;
 
+        $scope.delay = 0;
+        $scope.minDuration = 0;
+        $scope.message = 'Validating...';
+        $scope.backdrop = true;
+        $scope.promise = null;
+
         var onUserLoginReject = function(error) {
             $scope.isShowLoginError = true;
             $scope.loginErrorMessage = error.response;
@@ -13,14 +19,14 @@
 
         $scope.uiRouterState = $state;
 
-        $scope.validateUser = function(userName, password) {
+        $scope.validateUser = function (userName, password) {
             $scope.submitted = true;
 
             if ($scope.login.email.$valid && $scope.login.password.$valid) {
 
-                var promise = authenticationService.validateUser(userName, password);
+                $scope.promise = authenticationService.validateUser(userName, password);
 
-                promise.then(function(data) {
+                $scope.promise.then(function (data) {
                     data = data || {};
                     if (data.isValidUser) {
                         $state.transitionTo('home');

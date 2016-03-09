@@ -10,7 +10,7 @@
                 method: method,
                 data: data,
                 params: params,
-                timeout: 10000
+                timeout: 30000
             };
             return config;
         };
