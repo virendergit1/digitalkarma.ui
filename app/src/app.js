@@ -19,8 +19,9 @@
     var formAutofillFixDirective = require('login/formAutofillFixDirective');
     var loginConstant = require('login/loginConstant');
     var routes = require('route/routes');
+    var translateService = require('src/src/services/translateService');
 
-    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap','cgBusy']);
+    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap', 'cgBusy', 'pascalprecht.translate']);
 
     app.config(function ($httpProvider) {
         $httpProvider.defaults.headers.common = {};
@@ -35,7 +36,20 @@
         keepaliveProvider.interval(600);
     }]);
 
-    
+    app.config(['$translateProvider', function ($translateProvider) {
+       $translateProvider.useLoader('$translatePartialLoader', {
+            urlTemplate: '../i18n/{lang}.json'
+        });
+
+        $translateProvider.preferredLanguage('en-US').fallbackLanguage('en-US');
+        $translateProvider.useMissingTranslationHandlerLog();
+        $translateProvider.useSanitizeValueStrategy('escape');
+    }]);
+
+    app.config(['$translatePartialLoaderProvider', function ($translatePartialLoaderProvider) {
+        $translatePartialLoaderProvider.addPart('en-US');
+    }]);
+
     app.config(routes);
 
     app
@@ -49,6 +63,7 @@
         .service('dk.userApiProxy', userApiProxy)
         .service('Session', session)
         .service('AuthInterceptor', authIntercepter)
+        .service('translateService', translateService)
         .constant('dk.serviceConstant', serviceConstant)
         .constant('dk.configConstant', configConstant)
         .constant('USER_ROLES', loginConstant.USER_ROLES)

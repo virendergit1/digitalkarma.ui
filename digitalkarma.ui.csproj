@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="app\src\assets\img\" />
+    <Folder Include="app\src\login\i18n\" />
     <Folder Include="app\src\temlapteTester\" />
     <Folder Include="app\tests\lib\" />
     <Folder Include="app\tests\unit\chartTester\" />
@@ -67,12 +68,16 @@
     <Content Include="app\src\pages\testerPage.html" />
     <Content Include="app\src\routes.js" />
     <Content Include="app\src\services\serviceConstant.js" />
+    <Content Include="app\src\services\translateService.js" />
     <Content Include="app\src\services\validatorService.js" />
     <Content Include="app\src\theme.js" />
     <Content Include="app\tests\config\karma.conf.js" />
     <Content Include="app\tests\config\main.js" />
     <Content Include="dist\bower_components\almond\.gitignore" />
     <Content Include="dist\bower_components\almond\almond.js" />
+    <Content Include="dist\bower_components\angular-animate\angular-animate.js" />
+    <Content Include="dist\bower_components\angular-animate\angular-animate.min.js" />
+    <Content Include="dist\bower_components\angular-animate\index.js" />
     <Content Include="dist\bower_components\angular-bootstrap\ui-bootstrap-tpls.js" />
     <Content Include="dist\bower_components\angular-bootstrap\ui-bootstrap-tpls.min.js" />
     <Content Include="dist\bower_components\angular-bootstrap\ui-bootstrap.js" />
@@ -93,6 +98,10 @@
     <Content Include="dist\bower_components\angular-spinner\Gruntfile.js" />
     <Content Include="dist\bower_components\angular-spinner\karma.conf.js" />
     <Content Include="dist\bower_components\angular-spinner\tests.js" />
+    <Content Include="dist\bower_components\angular-translate-loader-partial\angular-translate-loader-partial.js" />
+    <Content Include="dist\bower_components\angular-translate-loader-partial\angular-translate-loader-partial.min.js" />
+    <Content Include="dist\bower_components\angular-translate\angular-translate.js" />
+    <Content Include="dist\bower_components\angular-translate\angular-translate.min.js" />
     <Content Include="dist\bower_components\angular-ui-router\release\angular-ui-router.js" />
     <Content Include="dist\bower_components\angular-ui-router\release\angular-ui-router.min.js" />
     <Content Include="dist\bower_components\angular-ui-router\src\common.js" />
@@ -764,6 +773,21 @@
     <Content Include="dist\bower_components\morris.js\spec\viz\exemplary\stacked_bar0.png" />
     <Content Include="dist\bower_components\morris.js\spec\viz\test.html" />
     <Content Include="dist\bower_components\morris.js\spec\viz\visual_specs.js" />
+    <Content Include="dist\bower_components\ng-idle\angular-idle.js" />
+    <Content Include="dist\bower_components\ng-idle\angular-idle.min.js" />
+    <Content Include="dist\bower_components\ng-idle\gruntfile.js" />
+    <Content Include="dist\bower_components\ng-idle\karma.conf.js" />
+    <Content Include="dist\bower_components\ng-idle\sample\index.html" />
+    <Content Include="dist\bower_components\ng-idle\src\countdown\countdown.js" />
+    <Content Include="dist\bower_components\ng-idle\src\countdown\countdown.spec.js" />
+    <Content Include="dist\bower_components\ng-idle\src\idle\idle.js" />
+    <Content Include="dist\bower_components\ng-idle\src\idle\idle.spec.js" />
+    <Content Include="dist\bower_components\ng-idle\src\keepalive\keepalive.js" />
+    <Content Include="dist\bower_components\ng-idle\src\keepalive\keepalive.spec.js" />
+    <Content Include="dist\bower_components\ng-idle\src\localStorage\localStorage.js" />
+    <Content Include="dist\bower_components\ng-idle\src\localStorage\localStorage.spec.js" />
+    <Content Include="dist\bower_components\ng-idle\src\title\title.js" />
+    <Content Include="dist\bower_components\ng-idle\src\title\title.spec.js" />
     <Content Include="dist\bower_components\raphael\dev\amdDev.js" />
     <Content Include="dist\bower_components\raphael\dev\index.js" />
     <Content Include="dist\bower_components\raphael\dev\require.js" />
@@ -801,6 +825,7 @@
     <Content Include="main.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app\src\i18n\en-US.json" />
     <None Include="app\src\less\app-common-mixins.less" />
     <None Include="app\src\less\app-common.less" />
     <None Include="app\src\less\app-common-variables.less" />
@@ -812,6 +837,11 @@
     <None Include="dist\bower_components\almond\LICENSE" />
     <None Include="dist\bower_components\almond\package.json" />
     <None Include="dist\bower_components\almond\README.md" />
+    <None Include="dist\bower_components\angular-animate\.bower.json" />
+    <None Include="dist\bower_components\angular-animate\angular-animate.min.js.map" />
+    <None Include="dist\bower_components\angular-animate\bower.json" />
+    <None Include="dist\bower_components\angular-animate\package.json" />
+    <None Include="dist\bower_components\angular-animate\README.md" />
     <None Include="dist\bower_components\angular-bootstrap\.bower.json" />
     <None Include="dist\bower_components\angular-bootstrap\bower.json" />
     <None Include="dist\bower_components\angular-mocks\.bower.json" />
@@ -837,6 +867,13 @@
     <None Include="dist\bower_components\angular-spinner\CHANGELOG.md" />
     <None Include="dist\bower_components\angular-spinner\package.json" />
     <None Include="dist\bower_components\angular-spinner\README.md" />
+    <None Include="dist\bower_components\angular-translate-loader-partial\.bower.json" />
+    <None Include="dist\bower_components\angular-translate-loader-partial\bower.json" />
+    <None Include="dist\bower_components\angular-translate-loader-partial\package.json" />
+    <None Include="dist\bower_components\angular-translate-loader-partial\README.md" />
+    <None Include="dist\bower_components\angular-translate\.bower.json" />
+    <None Include="dist\bower_components\angular-translate\bower.json" />
+    <None Include="dist\bower_components\angular-translate\README.md" />
     <None Include="dist\bower_components\angular-ui-router\.bower.json" />
     <None Include="dist\bower_components\angular-ui-router\bower.json" />
     <None Include="dist\bower_components\angular-ui-router\CHANGELOG.md" />
@@ -1197,6 +1234,13 @@
     <None Include="dist\bower_components\morris.js\spec\lib\parse_time_spec.coffee" />
     <None Include="dist\bower_components\morris.js\spec\support\placeholder.coffee" />
     <None Include="dist\bower_components\morris.js\spec\viz\run.sh" />
+    <None Include="dist\bower_components\ng-idle\.bower.json" />
+    <None Include="dist\bower_components\ng-idle\angular-idle.map" />
+    <None Include="dist\bower_components\ng-idle\bower.json" />
+    <None Include="dist\bower_components\ng-idle\CHANGELOG.md" />
+    <None Include="dist\bower_components\ng-idle\LICENSE" />
+    <None Include="dist\bower_components\ng-idle\package.json" />
+    <None Include="dist\bower_components\ng-idle\README.md" />
     <None Include="dist\bower_components\raphael\.bower.json" />
     <None Include="dist\bower_components\raphael\bower.json" />
     <None Include="dist\bower_components\requirejs-text\.bower.json" />
@@ -1216,6 +1260,7 @@
     <None Include="dist\bower_components\spin.js\README.md" />
     <None Include="dist\src\css\app-common.css.map" />
     <None Include="dist\src\css\app-common.min.css.map" />
+    <None Include="dist\src\i18n\en-US.json" />
     <None Include="index.php" />
     <None Include="jshintrc.json" />
     <None Include="package.json" />

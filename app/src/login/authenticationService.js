@@ -3,12 +3,6 @@
     var authenticationService = function($q, $rootScope, $http, $window, userApiProxy, AUTH_EVENTS, Session) {
         var self = this;
 
-        var responseMessage = {
-            badPassword: "Invalid username or password",
-            notFound: "Not a registerd user. Please Register.",
-            NOT_PROVIDED: "Not provided"
-        };
-
         var createUserSession = function(loginData) {
             $window.sessionStorage["userInfo"] = JSON.stringify(loginData);
             Session.create(loginData);
@@ -32,10 +26,8 @@
 
                             delete data.password;
 
-                            console.log(loginData);
-
                             createUserSession(loginData);
-                            
+
                             deferred.resolve({
                                 isValidUser: true
                             });
@@ -43,24 +35,11 @@
                     }
                 }, function(error) {
                     $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-                    if (error === "BAD_PASSWORD") {
-                        deferred.reject({
-                            response: responseMessage.badPassword,
-                            isValidUser: false
-                        });
-                    }
-                    if (error === "NOT_FOUND") {
-                        deferred.reject({
-                            response: responseMessage.notFound,
-                            isValidUser: false
-                        });
-                    }
-                    if (error === "NOT_PROVIDED") {
-                        deferred.reject({
-                            response: responseMessage.NOT_PROVIDED,
-                            isValidUser: false
-                        });
-                    }
+                    deferred.reject({
+                        response: error,
+                        isValidUser: false
+                    });
+
                 });
             return deferred.promise;
         };
@@ -69,7 +48,7 @@
             return !!Session.user;
         };
 
-        var isUserHasAuthority = function (authorizedRoles) {
+        var isUserHasAuthority = function(authorizedRoles) {
             var roles = Session.userRole[0].authority.split(",");
             return _.intersection(authorizedRoles, roles).length > 0;
         };
@@ -91,6 +70,14 @@
         };
     };
 
-    authenticationService.$inject = ['$q', '$rootScope', '$http', '$window', 'dk.userApiProxy', 'AUTH_EVENTS', 'Session'];
+    authenticationService.$inject = [
+        '$q',
+        '$rootScope',
+        '$http',
+        '$window',
+        'dk.userApiProxy',
+        'AUTH_EVENTS',
+        'Session'
+    ];
     return authenticationService;
 });

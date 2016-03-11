@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/09 02:31:48 UTC
+ * digitalkarma - 2016/03/11 02:52:06 UTC
 */
 
 require.config({
@@ -22,7 +22,9 @@ require.config({
         lodash: '../bower_components/lodash/dist/lodash.min',
         spin: '../bower_components/spin.js/spin.min',
         ngIdle: '../bower_components/ng-idle/angular-idle.min',
-        cgBusy: '../src/libs/angular-busy'
+        cgBusy: '../src/libs/angular-busy',
+        angularTranslate: '../bower_components/angular-translate/angular-translate.min',
+        angularTranslateLoaderStaticFiles: '../bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min'
     },
     shim: {
         'jquery': {
@@ -70,7 +72,9 @@ require.config({
                 'spin',
                 'ngIdle',
                 'angularBootstrapTpl',
-                'cgBusy'
+                'cgBusy',
+                'angularTranslate',
+                'angularTranslateLoaderStaticFiles'
             ]
         },
         'metisMenu': {
@@ -89,11 +93,22 @@ require.config({
         'cgBusy': {
             deps: ['angular'],
             'cgBusy': { exports: "cgBusy" }
+        },
+        'angularTranslate': {
+            deps: ['angular'],
+            'angularTranslate': { exports: 'angularTranslate' }
+        },
+        'angularTranslateLoaderStaticFiles': {
+            deps: [
+                'angular',
+                'angularTranslate'
+            ],
+            'angularTranslateLoaderStaticFiles': { exports: 'angularTranslateLoaderStaticFiles' }
         }
     },
     priority: [
-      "jquery",
-      "angular"
+        "jquery",
+        "angular"
     ]
 });
 require(

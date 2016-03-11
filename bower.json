@@ -9,7 +9,7 @@
   ],
   "description": "test",
   "dependencies": {
-    "angular": "1.5.0",
+    "angular": "^1.5.0",
     "angular-ui-router": "~0.2.10",
     "angular-mocks": "~1.2.15",
     "requirejs": "~2.1.22",
@@ -36,9 +36,11 @@
     "lodash": "~4.6.1",
     "angular-spinner": "^0.8.1",
     "ng-idle": "^1.2.0",
-    "angular-animate": "^1.5.0"
+    "angular-animate": "^1.5.0",
+    "angular-translate": "^2.10.0",
+    "angular-translate-loader-partial": "^2.10.0"
   },
   "resolutions": {
-    "angular": "1.5.0"
+    "angular": ">=1.4.0"
   }
 }

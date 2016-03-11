@@ -1,9 +1,9 @@
 ﻿define(function() {
     'use strict';
 
-    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle) {
+    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle, $translate, $locale, $log) {
         var self = this;
-
+       
         $scope.isUserLoggedIn = false;
 
         $scope.delay = 0;
@@ -12,9 +12,22 @@
         $scope.backdrop = true;
         $scope.promise = null;
 
+        var getErrorMessage = function(error) {
+            switch (error) {
+                case "BAD_PASSWORD":
+                    return $translate.instant('loginResponse.badPassword');
+                case "NOT_FOUND":
+                    return $translate.instant('loginResponse.notFound');
+                case "NOT_PROVIDED":
+                    return $translate.instant('loginResponse.notProvided');
+                default:
+                    return $translate.instant('loginResponse.error');
+            }
+        };
+
         var onUserLoginReject = function(error) {
             $scope.isShowLoginError = true;
-            $scope.loginErrorMessage = error.response;
+            $scope.loginErrorMessage = getErrorMessage(error.response);
         };
 
         $scope.uiRouterState = $state;
@@ -42,7 +55,7 @@
         };
     };
 
-    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle'];
+    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate', '$locale', '$log'];
 
     return loginController;
 });

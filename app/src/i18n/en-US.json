@@ -1,0 +1,8 @@
+﻿{
+  "loginResponse": {
+    "badPassword": "Invalid username or password",
+    "notFound": "Not a registerd user. Please Register.",
+    "notProvided": "Not provided",
+    "error": "Error while user authentication"
+  }
+}

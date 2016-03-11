@@ -56,6 +56,7 @@ module.exports = function(grunt) {
             lessVariables: ['<%= pkg.sourceDir %>/src/less/app-common-variables.less'],
             lessMixins: ['<%= pkg.sourceDir %>/src/less/app-common-mixins.less'],
             htmlPages: ['<%= pkg.sourceDir %>/src/pages/*.html'],
+            i18n: ['<%= pkg.sourceDir %>/src/i18n/*.*'],
             pocPages: ['<%= pkg.sourceDir %>/src/poc/*.*']
         },
         meta: {
@@ -256,6 +257,16 @@ module.exports = function(grunt) {
                        src: ['<%= src.libsJs %>'],
                        dest: '<%= distMainDirectory %>/libs'
                    }
+                ]
+            },
+            i18n: {
+                files: [
+                 {
+                     expand: true,
+                     flatten: true,
+                     src: ['<%= src.i18n %>'],
+                     dest: '<%= distMainDirectory %>/i18n'
+                 }
                 ]
             },
             pocPages: {
@@ -479,6 +490,7 @@ module.exports = function(grunt) {
         'copy:appCss',
         'copy:htmlPages',
         'copy:libsJs',
+        'copy:i18n',
         'copy:pocPages'
     ]);
 

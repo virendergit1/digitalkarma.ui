@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/09 02:31:48 UTC
+ * digitalkarma - 2016/03/11 02:52:06 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -43,9 +43,9 @@ define('login/authIntercepter',[],function() {
 define('login/loginController',[],function() {
     'use strict';
 
-    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle) {
+    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle, $translate, $locale, $log) {
         var self = this;
-
+       
         $scope.isUserLoggedIn = false;
 
         $scope.delay = 0;
@@ -54,9 +54,22 @@ define('login/loginController',[],function() {
         $scope.backdrop = true;
         $scope.promise = null;
 
+        var getErrorMessage = function(error) {
+            switch (error) {
+                case "BAD_PASSWORD":
+                    return $translate.instant('loginResponse.badPassword');
+                case "NOT_FOUND":
+                    return $translate.instant('loginResponse.notFound');
+                case "NOT_PROVIDED":
+                    return $translate.instant('loginResponse.notProvided');
+                default:
+                    return $translate.instant('loginResponse.error');
+            }
+        };
+
         var onUserLoginReject = function(error) {
             $scope.isShowLoginError = true;
-            $scope.loginErrorMessage = error.response;
+            $scope.loginErrorMessage = getErrorMessage(error.response);
         };
 
         $scope.uiRouterState = $state;
@@ -84,7 +97,7 @@ define('login/loginController',[],function() {
         };
     };
 
-    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle'];
+    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate', '$locale', '$log'];
 
     return loginController;
 });
@@ -301,12 +314,6 @@ define('login/authenticationService',[],function() {
     var authenticationService = function($q, $rootScope, $http, $window, userApiProxy, AUTH_EVENTS, Session) {
         var self = this;
 
-        var responseMessage = {
-            badPassword: "Invalid username or password",
-            notFound: "Not a registerd user. Please Register.",
-            NOT_PROVIDED: "Not provided"
-        };
-
         var createUserSession = function(loginData) {
             $window.sessionStorage["userInfo"] = JSON.stringify(loginData);
             Session.create(loginData);
@@ -330,10 +337,8 @@ define('login/authenticationService',[],function() {
 
                             delete data.password;
 
-                            console.log(loginData);
-
                             createUserSession(loginData);
-                            
+
                             deferred.resolve({
                                 isValidUser: true
                             });
@@ -341,24 +346,11 @@ define('login/authenticationService',[],function() {
                     }
                 }, function(error) {
                     $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-                    if (error === "BAD_PASSWORD") {
-                        deferred.reject({
-                            response: responseMessage.badPassword,
-                            isValidUser: false
-                        });
-                    }
-                    if (error === "NOT_FOUND") {
-                        deferred.reject({
-                            response: responseMessage.notFound,
-                            isValidUser: false
-                        });
-                    }
-                    if (error === "NOT_PROVIDED") {
-                        deferred.reject({
-                            response: responseMessage.NOT_PROVIDED,
-                            isValidUser: false
-                        });
-                    }
+                    deferred.reject({
+                        response: error,
+                        isValidUser: false
+                    });
+
                 });
             return deferred.promise;
         };
@@ -367,7 +359,7 @@ define('login/authenticationService',[],function() {
             return !!Session.user;
         };
 
-        var isUserHasAuthority = function (authorizedRoles) {
+        var isUserHasAuthority = function(authorizedRoles) {
             var roles = Session.userRole[0].authority.split(",");
             return _.intersection(authorizedRoles, roles).length > 0;
         };
@@ -389,7 +381,15 @@ define('login/authenticationService',[],function() {
         };
     };
 
-    authenticationService.$inject = ['$q', '$rootScope', '$http', '$window', 'dk.userApiProxy', 'AUTH_EVENTS', 'Session'];
+    authenticationService.$inject = [
+        '$q',
+        '$rootScope',
+        '$http',
+        '$window',
+        'dk.userApiProxy',
+        'AUTH_EVENTS',
+        'Session'
+    ];
     return authenticationService;
 });
 define('login/formAutofillFixDirective',[],function () {
@@ -436,7 +436,33 @@ define('login/loginConstant',[],function() {
     };
 });
 define('route/routes',[],function () {
-    var routes = function($stateProvider, $urlRouterProvider, USER_ROLES) {
+    var routes = function ($stateProvider, $urlRouterProvider, USER_ROLES) {
+
+        function resolveControllerDataByRoute(controllerIdentifier) {
+            var resolveRouteObject = {
+                translationsLoaded: ['$log', '$q', '$translate', 'translateService',
+                function ($log, $q, $translate, translateService) {
+                    var deferred = $q.defer();
+                    translateService.getCurrent()
+                      .then(function (result) {
+                          // set the language based on the user's preferences
+                          $translate.use(result.language)
+                            .then(function () {
+                                deferred.resolve();
+                            });
+                      });
+
+                    return deferred.promise;
+                }]
+            };
+
+            switch (controllerIdentifier) {
+                case "home":
+                    return resolveRouteObject;
+                default:
+                    return resolveRouteObject;
+            }
+        }
 
         $urlRouterProvider.otherwise("/login");
 
@@ -444,7 +470,8 @@ define('route/routes',[],function () {
             .state('login', {
                 url: "/login",
                 templateUrl: "login.html",
-                controller: 'loginController'
+                controller: 'loginController',
+                resolve: resolveControllerDataByRoute("login")
             })
             .state('registration', {
                 url: "/registration",
@@ -461,7 +488,8 @@ define('route/routes',[],function () {
                 templateUrl: "home.html",
                 data: {
                     authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor]
-                }
+                },
+                resolve: resolveControllerDataByRoute("home")
             })
             .state('tester', {
                 url: "/tester",
@@ -473,7 +501,45 @@ define('route/routes',[],function () {
     };
     return routes;
 });
-define('app',['require','angular','login/session','login/authIntercepter','login/loginController','login/parentController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','login/authenticationService','login/formAutofillFixDirective','login/loginConstant','route/routes'],function(require) {
+define('src/src/services/translateService',[], function() {
+
+    'use strict';
+
+    var translateService = function translateServiceRecipe($translate, $timeout, $q) {
+
+        var self = this;
+
+        self.getCurrent = function() {
+            // normally an HTTP call to the server would take place here
+            var deferred = $q.defer();
+
+            $timeout(function() {
+                deferred.resolve({
+                    language: 'en-US'
+                });
+            }, 200);
+
+            return deferred.promise;
+        };
+
+        self.setLocale = function() {
+            var locale = "en-US";
+            $translate.uses(locale);
+        };
+
+        self.isLocaleSet = function() {
+            return $translate.uses() === "en-US";
+        };
+    };
+
+    translateService.$inject = [
+        '$translate', '$timeout', '$q'
+    ];
+
+    return translateService;
+
+});
+define('app',['require','angular','login/session','login/authIntercepter','login/loginController','login/parentController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','login/authenticationService','login/formAutofillFixDirective','login/loginConstant','route/routes','src/src/services/translateService'],function(require) {
 
     'use strict';
 
@@ -494,8 +560,9 @@ define('app',['require','angular','login/session','login/authIntercepter','login
     var formAutofillFixDirective = require('login/formAutofillFixDirective');
     var loginConstant = require('login/loginConstant');
     var routes = require('route/routes');
+    var translateService = require('src/src/services/translateService');
 
-    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap','cgBusy']);
+    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap', 'cgBusy', 'pascalprecht.translate']);
 
     app.config(function ($httpProvider) {
         $httpProvider.defaults.headers.common = {};
@@ -510,7 +577,20 @@ define('app',['require','angular','login/session','login/authIntercepter','login
         keepaliveProvider.interval(600);
     }]);
 
-    
+    app.config(['$translateProvider', function ($translateProvider) {
+       $translateProvider.useLoader('$translatePartialLoader', {
+            urlTemplate: '../i18n/{lang}.json'
+        });
+
+        $translateProvider.preferredLanguage('en-US').fallbackLanguage('en-US');
+        $translateProvider.useMissingTranslationHandlerLog();
+        $translateProvider.useSanitizeValueStrategy('escape');
+    }]);
+
+    app.config(['$translatePartialLoaderProvider', function ($translatePartialLoaderProvider) {
+        $translatePartialLoaderProvider.addPart('en-US');
+    }]);
+
     app.config(routes);
 
     app
@@ -524,6 +604,7 @@ define('app',['require','angular','login/session','login/authIntercepter','login
         .service('dk.userApiProxy', userApiProxy)
         .service('Session', session)
         .service('AuthInterceptor', authIntercepter)
+        .service('translateService', translateService)
         .constant('dk.serviceConstant', serviceConstant)
         .constant('dk.configConstant', configConstant)
         .constant('USER_ROLES', loginConstant.USER_ROLES)
