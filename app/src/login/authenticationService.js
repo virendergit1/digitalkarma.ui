@@ -15,32 +15,41 @@
         self.validateUser = function(userName, password) {
             var deferred = $q.defer();
 
-            userApiProxy.checkUserLogins(userName, password)
-                .then(function(data) {
-                    if (!_.isEmpty(data)) {
-                        if (data.username === userName) {
-                            var loginData = {
-                                user: data.username,
-                                userRole: data.authorities
-                            };
+            var loginData = {
+                user: userName,
+                userRole: ["Contributor"]
+            };
+            createUserSession(loginData);
+            deferred.resolve({
+                isValidUser: true
+            });
 
-                            delete data.password;
+            //userApiProxy.checkUserLogins(userName, password)
+            //    .then(function(data) {
+            //        if (!_.isEmpty(data)) {
+            //            if (data.username === userName) {
+            //                var loginData = {
+            //                    user: data.username,
+            //                    userRole: data.authorities
+            //                };
 
-                            createUserSession(loginData);
+            //                delete data.password;
 
-                            deferred.resolve({
-                                isValidUser: true
-                            });
-                        }
-                    }
-                }, function(error) {
-                    $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-                    deferred.reject({
-                        response: error,
-                        isValidUser: false
-                    });
+            //                createUserSession(loginData);
 
-                });
+            //                deferred.resolve({
+            //                    isValidUser: true
+            //                });
+            //            }
+            //        }
+            //    }, function(error) {
+            //        $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+            //        deferred.reject({
+            //            response: error,
+            //            isValidUser: false
+            //        });
+
+            //    });
             return deferred.promise;
         };
 
@@ -64,9 +73,21 @@
         };
 
         self.logout = function() {
+            var deferred = $q.defer();
+
+            userApiProxy.logout()
+                .then(function(data) {
+                    if (data === "LOGGED_OUT") {
+                        deferred.resolve();
+                        $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+                    }
+                }, function(error) {
+                    deferred.reject(error);
+                });
+
             Session.destroy();
             $window.sessionStorage.removeItem("userInfo");
-            $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+            return deferred.promise;
         };
     };
 

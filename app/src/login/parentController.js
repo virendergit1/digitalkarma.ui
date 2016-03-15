@@ -2,7 +2,15 @@
     'use strict';
 
     var parentController = function ($scope, $rootScope, $state, Auth, AUTH_EVENTS, USER_ROLES, $uibModal) {
+
+        $scope.isLoggedOut = false;
+
         var showLoginPage = function() {
+            $state.go('login');
+        };
+
+        var showLoginPageAfterLogout = function () {
+            $scope.isLoggedOut = true;
             $state.go('login');
         };
 
@@ -63,7 +71,7 @@
         $rootScope.$on(AUTH_EVENTS.notAuthorized, showNotAuthorized);
         $rootScope.$on(AUTH_EVENTS.notAuthenticated, showLoginPage);
         $rootScope.$on(AUTH_EVENTS.sessionTimeout, showLoginPage);
-        $rootScope.$on(AUTH_EVENTS.logoutSuccess, showLoginPage);
+        $rootScope.$on(AUTH_EVENTS.logoutSuccess, showLoginPageAfterLogout);
         $rootScope.$on(AUTH_EVENTS.loginSuccess, setCurrentUser);
     };
 

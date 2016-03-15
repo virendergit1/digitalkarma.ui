@@ -1,7 +1,7 @@
 ﻿define(function() {
     'use strict';
 
-    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle, $translate, $locale, $log) {
+    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle, $translate) {
         var self = this;
        
         $scope.isUserLoggedIn = false;
@@ -30,7 +30,8 @@
             $scope.loginErrorMessage = getErrorMessage(error.response);
         };
 
-        $scope.uiRouterState = $state;
+        $scope.email = "viren@dk.com";
+        $scope.password = "viren";
 
         $scope.validateUser = function (userName, password) {
             $scope.submitted = true;
@@ -55,7 +56,7 @@
         };
     };
 
-    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate', '$locale', '$log'];
+    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate'];
 
     return loginController;
 });

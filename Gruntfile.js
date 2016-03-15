@@ -49,6 +49,7 @@ module.exports = function(grunt) {
             serviceJs: ['<%= pkg.sourceDir %>/src/services/**/*.js'],
             apiProxiesJs: ['<%= pkg.sourceDir %>/src/apiProxies/**/*.js'],
             chartTesterJs: ['<%= pkg.sourceDir %>/src/chartTester/js/*.js'],
+            topNavJs: ['<%= pkg.sourceDir %>/src/topNav/*.js'],
             libsJs: ['<%= pkg.sourceDir %>/src/libs/*.js'],
             loginJs: ['<%= pkg.sourceDir %>/src/login/*.js'],
             cssDirectory: '<%= pkg.sourceDir %>/src/assets/css/*.css',
@@ -146,6 +147,11 @@ module.exports = function(grunt) {
                 options: setHtml2JsDefaultOptions('chartTester.template'),
                 src: '<%= pkg.sourceDir %>/src/chartTester/templates/*.html',
                 dest: '<%= distMainDirectory %>/src/chartTester/chartTesterTemplate.js'
+            },
+            topNav: {
+                options: setHtml2JsDefaultOptions('topNav.template'),
+                src: '<%= pkg.sourceDir %>/src/topNav/*.html',
+                dest: '<%= distMainDirectory %>/src/topNav/topNavTemplate.js'
             }
         },
         copy: {
@@ -269,6 +275,16 @@ module.exports = function(grunt) {
                  }
                 ]
             },
+            topNavJs: { 
+                files: [
+                   {
+                       expand: true,
+                       flatten: true,
+                       src: ['<%= src.topNavJs %>'],
+                       dest: '<%= distMainDirectory %>/src/topNav'
+                   }
+                ]
+            },
             pocPages: {
                 files: [
                     {
@@ -296,7 +312,8 @@ module.exports = function(grunt) {
                         'uiRouter': 'empty:',
                         'spin': 'empty:',
                         'chartTester/chartTesterModule': 'empty:',
-                        'ngidle': 'empty:'
+                        'ngidle': 'empty:',
+                        'topNav/topNavModule': 'empty:'
                     }
                 }
             },
@@ -309,6 +326,19 @@ module.exports = function(grunt) {
                     out: 'dist/src/chartTester/chartTesterModule.js',
                     paths: {
                         'chartTester': './dist/src/src/chartTester',
+                        'angular': 'empty:'
+                    }
+                }
+            },
+            topNav: {
+                options: {
+                    optimize: "none",
+                    logLevel: 0,
+                    mainConfigFile: 'main.js',
+                    name: 'topNav/topNavModule',
+                    out: 'dist/src/topNav/topNavModule.js',
+                    paths: {
+                        'topNav': './dist/src/src/topNav',
                         'angular': 'empty:'
                     }
                 }
@@ -475,7 +505,8 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('html2JS', [
-        'html2js:chartTester'
+        'html2js:chartTester',
+       'html2js:topNav'
     ]);
 
     grunt.registerTask('copyfiles', [
@@ -491,6 +522,7 @@ module.exports = function(grunt) {
         'copy:htmlPages',
         'copy:libsJs',
         'copy:i18n',
+        'copy:topNavJs',
         'copy:pocPages'
     ]);
 

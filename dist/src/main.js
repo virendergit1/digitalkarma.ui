@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/11 02:52:06 UTC
+ * digitalkarma - 2016/03/15 00:46:52 UTC
 */
 
 require.config({
@@ -20,11 +20,12 @@ require.config({
         raphael: '../bower_components/raphael/raphael',
         metisMenu: '../bower_components/metisMenu/dist/metisMenu.min',
         lodash: '../bower_components/lodash/dist/lodash.min',
-        spin: '../bower_components/spin.js/spin.min',
         ngIdle: '../bower_components/ng-idle/angular-idle.min',
         cgBusy: '../src/libs/angular-busy',
         angularTranslate: '../bower_components/angular-translate/angular-translate.min',
-        angularTranslateLoaderStaticFiles: '../bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min'
+        angularTranslateLoaderStaticFiles: '../bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min',
+        topNav: '../src/topNav/topNavModule',
+        angularBreadcrumbs: '../bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs'
     },
     shim: {
         'jquery': {
@@ -65,16 +66,18 @@ require.config({
         },
         'app': {
             deps: [
+                'jquery',
                 'angular',
                 'c3',
                 'd3',
                 'uiRouter',
-                'spin',
                 'ngIdle',
                 'angularBootstrapTpl',
                 'cgBusy',
                 'angularTranslate',
-                'angularTranslateLoaderStaticFiles'
+                'angularTranslateLoaderStaticFiles',
+                'topNav',
+                'angularBreadcrumbs'
             ]
         },
         'metisMenu': {
@@ -82,9 +85,6 @@ require.config({
         },
         'lodash': {
             'lodash': 'lodash'
-        },
-        'spin': {
-            "spin": { exports: "Spinner" }
         },
         'ngIdle': {
             deps: ['angular'],
@@ -104,6 +104,14 @@ require.config({
                 'angularTranslate'
             ],
             'angularTranslateLoaderStaticFiles': { exports: 'angularTranslateLoaderStaticFiles' }
+        },
+        'topNav': {
+            deps: ['angular'],
+            'topNav': { exports: 'topNav' }
+        },
+        'angularBreadcrumbs': {
+            deps: ['angular'],
+            'angularBreadcrumbs': { exports: 'angularBreadcrumbs' }
         }
     },
     priority: [

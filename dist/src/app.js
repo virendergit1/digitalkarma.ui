@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/11 02:52:06 UTC
+ * digitalkarma - 2016/03/15 00:46:52 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -43,7 +43,7 @@ define('login/authIntercepter',[],function() {
 define('login/loginController',[],function() {
     'use strict';
 
-    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle, $translate, $locale, $log) {
+    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle, $translate) {
         var self = this;
        
         $scope.isUserLoggedIn = false;
@@ -72,7 +72,8 @@ define('login/loginController',[],function() {
             $scope.loginErrorMessage = getErrorMessage(error.response);
         };
 
-        $scope.uiRouterState = $state;
+        $scope.email = "viren@dk.com";
+        $scope.password = "viren";
 
         $scope.validateUser = function (userName, password) {
             $scope.submitted = true;
@@ -97,7 +98,7 @@ define('login/loginController',[],function() {
         };
     };
 
-    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate', '$locale', '$log'];
+    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate'];
 
     return loginController;
 });
@@ -105,7 +106,15 @@ define('login/parentController',[],function() {
     'use strict';
 
     var parentController = function ($scope, $rootScope, $state, Auth, AUTH_EVENTS, USER_ROLES, $uibModal) {
+
+        $scope.isLoggedOut = false;
+
         var showLoginPage = function() {
+            $state.go('login');
+        };
+
+        var showLoginPageAfterLogout = function () {
+            $scope.isLoggedOut = true;
             $state.go('login');
         };
 
@@ -166,7 +175,7 @@ define('login/parentController',[],function() {
         $rootScope.$on(AUTH_EVENTS.notAuthorized, showNotAuthorized);
         $rootScope.$on(AUTH_EVENTS.notAuthenticated, showLoginPage);
         $rootScope.$on(AUTH_EVENTS.sessionTimeout, showLoginPage);
-        $rootScope.$on(AUTH_EVENTS.logoutSuccess, showLoginPage);
+        $rootScope.$on(AUTH_EVENTS.logoutSuccess, showLoginPageAfterLogout);
         $rootScope.$on(AUTH_EVENTS.loginSuccess, setCurrentUser);
     };
 
@@ -177,21 +186,62 @@ define('login/parentController',[],function() {
 define('login/registrationController',[],function () {
     'use strict';
 
-    var registrationController = function ($scope) {
+    var registrationController = function($scope, loginService, $translate) {
         var self = this;
 
-        $scope.isUserLoggedIn = false;
-
         $scope.submitted = false;
-
         $scope.showMessageRegistration = false;
 
-        $scope.RegisterUser = function () {
+        $scope.roleItems = [
+            {
+                "roleId": 1,
+                "roleName": "Admin",
+                "description": "This is admin role"
+            },
+            {
+                "roleId": 2,
+                "roleName": "Contributer",
+                "description": "This is contributer role"
+            },
+            {
+                "roleId": 3,
+                "roleName": "Guest",
+                "description": "This is guest role"
+            }
+        ];
+
+        //console.log($translate.instant('userRole'));
+        //$scope.roleItems = $translate.instant('userRole');
+
+        var onUserRegistrationReject = function(error) {
+            $scope.showMessageRegistration = true;
+            $scope.successMessage = $translate.instant('loginResponse.userRegistrationError');
+        };
+
+        var onUserRegistrationSuccess = function (email) {
+            $scope.showMessageRegistration = true;
+            $scope.successMessage = $translate.instant('loginResponse.userRegistrationSuccess').replace("Email", email);
+        };
+
+        $scope.RegisterUser = function(form, user) {
             $scope.submitted = true;
+
+            if (form.$valid) {
+                $scope.promise = loginService.registerUser(user);
+
+                $scope.promise.then(function(data) {
+                    data = data || {};
+                    if (data.username) {
+                        onUserRegistrationSuccess(user.email);
+                    }
+                }, function(error) {
+                    onUserRegistrationReject(error);
+                });
+            }
         };
     };
 
-    registrationController.$inject = ['$scope'];
+    registrationController.$inject = ['$scope', 'dk.loginService', '$translate'];
 
     return registrationController;
 });
@@ -234,11 +284,8 @@ define('src/src/config/config',[],function () {
     'use strict';
 
     return {
-        dashboard: {
-            limit: 30
-        },
         loginUrl: "https://apmcore.herokuapp.com/user/login",
-        url2: "test url2"
+        baseURL: "https://apmcore.herokuapp.com"
     };
 });
 define('src/src/services/serviceConstant',[],function () {
@@ -301,8 +348,46 @@ define('src/src/apiProxies/userApiProxy',[],function() {
             return deferred.promise;
         };
 
+        self.registerUser = function (userRegistrationData) {
+            var deferred = $q.defer();
+            var url = config.loginUrl + "/v1/users";
+
+            var httpConfig = baseApiProxy.getJSONHttpConfig(url, serviceConstant.httpVerb.PUT, '', userRegistrationData);
+
+            $http(httpConfig)
+                .success(function(data) {
+                    if (isApiResponseInvalid(data)) {
+                        deferred.reject(data);
+                    } else {
+                        deferred.resolve(data);
+                    }
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        };
+
+
         self.logout = function() {
-            
+            var deferred = $q.defer();
+            var formData = "",
+                url = config.loginUrl + "/user/logout";
+
+            var httpConfig = baseApiProxy.getJSONHttpConfig(url, serviceConstant.httpVerb.POST, '', formData);
+
+            $http(httpConfig)
+                .success(function(data) {
+                    if (isApiResponseInvalid(data)) {
+                        deferred.reject(data);
+                    } else {
+                        deferred.resolve(data);
+                    }
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
         };
     };
 
@@ -326,32 +411,41 @@ define('login/authenticationService',[],function() {
         self.validateUser = function(userName, password) {
             var deferred = $q.defer();
 
-            userApiProxy.checkUserLogins(userName, password)
-                .then(function(data) {
-                    if (!_.isEmpty(data)) {
-                        if (data.username === userName) {
-                            var loginData = {
-                                user: data.username,
-                                userRole: data.authorities
-                            };
+            var loginData = {
+                user: userName,
+                userRole: ["Contributor"]
+            };
+            createUserSession(loginData);
+            deferred.resolve({
+                isValidUser: true
+            });
 
-                            delete data.password;
+            //userApiProxy.checkUserLogins(userName, password)
+            //    .then(function(data) {
+            //        if (!_.isEmpty(data)) {
+            //            if (data.username === userName) {
+            //                var loginData = {
+            //                    user: data.username,
+            //                    userRole: data.authorities
+            //                };
 
-                            createUserSession(loginData);
+            //                delete data.password;
 
-                            deferred.resolve({
-                                isValidUser: true
-                            });
-                        }
-                    }
-                }, function(error) {
-                    $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-                    deferred.reject({
-                        response: error,
-                        isValidUser: false
-                    });
+            //                createUserSession(loginData);
 
-                });
+            //                deferred.resolve({
+            //                    isValidUser: true
+            //                });
+            //            }
+            //        }
+            //    }, function(error) {
+            //        $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+            //        deferred.reject({
+            //            response: error,
+            //            isValidUser: false
+            //        });
+
+            //    });
             return deferred.promise;
         };
 
@@ -375,9 +469,21 @@ define('login/authenticationService',[],function() {
         };
 
         self.logout = function() {
+            var deferred = $q.defer();
+
+            userApiProxy.logout()
+                .then(function(data) {
+                    if (data === "LOGGED_OUT") {
+                        deferred.resolve();
+                        $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+                    }
+                }, function(error) {
+                    deferred.reject(error);
+                });
+
             Session.destroy();
             $window.sessionStorage.removeItem("userInfo");
-            $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+            return deferred.promise;
         };
     };
 
@@ -423,7 +529,8 @@ define('login/loginConstant',[],function() {
             admin: 'admin',
             editor: 'editor',
             guest: 'guest',
-            contributor: 'Contributor'
+            contributor: 'Contributor',
+            initial: 'initial'
         },
         "AUTH_EVENTS": {
             loginSuccess: 'auth-login-success',
@@ -435,32 +542,35 @@ define('login/loginConstant',[],function() {
         }
     };
 });
-define('route/routes',[],function () {
+define('route/routes',[],function() {
     var routes = function ($stateProvider, $urlRouterProvider, USER_ROLES) {
 
         function resolveControllerDataByRoute(controllerIdentifier) {
             var resolveRouteObject = {
                 translationsLoaded: ['$log', '$q', '$translate', 'translateService',
-                function ($log, $q, $translate, translateService) {
-                    var deferred = $q.defer();
-                    translateService.getCurrent()
-                      .then(function (result) {
-                          // set the language based on the user's preferences
-                          $translate.use(result.language)
-                            .then(function () {
-                                deferred.resolve();
+                    function($log, $q, $translate, translateService) {
+                        var deferred = $q.defer();
+                        translateService.getCurrent()
+                            .then(function(result) {
+                                // set the language based on the user's preferences
+                                $translate.use(result.language)
+                                    .then(function() {
+                                        deferred.resolve();
+                                    });
                             });
-                      });
 
-                    return deferred.promise;
-                }]
+                        return deferred.promise;
+                    }
+                ]
             };
 
             switch (controllerIdentifier) {
-                case "home":
-                    return resolveRouteObject;
-                default:
-                    return resolveRouteObject;
+            case "home":
+                return resolveRouteObject;
+            case "registration":
+                return resolveRouteObject;
+            default:
+                return resolveRouteObject;
             }
         }
 
@@ -471,23 +581,34 @@ define('route/routes',[],function () {
                 url: "/login",
                 templateUrl: "login.html",
                 controller: 'loginController',
-                resolve: resolveControllerDataByRoute("login")
+                resolve: resolveControllerDataByRoute("login"),
+                data: {
+                    authorizedRoles: [USER_ROLES.initial]
+                }
             })
             .state('registration', {
                 url: "/registration",
                 templateUrl: "registration.html",
-                controller: 'registrationController'
+                controller: 'registrationController',
+                resolve: resolveControllerDataByRoute("registration"),
+                data: {
+                    authorizedRoles: [USER_ROLES.initial]
+                }
             })
             .state('forgotpassword', {
                 url: "/forgotpassword",
                 templateUrl: "forgotpassword.html",
-                controller: 'forgotPasswordController'
+                controller: 'forgotPasswordController',
+                data: {
+                    authorizedRoles: [USER_ROLES.initial]
+                }
             })
             .state('home', {
                 url: "/home",
                 templateUrl: "home.html",
                 data: {
-                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor]
+                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
+                    displayName: "Home"
                 },
                 resolve: resolveControllerDataByRoute("home")
             })
@@ -539,7 +660,28 @@ define('src/src/services/translateService',[], function() {
     return translateService;
 
 });
-define('app',['require','angular','login/session','login/authIntercepter','login/loginController','login/parentController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','login/authenticationService','login/formAutofillFixDirective','login/loginConstant','route/routes','src/src/services/translateService'],function(require) {
+define('login/loginService',[],function () {
+    'user strict';
+    var loginService = function ($q, userApiProxy) {
+        var self = this;
+
+        self.registerUser = function(userData) {
+            var deferred = $q.defer();
+
+            userApiProxy.registerUser(userData).then(function(data) {
+                if (!_.isEmpty(data)) {
+                    deferred.resolve(data);
+                }
+            }, function (error) {
+                deferred.reject(error);
+            });
+        };
+    };
+
+    loginService.$inject = ['$q', 'dk.userApiProxy'];
+    return loginService;
+});
+define('app',['require','angular','login/session','login/authIntercepter','login/loginController','login/parentController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','login/authenticationService','login/formAutofillFixDirective','login/loginConstant','route/routes','src/src/services/translateService','login/loginService','topNav/topNavModule'],function(require) {
 
     'use strict';
 
@@ -561,8 +703,18 @@ define('app',['require','angular','login/session','login/authIntercepter','login
     var loginConstant = require('login/loginConstant');
     var routes = require('route/routes');
     var translateService = require('src/src/services/translateService');
+    var loginService = require('login/loginService');
 
-    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap', 'cgBusy', 'pascalprecht.translate']);
+    require("topNav/topNavModule");
+
+    var app = angular.module('myApp', ['dk.topNav',
+        'ui.router',
+        'ngIdle',
+        'ui.bootstrap',
+        'cgBusy',
+        'pascalprecht.translate',
+        'angularUtils.directives.uiBreadcrumbs'
+    ]);
 
     app.config(function ($httpProvider) {
         $httpProvider.defaults.headers.common = {};
@@ -600,6 +752,7 @@ define('app',['require','angular','login/session','login/authIntercepter','login
         .controller('forgotPasswordController', forgotPasswordController)
         .service('dk.validatorService', validatorService)
         .service('Auth', authenticationService)
+        .service('dk.loginService', loginService)
         .service('dk.baseApiProxy', baseApiProxy)
         .service('dk.userApiProxy', userApiProxy)
         .service('Session', session)
@@ -622,21 +775,22 @@ define('app',['require','angular','login/session','login/authIntercepter','login
             //before each state change, check if the user is logged in
             //and authorized to move onto the next state
             //console.log($state);
-            $rootScope.$on('$stateChangeStart', function (event, next) {
-                var authorizedRoles = next.data.authorizedRoles;
-                if (!Auth.isAuthorized(authorizedRoles)) {
-                    event.preventDefault();
-                    if (Auth.isAuthenticated()) {
-                        // user is not allowed
-                        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-                        //console.log('AUTH_EVENTS.notAuthorized');
-                    } else {
-                        // user is not logged in
-                        $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-                        //console.log('AUTH_EVENTS.notAuthenticated');
-                    }
-                }
-            });
+            //$rootScope.$on('$stateChangeStart', function (event, next) {
+                //var authorizedRoles = next.data.authorizedRoles;
+
+                //if (authorizedRoles[0] === "initial") {
+                //    return;
+                //}
+                
+                //if (!Auth.isAuthorized(authorizedRoles)) {
+                //    event.preventDefault();
+                //    if (Auth.isAuthenticated()) {
+                //        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                //    } else {
+                //        $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+                //    }
+                //}
+            //});
 
             /* To show current active state on menu */
             $rootScope.getClass = function(path) {

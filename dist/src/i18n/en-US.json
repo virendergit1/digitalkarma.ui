@@ -3,6 +3,28 @@
     "badPassword": "Invalid username or password",
     "notFound": "Not a registerd user. Please Register.",
     "notProvided": "Not provided",
-    "error": "Error while user authentication"
+    "error": "Error while user authentication",
+    "userRegistrationSuccess": "Thank you for signing up. Please check your EMail to complete Sign-up process.",
+    "userRegistrationError": "Thank you for signing up. Please check your EMail to complete Sign-up process."
+  },
+  "userRole": [
+    {
+      "roleId": 1,
+      "roleName": "Admin",
+      "description": "This is admin role"
+    },
+    {
+      "roleId": 2,
+      "roleName": "Contributer",
+      "description": "This is contributer role"
+    },
+    {
+      "roleId": 3,
+      "roleName": "Guest",
+      "description": "This is guest role"
+    }
+  ],
+  "breadcrumb": {
+    "home": "Home"
   }
 }

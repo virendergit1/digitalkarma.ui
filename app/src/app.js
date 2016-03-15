@@ -20,8 +20,18 @@
     var loginConstant = require('login/loginConstant');
     var routes = require('route/routes');
     var translateService = require('src/src/services/translateService');
+    var loginService = require('login/loginService');
 
-    var app = angular.module('myApp', ['ui.router', 'ngIdle', 'ui.bootstrap', 'cgBusy', 'pascalprecht.translate']);
+    require("topNav/topNavModule");
+
+    var app = angular.module('myApp', ['dk.topNav',
+        'ui.router',
+        'ngIdle',
+        'ui.bootstrap',
+        'cgBusy',
+        'pascalprecht.translate',
+        'angularUtils.directives.uiBreadcrumbs'
+    ]);
 
     app.config(function ($httpProvider) {
         $httpProvider.defaults.headers.common = {};
@@ -59,6 +69,7 @@
         .controller('forgotPasswordController', forgotPasswordController)
         .service('dk.validatorService', validatorService)
         .service('Auth', authenticationService)
+        .service('dk.loginService', loginService)
         .service('dk.baseApiProxy', baseApiProxy)
         .service('dk.userApiProxy', userApiProxy)
         .service('Session', session)
@@ -81,21 +92,22 @@
             //before each state change, check if the user is logged in
             //and authorized to move onto the next state
             //console.log($state);
-            $rootScope.$on('$stateChangeStart', function (event, next) {
-                var authorizedRoles = next.data.authorizedRoles;
-                if (!Auth.isAuthorized(authorizedRoles)) {
-                    event.preventDefault();
-                    if (Auth.isAuthenticated()) {
-                        // user is not allowed
-                        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-                        //console.log('AUTH_EVENTS.notAuthorized');
-                    } else {
-                        // user is not logged in
-                        $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-                        //console.log('AUTH_EVENTS.notAuthenticated');
-                    }
-                }
-            });
+            //$rootScope.$on('$stateChangeStart', function (event, next) {
+                //var authorizedRoles = next.data.authorizedRoles;
+
+                //if (authorizedRoles[0] === "initial") {
+                //    return;
+                //}
+                
+                //if (!Auth.isAuthorized(authorizedRoles)) {
+                //    event.preventDefault();
+                //    if (Auth.isAuthenticated()) {
+                //        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                //    } else {
+                //        $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+                //    }
+                //}
+            //});
 
             /* To show current active state on menu */
             $rootScope.getClass = function(path) {

@@ -5,7 +5,8 @@
             admin: 'admin',
             editor: 'editor',
             guest: 'guest',
-            contributor: 'Contributor'
+            contributor: 'Contributor',
+            initial: 'initial'
         },
         "AUTH_EVENTS": {
             loginSuccess: 'auth-login-success',

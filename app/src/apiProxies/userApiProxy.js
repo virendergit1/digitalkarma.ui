@@ -27,8 +27,46 @@
             return deferred.promise;
         };
 
+        self.registerUser = function (userRegistrationData) {
+            var deferred = $q.defer();
+            var url = config.loginUrl + "/v1/users";
+
+            var httpConfig = baseApiProxy.getJSONHttpConfig(url, serviceConstant.httpVerb.PUT, '', userRegistrationData);
+
+            $http(httpConfig)
+                .success(function(data) {
+                    if (isApiResponseInvalid(data)) {
+                        deferred.reject(data);
+                    } else {
+                        deferred.resolve(data);
+                    }
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        };
+
+
         self.logout = function() {
-            
+            var deferred = $q.defer();
+            var formData = "",
+                url = config.loginUrl + "/user/logout";
+
+            var httpConfig = baseApiProxy.getJSONHttpConfig(url, serviceConstant.httpVerb.POST, '', formData);
+
+            $http(httpConfig)
+                .success(function(data) {
+                    if (isApiResponseInvalid(data)) {
+                        deferred.reject(data);
+                    } else {
+                        deferred.resolve(data);
+                    }
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
         };
     };
 
