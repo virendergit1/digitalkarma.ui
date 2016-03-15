@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="app\src\assets\img\" />
+    <Folder Include="app\src\organizationData\" />
     <Folder Include="app\src\temlapteTester\" />
     <Folder Include="app\tests\lib\" />
     <Folder Include="app\tests\unit\chartTester\" />
@@ -58,12 +59,14 @@
     <Content Include="app\src\login\parentController.js" />
     <Content Include="app\src\login\registrationController.js" />
     <Content Include="app\src\login\session.js" />
+    <Content Include="app\src\pages\dashboard.html" />
     <Content Include="app\src\pages\forgotpassword.html" />
     <Content Include="app\src\pages\login.html" />
     <Content Include="app\src\login\loginController.js" />
     <Content Include="app\src\login\authenticationService.js" />
     <Content Include="app\src\pages\home.html" />
     <Content Include="app\src\pages\index.html" />
+    <Content Include="app\src\pages\organizationData.html" />
     <Content Include="app\src\pages\registration.html" />
     <Content Include="app\src\pages\testerPage.html" />
     <Content Include="app\src\pages\uiBreadcrumbs.tpl.html" />

@@ -68,6 +68,24 @@
                 },
                 resolve: resolveControllerDataByRoute("home")
             })
+            .state('dashboard', {
+                url: "/dashboard",
+                templateUrl: "dashboard.html",
+                data: {
+                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
+                    displayName: "dashboard"
+                },
+                resolve: resolveControllerDataByRoute("dashboard")
+            })
+            .state('organization', {
+                url: "/organization",
+                templateUrl: "organizationData.html",
+                data: {
+                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
+                    displayName: "organization"
+                },
+                resolve: resolveControllerDataByRoute("organization")
+            })
             .state('tester', {
                 url: "/tester",
                 templateUrl: "testerPage.html",

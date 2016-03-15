@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/15 03:02:36 UTC
+ * digitalkarma - 2016/03/15 03:54:15 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -168,7 +168,6 @@ define('login/parentController',[],function() {
         });
 
         $scope.$on('$viewContentLoaded', function() {
-            console.log("content loaded");
             $timeout(function() {
                 $(function() {
                     //$('#side-menu').metisMenu();
@@ -654,6 +653,24 @@ define('route/routes',[],function() {
                     displayName: "Home"
                 },
                 resolve: resolveControllerDataByRoute("home")
+            })
+            .state('dashboard', {
+                url: "/dashboard",
+                templateUrl: "dashboard.html",
+                data: {
+                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
+                    displayName: "dashboard"
+                },
+                resolve: resolveControllerDataByRoute("dashboard")
+            })
+            .state('organization', {
+                url: "/organization",
+                templateUrl: "organizationData.html",
+                data: {
+                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
+                    displayName: "organization"
+                },
+                resolve: resolveControllerDataByRoute("organization")
             })
             .state('tester', {
                 url: "/tester",

@@ -64,7 +64,6 @@
         });
 
         $scope.$on('$viewContentLoaded', function() {
-            console.log("content loaded");
             $timeout(function() {
                 $(function() {
                     //$('#side-menu').metisMenu();

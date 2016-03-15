@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/15 03:02:36 UTC
+ * digitalkarma - 2016/03/15 03:54:15 UTC
 */
 
 require.config({
@@ -77,11 +77,12 @@ require.config({
                 'angularTranslate',
                 'angularTranslateLoaderStaticFiles',
                 'topNav',
-                'angularBreadcrumbs'
+                'angularBreadcrumbs',
+                'metisMenu'
             ]
         },
         'metisMenu': {
-            'metisMenu': 'metisMenu'
+            'metisMenu': { exports:'metisMenu' }
         },
         'lodash': {
             'lodash': 'lodash'

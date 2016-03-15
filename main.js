@@ -74,11 +74,12 @@ require.config({
                 'angularTranslate',
                 'angularTranslateLoaderStaticFiles',
                 'topNav',
-                'angularBreadcrumbs'
+                'angularBreadcrumbs',
+                'metisMenu'
             ]
         },
         'metisMenu': {
-            'metisMenu': 'metisMenu'
+            'metisMenu': { exports:'metisMenu' }
         },
         'lodash': {
             'lodash': 'lodash'
