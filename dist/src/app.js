@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/15 03:54:15 UTC
+ * digitalkarma - 2016/03/17 00:18:22 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -170,7 +170,7 @@ define('login/parentController',[],function() {
         $scope.$on('$viewContentLoaded', function() {
             $timeout(function() {
                 $(function() {
-                    //$('#side-menu').metisMenu();
+                    $('#side-menu').metisMenu();
                 });
 
                 //Loads the correct sidebar on window load,
@@ -665,12 +665,39 @@ define('route/routes',[],function() {
             })
             .state('organization', {
                 url: "/organization",
-                templateUrl: "organizationData.html",
+                templateUrl: "organization.html",
                 data: {
                     authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
                     displayName: "organization"
                 },
                 resolve: resolveControllerDataByRoute("organization")
+            })
+            .state('division', {
+                url: "/division",
+                templateUrl: "division.html",
+                data: {
+                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
+                    displayName: "division"
+                },
+                resolve: resolveControllerDataByRoute("organization")
+            })
+            .state('capabilities', {
+                url: "/capabilities",
+                templateUrl: "capabilities.html",
+                data: {
+                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
+                    displayName: "capabilities"
+                },
+                resolve: resolveControllerDataByRoute("application")
+            })
+            .state('application', {
+                url: "/application",
+                templateUrl: "application.html",
+                data: {
+                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
+                    displayName: "application"
+                },
+                resolve: resolveControllerDataByRoute("application")
             })
             .state('tester', {
                 url: "/tester",

@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/15 03:54:15 UTC
+ * digitalkarma - 2016/03/17 00:18:22 UTC
 */
 
 require.config({
@@ -82,6 +82,7 @@ require.config({
             ]
         },
         'metisMenu': {
+            deps: ['jquery'],
             'metisMenu': { exports:'metisMenu' }
         },
         'lodash': {

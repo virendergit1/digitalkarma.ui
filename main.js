@@ -79,6 +79,7 @@ require.config({
             ]
         },
         'metisMenu': {
+            deps: ['jquery'],
             'metisMenu': { exports:'metisMenu' }
         },
         'lodash': {
