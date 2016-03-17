@@ -26,5 +26,26 @@
   ],
   "breadcrumb": {
     "home": "Home"
+  },
+  "organization": "organization",
+  "welcome": "Welcome",
+  "setupYourOrganization": "Set your organization",
+  "orgSetupMessage": "Your account has been setup. As a next step, may start setting up your organization and other related information.",
+  "setupNewOrg": "Setup a new Organization",
+  "associateWithExistingOrg": "Associate with an existing organization",
+  "orgSetUpFieldLabel": {
+    "mandatoryFiels": "Mandatory fields",
+    "name": "Name",
+    "acronym": "Acronym",
+    "description": "Description",
+    "streetAddress": "Street Address",
+    "country": "Country",
+    "state": "State",
+    "city": "City",
+    "phone": "Phone",
+    "email": "Email",
+    "website": "Website",
+    "saveAndContinue": "Save & Continue",
+    "saveAndExit": "Save & Exit"
   }
 }

@@ -7,11 +7,61 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Organization Data</h1>
+                    <!--<h1 class="page-header">{{'organization' | translate}}</h1>-->
+                    <h3 class="page-header">
+                        {{'welcome' | translate}} Virender Choudhary
+                        <br/><small>{{'orgSetupMessage' | translate}}</small>
+                    </h3>
+
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Organization Setup
+                        </div>
+                        <div class="panel-body">
+                            <p>*{{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p>
+                            <div class="row">
+                                <form role="form">
+                                    <div class="col-lg-6">
+                                        <div class="form-group" ng-class="{'has-error': form.firstName.$error.required && (submitted)}">
+                                            <label>{{'orgSetUpFieldLabel.name'|translate}}</label>
+                                            <input class="form-control"
+                                                   placeholder="Enter Organization Name"
+                                                   name="organizationName"
+                                                   type="text"
+                                                   ng-model="org.name"
+                                                   ng-required="true"
+                                                   ng-minlength="2"/>
+                                            <p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>
+                                            <label class="help-block has-error" ng-if="form.organizationName.$error.required && (submitted)">Organization Name is required</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group" ng-class="{'has-error': form.firstName.$error.required && (submitted)}">
+                                            <label>{{'orgSetUpFieldLabel.acronym'|translate}}</label>
+                                            <input class="form-control"
+                                                   placeholder="Acronym"
+                                                   name="acronym"
+                                                   type="text"
+                                                   ng-model="org.acronym"
+                                                   ng-required="true"
+                                                   ng-minlength="2"/>
+                                            <p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>
+                                            <label class="help-block has-error" ng-if="form.acronym.$error.required && (submitted)">Acronym is required</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- /.container-fluid -->
     </div>
