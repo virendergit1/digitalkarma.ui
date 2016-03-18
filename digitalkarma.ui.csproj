@@ -78,7 +78,6 @@
     <Content Include="app\src\services\serviceConstant.js" />
     <Content Include="app\src\services\translateService.js" />
     <Content Include="app\src\services\validatorService.js" />
-    <Content Include="app\src\theme.js" />
     <Content Include="app\src\topNav\topNavTemplate.html" />
     <Content Include="app\src\topNav\topNavController.js" />
     <Content Include="app\src\topNav\topNavDirective.js" />
