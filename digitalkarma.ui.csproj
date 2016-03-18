@@ -62,7 +62,7 @@
     <Content Include="app\src\pages\application.html" />
     <Content Include="app\src\pages\capabilities.html" />
     <Content Include="app\src\pages\dashboard.html" />
-    <Content Include="app\src\pages\division.html" />
+    <Content Include="app\src\pages\technologies.html" />
     <Content Include="app\src\pages\forgotpassword.html" />
     <Content Include="app\src\pages\login.html" />
     <Content Include="app\src\login\loginController.js" />
@@ -73,6 +73,7 @@
     <Content Include="app\src\pages\registration.html" />
     <Content Include="app\src\pages\testerPage.html" />
     <Content Include="app\src\pages\uiBreadcrumbs.tpl.html" />
+    <Content Include="app\src\pages\vendors.html" />
     <Content Include="app\src\routes.js" />
     <Content Include="app\src\services\serviceConstant.js" />
     <Content Include="app\src\services\translateService.js" />

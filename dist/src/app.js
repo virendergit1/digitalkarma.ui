@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/18 00:42:28 UTC
+ * digitalkarma - 2016/03/18 01:07:38 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -672,32 +672,41 @@ define('route/routes',[],function() {
                 },
                 resolve: resolveControllerDataByRoute("organization")
             })
-            .state('division', {
-                url: "/division",
-                templateUrl: "division.html",
-                data: {
-                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
-                    displayName: "division"
-                },
-                resolve: resolveControllerDataByRoute("organization")
-            })
             .state('capabilities', {
                 url: "/capabilities",
                 templateUrl: "capabilities.html",
                 data: {
                     authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
-                    displayName: "capabilities"
+                    displayName: "Capabilities"
                 },
-                resolve: resolveControllerDataByRoute("application")
+                resolve: resolveControllerDataByRoute("capabilities")
             })
             .state('application', {
                 url: "/application",
                 templateUrl: "application.html",
                 data: {
                     authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
-                    displayName: "application"
+                    displayName: "Application"
                 },
                 resolve: resolveControllerDataByRoute("application")
+            })
+            .state('technologies', {
+                url: "/technologies",
+                templateUrl: "technologies.html",
+                data: {
+                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
+                    displayName: "technologies"
+                },
+                resolve: resolveControllerDataByRoute("technologies")
+            })
+            .state('vendors', {
+                url: "/vendors",
+                templateUrl: "vendors.html",
+                data: {
+                    authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor, USER_ROLES.guest, USER_ROLES.contributor],
+                    displayName: "vendors"
+                },
+                resolve: resolveControllerDataByRoute("vendors")
             })
             .state('tester', {
                 url: "/tester",
