@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/21 15:28:11 UTC
+ * digitalkarma - 2016/03/21 23:52:38 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -777,7 +777,7 @@ define('login/loginService',[],function () {
     loginService.$inject = ['$q', 'dk.userApiProxy'];
     return loginService;
 });
-define('app',['require','angular','login/session','login/authIntercepter','login/loginController','login/parentController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','login/authenticationService','login/formAutofillFixDirective','login/loginConstant','route/routes','src/src/services/translateService','login/loginService','topNav/topNavModule'],function(require) {
+define('app',['require','angular','login/session','login/authIntercepter','login/loginController','login/parentController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','login/authenticationService','login/formAutofillFixDirective','login/loginConstant','route/routes','src/src/services/translateService','login/loginService','topNav/topNavModule','organization/organizationModule'],function(require) {
 
     'use strict';
 
@@ -802,6 +802,7 @@ define('app',['require','angular','login/session','login/authIntercepter','login
     var loginService = require('login/loginService');
 
     require("topNav/topNavModule");
+    require("organization/organizationModule");
 
     var app = angular.module('myApp', ['dk.topNav',
         'ui.router',
@@ -809,7 +810,8 @@ define('app',['require','angular','login/session','login/authIntercepter','login
         'ui.bootstrap',
         'cgBusy',
         'pascalprecht.translate',
-        'angularUtils.directives.uiBreadcrumbs'
+        'angularUtils.directives.uiBreadcrumbs',
+        'my.organizationModule'
     ]);
 
     app.config(function ($httpProvider) {

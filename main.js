@@ -22,7 +22,8 @@ require.config({
         angularTranslate: '../bower_components/angular-translate/angular-translate.min',
         angularTranslateLoaderStaticFiles: '../bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min',
         topNav: '../src/topNav/topNavModule',
-        angularBreadcrumbs: '../bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs'
+        angularBreadcrumbs: '../bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs',
+        organization: '../src/organization/organizationModule'
     },
     shim: {
         'jquery': {
@@ -75,7 +76,8 @@ require.config({
                 'angularTranslateLoaderStaticFiles',
                 'topNav',
                 'angularBreadcrumbs',
-                'metisMenu'
+                'metisMenu',
+                'organization'
             ]
         },
         'metisMenu': {
@@ -111,6 +113,10 @@ require.config({
         'angularBreadcrumbs': {
             deps: ['angular'],
             'angularBreadcrumbs': { exports: 'angularBreadcrumbs' }
+        },
+        'organization': {
+            deps: ['angular'],
+            'organization': { exports: 'organization' }
         }
     },
     priority: [

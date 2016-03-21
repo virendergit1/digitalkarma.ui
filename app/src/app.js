@@ -23,6 +23,7 @@
     var loginService = require('login/loginService');
 
     require("topNav/topNavModule");
+    require("organization/organizationModule");
 
     var app = angular.module('myApp', ['dk.topNav',
         'ui.router',
@@ -30,7 +31,8 @@
         'ui.bootstrap',
         'cgBusy',
         'pascalprecht.translate',
-        'angularUtils.directives.uiBreadcrumbs'
+        'angularUtils.directives.uiBreadcrumbs',
+        'my.organizationModule'
     ]);
 
     app.config(function ($httpProvider) {
