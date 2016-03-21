@@ -31,7 +31,7 @@
 </head>
 <body>
 
-    <script type="text/ng-template" id="warning-dialog.html">
+<script type="text/ng-template" id="warning-dialog.html">
         <div class="modal-header">
             <h3>You're Idle. Do Something!</h3>
         </div>
@@ -39,6 +39,7 @@
             <progressbar max="5" value="5" animate="false" class="progress-striped active">You'll be logged out in {{countdown}} second(s).</progressbar>
         </div>
     </script>
+
 <script type="text/ng-template" id="timedout-dialog.html">
         <div class="modal-header">
             <h3>You've Timed Out!</h3>
@@ -50,10 +51,11 @@
         </div>
     </script>
 
-    <div id="wrapper" ng-controller="ParentController">
-        <div ui-view></div>
-    </div>
-    <div custom-theme></div>
+<div ng-controller="ParentController" id="wrapper">
+    <div ui-view></div>
+</div>
+
+<div custom-theme></div>
 
 </body>
 
