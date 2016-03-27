@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/21 23:52:38 UTC
+ * digitalkarma - 2016/03/27 23:00:33 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -811,7 +811,8 @@ define('app',['require','angular','login/session','login/authIntercepter','login
         'cgBusy',
         'pascalprecht.translate',
         'angularUtils.directives.uiBreadcrumbs',
-        'my.organizationModule'
+        'my.organizationModule',
+        'treeControl'
     ]);
 
     app.config(function ($httpProvider) {

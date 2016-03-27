@@ -23,7 +23,8 @@ require.config({
         angularTranslateLoaderStaticFiles: '../bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min',
         topNav: '../src/topNav/topNavModule',
         angularBreadcrumbs: '../bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs',
-        organization: '../src/organization/organizationModule'
+        organization: '../src/organization/organizationModule',
+        angularTreeControl: '../bower_components/angular-tree-control/angular-tree-control'
     },
     shim: {
         'jquery': {
@@ -77,7 +78,8 @@ require.config({
                 'topNav',
                 'angularBreadcrumbs',
                 'metisMenu',
-                'organization'
+                'organization',
+                'angularTreeControl'
             ]
         },
         'metisMenu': {
@@ -117,6 +119,10 @@ require.config({
         'organization': {
             deps: ['angular'],
             'organization': { exports: 'organization' }
+        },
+        'angularTreeControl': {
+            deps: ['angular'],
+            'angularTreeControl': { exports: 'angularTreeControl' }
         }
     },
     priority: [

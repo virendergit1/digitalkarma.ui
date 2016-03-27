@@ -5,8 +5,117 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Capabilities</h1>
+            <h3 class="page-header">
+                {{orgnizationName}}
+            </h3>
         </div>
-        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Organization Capability Setup</h3>
+                    <p class="text-info">
+                        As a best practice there should be 3 levels of hierarchies for capabilities. Below forms allows to setup all the levels of capabilities.
+                        You can also review your Capability Architecture in the section below.
+                    </p>
+                    <p>* {{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Parent Capability for {{orgnizationName}}
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <form role="form" name="form">
+                                        <div class="form-group" ng-class="{'has-error': form.capabilityName.$error.required && (submitted)}">
+                                            <label>Name *</label>
+                                            <input class="form-control"
+                                                   placeholder="Capability Name"
+                                                   name="capabilityName"
+                                                   type="text"
+                                                   ng-model="capability.name"
+                                                   ng-required="true"
+                                                   ng-minlength="2"/>
+                                            <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
+                                            <label class="help-block has-error" ng-if="form.capabilityName.$error.required && (submitted)">Capability Name is required</label>
+                                        </div>
+
+                                        <div class="form-group" ng-class="{'has-error': form.capabilityDescription.$error.required && (submitted)}">
+                                            <label>Description *</label>
+                                            <textarea class="form-control"
+                                                      rows="3"
+                                                      placeholder="Description"
+                                                      name="capabilityDescription"
+                                                      ng-model="capability.description"
+                                                      ng-required="true"
+                                                      ng-minlength="2"></textarea>
+                                            <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
+                                            <label class="help-block has-error" ng-if="form.capabilityDescription.$error.required && (submitted)">Capability Description is required</label>
+                                        </div>
+
+                                        <div class="form-group" ng-class="{'has-error': form.capabilityLevel.$error.required && (submitted)}">
+                                            <label>Capability level *</label>
+                                            <select class="form-control" ng-model="capability.level" name="capabilityLevel" ng-required="true">
+                                                <option>Level 1</option>
+                                                <option>Level 2</option>
+                                                <option>Level 3</option>
+                                            </select>
+                                            <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
+                                            <label class="help-block has-error" ng-if="form.capabilityLevel.$error.required && (submitted)">Capability Level is required</label>
+                                        </div>
+
+                                        <div class="form-group" ng-disabled="capability.level=='Level 1'">
+                                            <label>Select Parent Capability</label>
+                                            <treecontrol class="tree-light"
+                                                         tree-model="treedata"
+                                                         node-children="children"
+                                                         on-selection="showSelected(node)"
+                                                         ng-disabled="capability.level=='Level 1'"
+                                                         expanded-nodes="expandedNodes">
+                                                {{node.label}}
+                                            </treecontrol>
+                                            <!--<label class="help-block has-error" ng-if="form.capabilityLevel.$error.required && (submitted)">Capability Name is required</label>-->
+                                        </div>
+
+                                        <div class="form-group" ng-class="{'has-error': form.capabilityState.$error.required && (submitted)}">
+                                            <label>State *</label>
+                                            <select class="form-control" ng-model="capability.state" name="capabilityState" ng-required="true">
+                                                <option>Exists</option>
+                                                <option>Gap</option>
+                                                <option>Planned</option>
+                                            </select>
+                                            <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
+                                            <label class="help-block has-error" ng-if="form.capabilityState.$error.required && (submitted)">Capability Gap is required</label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- .panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Add child Capability - {{selected}}
+                                </div>
+                                <div class="panel-body">
+                                    <div id="space-for-buttons">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="col-lg-6">
+                        <a class="btn btn-success" ng-click="saveAndMore(form, capability)" addbuttons>Add</a>&nbsp;&nbsp;&nbsp;
+                        <a class="btn btn-success" ng-click="saveAndContinue()">Save & Continue</a>&nbsp;&nbsp;&nbsp;
+                        <a class="btn btn-default">Save & Exit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

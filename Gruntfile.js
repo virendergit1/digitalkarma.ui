@@ -52,6 +52,7 @@ module.exports = function(grunt) {
             topNavJs: ['<%= pkg.sourceDir %>/src/topNav/*.js'],
             organizationJs: ['<%= pkg.sourceDir %>/src/organization/**/*.js'],
             libsJs: ['<%= pkg.sourceDir %>/src/libs/*.js'],
+            componentsJs: ['<%= pkg.sourceDir %>/src/components/**/*.js'],
             loginJs: ['<%= pkg.sourceDir %>/src/login/*.js'],
             cssDirectory: '<%= pkg.sourceDir %>/src/assets/css/*.css',
             lessMain: ['<%= pkg.sourceDir %>/src/less/app-common.less'],
@@ -291,6 +292,16 @@ module.exports = function(grunt) {
                     }
                 ]
             },
+            componentsJs: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= src.componentsJs %>'],
+                        dest: '<%= distMainDirectory %>/components'
+                    }
+                ]
+            },
             i18n: {
                 files: [
                     {
@@ -393,6 +404,7 @@ module.exports = function(grunt) {
                         'capabilities': './dist/src/src/organization',
                         'technologies': './dist/src/src/organization',
                         'vendors': './dist/src/src/organization',
+                        'components': './dist/src/src/organization',
                         'angular': 'empty:'
                     }
                 }
@@ -580,6 +592,7 @@ module.exports = function(grunt) {
         'copy:appCss',
         'copy:htmlPages',
         'copy:libsJs',
+        'copy:componentsJs',
         'copy:i18n',
         'copy:topNavJs',
         'copy:organizationJs',

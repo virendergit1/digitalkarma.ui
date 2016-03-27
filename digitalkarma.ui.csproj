@@ -31,9 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="app\src\assets\img\" />
+    <Folder Include="app\src\components\" />
     <Folder Include="app\src\temlapteTester\" />
     <Folder Include="app\tests\lib\" />
     <Folder Include="app\tests\unit\chartTester\" />
+    <Folder Include="dist\src\components\" />
     <Folder Include="dist\src\pages\" />
     <Folder Include="Properties\" />
   </ItemGroup>
@@ -130,6 +132,32 @@
     <Content Include="dist\bower_components\angular-translate-loader-partial\angular-translate-loader-partial.min.js" />
     <Content Include="dist\bower_components\angular-translate\angular-translate.js" />
     <Content Include="dist\bower_components\angular-translate\angular-translate.min.js" />
+    <Content Include="dist\bower_components\angular-tree-control\.gitignore" />
+    <Content Include="dist\bower_components\angular-tree-control\angular-tree-control.js" />
+    <Content Include="dist\bower_components\angular-tree-control\css\tree-control-attribute.css" />
+    <Content Include="dist\bower_components\angular-tree-control\css\tree-control.css" />
+    <Content Include="dist\bower_components\angular-tree-control\demo\angular-mocks.1.2.29.js" />
+    <Content Include="dist\bower_components\angular-tree-control\demo\angular-mocks.1.3.12.js" />
+    <Content Include="dist\bower_components\angular-tree-control\demo\angular.1.2.29.js" />
+    <Content Include="dist\bower_components\angular-tree-control\demo\angular.1.3.12.js" />
+    <Content Include="dist\bower_components\angular-tree-control\demo\bootstrap.3.1.1.css" />
+    <Content Include="dist\bower_components\angular-tree-control\demo\bootstrap.3.1.1.js" />
+    <Content Include="dist\bower_components\angular-tree-control\demo\jquery.2.0.3.js" />
+    <Content Include="dist\bower_components\angular-tree-control\demo\prettify-style.css" />
+    <Content Include="dist\bower_components\angular-tree-control\demo\prettify.1.0.1.js" />
+    <Content Include="dist\bower_components\angular-tree-control\demo\ui-bootstrap-tpls.0.11.2.js" />
+    <Content Include="dist\bower_components\angular-tree-control\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="dist\bower_components\angular-tree-control\images\file.png" />
+    <Content Include="dist\bower_components\angular-tree-control\images\folder-closed.png" />
+    <Content Include="dist\bower_components\angular-tree-control\images\folder.png" />
+    <Content Include="dist\bower_components\angular-tree-control\images\node-closed-2.png" />
+    <Content Include="dist\bower_components\angular-tree-control\images\node-closed-light.png" />
+    <Content Include="dist\bower_components\angular-tree-control\images\node-closed.png" />
+    <Content Include="dist\bower_components\angular-tree-control\images\node-opened-2.png" />
+    <Content Include="dist\bower_components\angular-tree-control\images\node-opened-light.png" />
+    <Content Include="dist\bower_components\angular-tree-control\images\node-opened.png" />
+    <Content Include="dist\bower_components\angular-tree-control\images\sample.png" />
+    <Content Include="dist\bower_components\angular-tree-control\index.html" />
     <Content Include="dist\bower_components\angular-ui-router\release\angular-ui-router.js" />
     <Content Include="dist\bower_components\angular-ui-router\release\angular-ui-router.min.js" />
     <Content Include="dist\bower_components\angular-ui-router\src\common.js" />
@@ -850,6 +878,7 @@
     <None Include="app\src\less\app-common-mixins.less" />
     <None Include="app\src\less\app-common.less" />
     <None Include="app\src\less\app-common-variables.less" />
+    <None Include="app\src\organization\i18n\en-US.json" />
     <None Include="bower.json" />
     <None Include="dist\bower_components\almond\.bower.json" />
     <None Include="dist\bower_components\almond\.npmignore" />
@@ -885,6 +914,14 @@
     <None Include="dist\bower_components\angular-translate\.bower.json" />
     <None Include="dist\bower_components\angular-translate\bower.json" />
     <None Include="dist\bower_components\angular-translate\README.md" />
+    <None Include="dist\bower_components\angular-tree-control\.bower.json" />
+    <None Include="dist\bower_components\angular-tree-control\.travis.yml" />
+    <None Include="dist\bower_components\angular-tree-control\bower.json" />
+    <None Include="dist\bower_components\angular-tree-control\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="dist\bower_components\angular-tree-control\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="dist\bower_components\angular-tree-control\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="dist\bower_components\angular-tree-control\LICENSE" />
+    <None Include="dist\bower_components\angular-tree-control\README.md" />
     <None Include="dist\bower_components\angular-ui-router\.bower.json" />
     <None Include="dist\bower_components\angular-ui-router\bower.json" />
     <None Include="dist\bower_components\angular-ui-router\CHANGELOG.md" />

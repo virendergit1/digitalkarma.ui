@@ -32,7 +32,8 @@
         'cgBusy',
         'pascalprecht.translate',
         'angularUtils.directives.uiBreadcrumbs',
-        'my.organizationModule'
+        'my.organizationModule',
+        'treeControl'
     ]);
 
     app.config(function ($httpProvider) {
