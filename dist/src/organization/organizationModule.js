@@ -13,7 +13,7 @@ angular.module('capabilities.template', ['/app/src/organization/capabilities/cap
 angular.module("/app/src/organization/capabilities/capabilitiesTemplate.html", []).run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("/app/src/organization/capabilities/capabilitiesTemplate.html",
-    "<div><top-nav-directive></top-nav-directive></div><div id=page-wrapper><div class=row><div class=col-lg-12><h3 class=page-header>{{orgnizationName}}</h3></div></div><div class=row><div class=col-lg-12><div class=\"panel panel-default\"><div class=panel-body><h3>Organization Capability Setup</h3><p class=text-info>As a best practice there should be 3 levels of hierarchies for capabilities. Below forms allows to setup all the levels of capabilities. You can also review your Capability Architecture in the section below.</p><p>* {{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p><div class=row><div class=col-lg-6><div class=\"panel panel-default\"><div class=panel-heading>Parent Capability for {{orgnizationName}}</div><div class=panel-body><form role=form name=form><div class=form-group ng-class=\"{'has-error': form.capabilityName.$error.required && (submitted)}\"><label>Name *</label><input class=form-control placeholder=\"Capability Name\" name=capabilityName ng-model=capability.name ng-required=true ng-minlength=\"2\"/><label class=\"help-block has-error\" ng-if=\"form.capabilityName.$error.required && (submitted)\">Capability Name is required</label></div><div class=form-group ng-class=\"{'has-error': form.capabilityDescription.$error.required && (submitted)}\"><label>Description *</label><textarea class=form-control rows=3 placeholder=Description name=capabilityDescription ng-model=capability.description ng-required=true ng-minlength=2></textarea><label class=\"help-block has-error\" ng-if=\"form.capabilityDescription.$error.required && (submitted)\">Capability Description is required</label></div><div class=form-group ng-class=\"{'has-error': form.capabilityLevel.$error.required && (submitted)}\"><label>Capability level *</label><select class=form-control ng-model=capability.level name=capabilityLevel ng-required=true><option>Level 1</option><option>Level 2</option><option>Level 3</option></select><label class=\"help-block has-error\" ng-if=\"form.capabilityLevel.$error.required && (submitted)\">Capability Level is required</label></div><div class=form-group ng-disabled=\"capability.level=='Level 1'\"><label>Select Parent Capability</label><treecontrol class=tree-light tree-model=treedata node-children=children on-selection=showSelected(node) ng-disabled=\"capability.level=='Level 1'\" expanded-nodes=expandedNodes>{{node.label}}</treecontrol></div><div class=form-group ng-class=\"{'has-error': form.capabilityState.$error.required && (submitted)}\"><label>State *</label><select class=form-control ng-model=capability.state name=capabilityState ng-required=true><option>Exists</option><option>Gap</option><option>Planned</option></select><label class=\"help-block has-error\" ng-if=\"form.capabilityState.$error.required && (submitted)\">Capability Gap is required</label></div></form></div></div></div><div class=col-lg-6><div class=\"panel panel-default\"><div class=panel-heading>Add child Capability - {{selected}}</div><div class=panel-body><div id=space-for-buttons></div></div></div></div></div><div class=col-lg-6><a class=\"btn btn-success\" ng-click=\"saveAndMore(form, capability)\" addbuttons>Add</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-success\" ng-click=saveAndContinue()>Save & Continue</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-default\">Save & Exit</a></div></div></div></div></div></div>");
+    "<div><top-nav-directive></top-nav-directive></div><div id=page-wrapper><div class=row><div class=col-lg-12><h3 class=page-header>{{orgnizationName}}</h3></div></div><div class=row><div class=col-lg-12><div class=\"panel panel-default\"><div class=panel-body><h3>Organization Capability Setup</h3><p class=text-info>As a best practice there should be 3 levels of hierarchies for capabilities. Below forms allows to setup all the levels of capabilities. You can also review your Capability Architecture in the section below.</p><p>* {{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p><div class=row><div class=col-lg-6><div class=\"panel panel-default\"><div class=panel-heading>Parent Capability for {{orgnizationName}}</div><div class=panel-body><form role=form name=frmCapability><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityName.$error.required && (submitted)}\"><label>Name *</label><input class=form-control placeholder=\"Capability Name\" name=capabilityName ng-model=capability.name ng-required=true ng-minlength=\"2\"/><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityName.$error.required && (submitted)\">Capability Name is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityDescription.$error.required && (submitted)}\"><label>Description *</label><textarea class=form-control rows=3 placeholder=Description name=capabilityDescription ng-model=capability.description ng-required=true ng-minlength=2></textarea><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityDescription.$error.required && (submitted)\">Capability Description is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityLevel.$error.required && (submitted)}\"><label>Capability level *</label><select class=form-control ng-model=capability.level name=capabilityLevel ng-required=true><option>Level 1</option><option>Level 2</option><option>Level 3</option></select><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityLevel.$error.required && (submitted)\">Capability Level is required</label></div><div class=form-group ng-disabled=\"capability.level=='Level 1'\"><label>Select Parent Capability</label><treecontrol class=tree-light tree-model=treedata node-children=children on-selection=showSelected(node) ng-disabled=\"capability.level=='Level 1'\" expanded-nodes=expandedNodes>{{node.label}}</treecontrol></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityState.$error.required && (submitted)}\"><label>State *</label><select class=form-control ng-model=capability.state name=capabilityState ng-required=true><option>Exists</option><option>Gap</option><option>Planned</option></select><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityState.$error.required && (submitted)\">Capability Gap is required</label></div></form></div></div></div><div class=col-lg-6><div class=\"panel panel-default\"><div class=panel-heading>Add child Capability - {{selected}}<div class=pull-right><span><i class=\"fa fa-square text-success\"></i> Exists&nbsp;</span> <span><i class=\"fa fa-square text-danger\"></i> Gap&nbsp;</span> <span><i class=\"fa fa-square-o\"></i> Planned</span></div></div><div class=panel-body><div id=spaceforbuttons></div></div></div></div></div>{{frmCapability.$valid}}<div class=col-lg-6><a class=\"btn btn-success\" ng-click=\"saveAndMore(frmCapability, capability)\">Add</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-success\" ng-click=saveAndContinue()>Save & Continue</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-default\">Save & Exit</a></div></div></div></div></div></div>");
 }]);
 
 define("capabilities/capabilitiesTemplate", function(){});
@@ -82,18 +82,58 @@ define('capabilities/capabilitiesController',[],function () {
     var capabilitiesController = function ($scope) {
         $scope.orgnizationName = "Proctor & Gamble Company (P&G)";
 
-        $scope.capabilityName = "";
-
         $scope.treedata = [];
+
+        var addElement = function (panelType, name, capabilityId) {
+            var parentElement = angular.element(document.querySelector('#spaceforbuttons'));
+            var element = '<div class="col-lg-3 col-md-6">' +
+                panelType +
+                '<div class="panel-heading">' +
+                '<div class="row">' +
+                '<div class="col-xs-3">' +
+                '</div>' +
+                '<div class="col-xs-9 text-right">' +
+                '<div>' + name + '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<a href="#">' +
+                '<div class="panel-footer">' +
+                '<span class="pull-left">View Details</span>' +
+                '<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>' +
+                '<div class="clearfix"></div>' +
+                '</div>' +
+                '</a>' +
+                '</div>' +
+                '</div>';
+            parentElement.append(element);
+        };
+
+        var getPanelType = function(state) {
+            if (state === "Exists") {
+                return '<div class="panel panel-green">';
+            }
+
+            if (state === "Gap") {
+                return '<div class="panel panel-danger">';
+            }
+
+            if (state === "Planned") {
+                return '<div class="panel panel-default">';
+            }
+        };
 
         var addRoot = function (rootElement) {
             $scope.treedata.push({ "label": rootElement.text, "id": rootElement.id, "children": [] });
         };
-        var addChild = function (childElement) {
+        var addChild = function (childElement, capability) {
+            var panelType = getPanelType(capability.state);
+            $scope.capabilityid = childElement.id;
             $scope.selectedNode.children.push({ "label": childElement.text, "id": childElement.id, "children": [] });
+            addElement(panelType, childElement.text, childElement.id);
         };
 
-        function guid() {
+       function guid() {
             function s4() {
                 return Math.floor((1 + Math.random()) * 0x10000)
                   .toString(16)
@@ -120,13 +160,11 @@ define('capabilities/capabilitiesController',[],function () {
                 if (capability.level === "Level 1") {
                     addRoot(treeElement);
                 } else {
-                    addChild(treeElement);
+                    addChild(treeElement, capability);
                 }
-                resetForm(form);
             }
         };
-
-
+        
         $scope.saveAndContinue = function() {
             $scope.submitted = true;
         };
@@ -246,52 +284,7 @@ define('vendors/vendorsDirective',[],function () {
     };
     return vendorsDirective;
 });
-define('components/capabilitiesBoxDirective',[],function () {
-    'use strict';
-    var capabilitiesBoxDirective = function ($compile) {
-        //return {
-        //    restrict: 'E',
-        //    scope: {},
-        //    template: '<div class="col-lg-3 col-md-6">' +
-        //                '<div class="panel panel-green">' +
-        //                    '<div class="panel-heading">' +
-        //                        '<div class="row">' +
-        //                            '<div class="col-xs-3">' +
-        //                                '<i class="fa fa-tasks fa-5x"></i>' +
-        //                            '</div>' +
-        //                            '<div class="col-xs-9 text-right">' +
-        //                                '<div class="huge">12</div>' +
-        //                                '<div>New Tasks!</div>' +
-        //                            '</div>' +
-        //                        '</div>' +
-        //                    '</div>' +
-        //                    '<a href="#">' +
-        //                        '<div class="panel-footer">' +
-        //                            '<span class="pull-left">View Details</span>' +
-        //                            '<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>' +
-        //                            '<div class="clearfix"></div>' +
-        //                        '</div>' +
-        //                    '</a>' +
-        //                '</div>' +
-        //            '</div>',
-        //    controller: 'capabilitiesController',
-        //    link: function (scope, element, attrs) {
-        //    }
-        //};
-        return function (scope, element, attrs) {
-            element.bind("click", function () {
-                console.log("hello");
-                angular.element(document.getElementById('capabilityContainer1'))
-                    .append($compile("<div><button class='btn btn-default'>Show alert #</button></div>")(scope));
-            });
-        };
-    };
-    return capabilitiesBoxDirective;
-});
-
-
-
-define('organization/organizationModule',['require','application/applicationTemplate','capabilities/capabilitiesTemplate','organization/organizationTemplate','technologies/technologiesTemplate','vendors/vendorsTemplate','angular','application/applicationController','application/applicationService','application/applicationDirective','capabilities/capabilitiesController','capabilities/capabilitiesService','capabilities/capabilitiesDirective','organization/organizationController','organization/organizationService','organization/organizationDirective','technologies/technologiesController','technologies/technologiesService','technologies/technologiesDirective','vendors/vendorsController','vendors/vendorsService','vendors/vendorsDirective','components/capabilitiesBoxDirective'],function(require) {
+define('organization/organizationModule',['require','application/applicationTemplate','capabilities/capabilitiesTemplate','organization/organizationTemplate','technologies/technologiesTemplate','vendors/vendorsTemplate','angular','application/applicationController','application/applicationService','application/applicationDirective','capabilities/capabilitiesController','capabilities/capabilitiesService','capabilities/capabilitiesDirective','organization/organizationController','organization/organizationService','organization/organizationDirective','technologies/technologiesController','technologies/technologiesService','technologies/technologiesDirective','vendors/vendorsController','vendors/vendorsService','vendors/vendorsDirective'],function(require) {
     'use strict';
 
     require('application/applicationTemplate');
@@ -322,8 +315,6 @@ define('organization/organizationModule',['require','application/applicationTemp
     var vendorsService = require('vendors/vendorsService');
     var vendorsDirective = require('vendors/vendorsDirective');
 
-    var capabilitiesBoxDirective = require('components/capabilitiesBoxDirective');
-
     var organizationModule = angular.module('my.organizationModule',
     [
         'application.template',
@@ -348,40 +339,7 @@ define('organization/organizationModule',['require','application/applicationTemp
         .directive('technologiesDirective', technologiesDirective)
         .controller('vendorsController', vendorsController)
         .service('vendorsService', vendorsService)
-        .directive('vendorsDirective', vendorsDirective)
-        .directive('capabilitiesBoxDirective', capabilitiesBoxDirective);
-
-    //Directive for adding buttons on click that show an alert on click
-    organizationModule.directive("addbuttons", function($compile) {
-        return function(scope, element, attrs) {
-            element.bind("click", function() {
-                scope.count++;
-                angular.element(document.getElementById('space-for-buttons')).append($compile(
-                    '<div class="col-lg-3 col-md-6">' +
-                    '<div class="panel panel-green">' +
-                    '<div class="panel-heading">' +
-                    '<div class="row">' +
-                    '<div class="col-xs-3">' +
-                    '</div>' +
-                    '<div class="col-xs-9 text-right">' +
-                    '<div>New Tasks!</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<a href="#">' +
-                    '<div class="panel-footer">' +
-                    '<span class="pull-left">View Details</span>' +
-                    '<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>' +
-                    '<div class="clearfix"></div>' +
-                    '</div>' +
-                    '</a>' +
-                    '</div>' +
-                    '</div>'
-                )
-                (scope));
-            });
-        };
-    });
+        .directive('vendorsDirective', vendorsDirective);
 
     return organizationModule;
 });

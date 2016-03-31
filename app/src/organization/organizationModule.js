@@ -29,8 +29,6 @@
     var vendorsService = require('vendors/vendorsService');
     var vendorsDirective = require('vendors/vendorsDirective');
 
-    var capabilitiesBoxDirective = require('components/capabilitiesBoxDirective');
-
     var organizationModule = angular.module('my.organizationModule',
     [
         'application.template',
@@ -55,40 +53,7 @@
         .directive('technologiesDirective', technologiesDirective)
         .controller('vendorsController', vendorsController)
         .service('vendorsService', vendorsService)
-        .directive('vendorsDirective', vendorsDirective)
-        .directive('capabilitiesBoxDirective', capabilitiesBoxDirective);
-
-    //Directive for adding buttons on click that show an alert on click
-    organizationModule.directive("addbuttons", function($compile) {
-        return function(scope, element, attrs) {
-            element.bind("click", function() {
-                scope.count++;
-                angular.element(document.getElementById('space-for-buttons')).append($compile(
-                    '<div class="col-lg-3 col-md-6">' +
-                    '<div class="panel panel-green">' +
-                    '<div class="panel-heading">' +
-                    '<div class="row">' +
-                    '<div class="col-xs-3">' +
-                    '</div>' +
-                    '<div class="col-xs-9 text-right">' +
-                    '<div>New Tasks!</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<a href="#">' +
-                    '<div class="panel-footer">' +
-                    '<span class="pull-left">View Details</span>' +
-                    '<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>' +
-                    '<div class="clearfix"></div>' +
-                    '</div>' +
-                    '</a>' +
-                    '</div>' +
-                    '</div>'
-                )
-                (scope));
-            });
-        };
-    });
+        .directive('vendorsDirective', vendorsDirective);
 
     return organizationModule;
 });

@@ -28,8 +28,8 @@
                                 </div>
                                 <!-- /.panel-heading -->
                                 <div class="panel-body">
-                                    <form role="form" name="form">
-                                        <div class="form-group" ng-class="{'has-error': form.capabilityName.$error.required && (submitted)}">
+                                    <form role="form" name="frmCapability">
+                                        <div class="form-group" ng-class="{'has-error': frmCapability.capabilityName.$error.required && (submitted)}">
                                             <label>Name *</label>
                                             <input class="form-control"
                                                    placeholder="Capability Name"
@@ -39,10 +39,10 @@
                                                    ng-required="true"
                                                    ng-minlength="2"/>
                                             <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
-                                            <label class="help-block has-error" ng-if="form.capabilityName.$error.required && (submitted)">Capability Name is required</label>
+                                            <label class="help-block has-error" ng-if="frmCapability.capabilityName.$error.required && (submitted)">Capability Name is required</label>
                                         </div>
 
-                                        <div class="form-group" ng-class="{'has-error': form.capabilityDescription.$error.required && (submitted)}">
+                                        <div class="form-group" ng-class="{'has-error': frmCapability.capabilityDescription.$error.required && (submitted)}">
                                             <label>Description *</label>
                                             <textarea class="form-control"
                                                       rows="3"
@@ -52,10 +52,10 @@
                                                       ng-required="true"
                                                       ng-minlength="2"></textarea>
                                             <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
-                                            <label class="help-block has-error" ng-if="form.capabilityDescription.$error.required && (submitted)">Capability Description is required</label>
+                                            <label class="help-block has-error" ng-if="frmCapability.capabilityDescription.$error.required && (submitted)">Capability Description is required</label>
                                         </div>
 
-                                        <div class="form-group" ng-class="{'has-error': form.capabilityLevel.$error.required && (submitted)}">
+                                        <div class="form-group" ng-class="{'has-error': frmCapability.capabilityLevel.$error.required && (submitted)}">
                                             <label>Capability level *</label>
                                             <select class="form-control" ng-model="capability.level" name="capabilityLevel" ng-required="true">
                                                 <option>Level 1</option>
@@ -63,7 +63,7 @@
                                                 <option>Level 3</option>
                                             </select>
                                             <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
-                                            <label class="help-block has-error" ng-if="form.capabilityLevel.$error.required && (submitted)">Capability Level is required</label>
+                                            <label class="help-block has-error" ng-if="frmCapability.capabilityLevel.$error.required && (submitted)">Capability Level is required</label>
                                         </div>
 
                                         <div class="form-group" ng-disabled="capability.level=='Level 1'">
@@ -76,10 +76,10 @@
                                                          expanded-nodes="expandedNodes">
                                                 {{node.label}}
                                             </treecontrol>
-                                            <!--<label class="help-block has-error" ng-if="form.capabilityLevel.$error.required && (submitted)">Capability Name is required</label>-->
+                                            <!--<label class="help-block has-error" ng-if="frmCapability.capabilityLevel.$error.required && (submitted)">Capability Name is required</label>-->
                                         </div>
 
-                                        <div class="form-group" ng-class="{'has-error': form.capabilityState.$error.required && (submitted)}">
+                                        <div class="form-group" ng-class="{'has-error': frmCapability.capabilityState.$error.required && (submitted)}">
                                             <label>State *</label>
                                             <select class="form-control" ng-model="capability.state" name="capabilityState" ng-required="true">
                                                 <option>Exists</option>
@@ -87,7 +87,7 @@
                                                 <option>Planned</option>
                                             </select>
                                             <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
-                                            <label class="help-block has-error" ng-if="form.capabilityState.$error.required && (submitted)">Capability Gap is required</label>
+                                            <label class="help-block has-error" ng-if="frmCapability.capabilityState.$error.required && (submitted)">Capability Gap is required</label>
                                         </div>
                                     </form>
                                 </div>
@@ -100,17 +100,21 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     Add child Capability - {{selected}}
+                                    <div class="pull-right">
+                                        <span><i class="fa fa-square text-success"></i> Exists&nbsp;</span>
+                                        <span><i class="fa fa-square text-danger"></i> Gap&nbsp;</span>
+                                        <span><i class="fa fa-square-o"></i> Planned</span>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div id="space-for-buttons">
-                                    </div>
+                                    <div id="spaceforbuttons"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                   
+                    {{frmCapability.$valid}}
                     <div class="col-lg-6">
-                        <a class="btn btn-success" ng-click="saveAndMore(form, capability)" addbuttons>Add</a>&nbsp;&nbsp;&nbsp;
+                        <a class="btn btn-success" ng-click="saveAndMore(frmCapability, capability)">Add</a>&nbsp;&nbsp;&nbsp;
                         <a class="btn btn-success" ng-click="saveAndContinue()">Save & Continue</a>&nbsp;&nbsp;&nbsp;
                         <a class="btn btn-default">Save & Exit</a>
                     </div>

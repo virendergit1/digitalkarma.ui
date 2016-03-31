@@ -404,7 +404,6 @@ module.exports = function(grunt) {
                         'capabilities': './dist/src/src/organization',
                         'technologies': './dist/src/src/organization',
                         'vendors': './dist/src/src/organization',
-                        'components': './dist/src/src/organization',
                         'angular': 'empty:'
                     }
                 }
