@@ -1,13 +1,12 @@
-﻿define(function () {
+﻿define(function() {
     'use strict';
 
-    var capabilitiesController = function ($scope) {
-        $scope.orgnizationName = "Proctor & Gamble Company (P&G)";
+    var capabilitiesController = function ($scope, organizationContextService, utilities) {
+        
+        var capabilityList = [],
+            parentElement = angular.element(document.querySelector('#spaceforbuttons'));
 
-        $scope.treedata = [];
-
-        var addElement = function (panelType, name, capabilityId) {
-            var parentElement = angular.element(document.querySelector('#spaceforbuttons'));
+        var addChildElementVisual = function(panelType, capability) {
             var element = '<div class="col-lg-3 col-md-6">' +
                 panelType +
                 '<div class="panel-heading">' +
@@ -15,7 +14,7 @@
                 '<div class="col-xs-3">' +
                 '</div>' +
                 '<div class="col-xs-9 text-right">' +
-                '<div>' + name + '</div>' +
+                '<div>' + capability.name + '</div>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -27,7 +26,7 @@
                 '</div>' +
                 '</a>' +
                 '</div>' +
-                '</div>';
+                '</div';
             parentElement.append(element);
         };
 
@@ -43,63 +42,146 @@
             if (state === "Planned") {
                 return '<div class="panel panel-default">';
             }
+            return '<div class="panel panel-green">';
         };
 
-        var addRoot = function (rootElement) {
+        var addTreeRoot = function(rootElement) {
             $scope.treedata.push({ "label": rootElement.text, "id": rootElement.id, "children": [] });
         };
-        var addChild = function (childElement, capability) {
+
+        var addTreeChild = function(childElement, capability) {
             var panelType = getPanelType(capability.state);
             $scope.capabilityid = childElement.id;
             $scope.selectedNode.children.push({ "label": childElement.text, "id": childElement.id, "children": [] });
-            addElement(panelType, childElement.text, childElement.id);
+
+            addChildElementVisual(panelType, capability);
         };
 
-       function guid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                  .toString(16)
-                  .substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-              s4() + '-' + s4() + s4() + s4();
-        }
-
-        var resetForm = function(form) {
-            $scope.capability = null;
-            form.$setPristine();
-            $scope.submitted = false;
+        var getObjectById = function(list, id, callback) {
+            _.each(list, function(item) {
+                if (item.id === id) {
+                    callback(item);
+                }
+                if (item.childCapability) {
+                    getObjectById(item.childCapability, id, callback);
+                }
+            });
         };
 
-        $scope.saveAndMore = function(form, capability) {
+        var addParentCapability = function (id, capability) {
+            capability.id = id;
+            capability.parentId = null;
+            capabilityList.push({
+                "id":id,
+                "name": capability.name,
+                "description": capability.description,
+                "level": capability.level,
+                "state": capability.state,
+                "childCapability": []
+            });
+        };
+
+        var addChildCapability = function (id, capability) {
+            var parentCapability;
+
+            getObjectById(capabilityList, $scope.selectedNode.id, function (parent) {
+                parentCapability = parent;
+            });
+
+            parentCapability.childCapability.push({
+                "id": id,
+                "parentId": $scope.selectedNode.id,
+                "name": capability.name,
+                "description": capability.description,
+                "level": capability.level,
+                "state": capability.state,
+                "childCapability": []
+            });
+        };
+
+        $scope.saveAndMore = function(form) {
             $scope.submitted = true;
-            var treeElement = {};
+            var treeElement = {},
+                capability = $scope.capability;
 
             if (form.$valid) {
-                treeElement.id = guid();
+                treeElement.id = utilities.guid();
                 treeElement.text = capability.name;
-                
+
                 if (capability.level === "Level 1") {
-                    addRoot(treeElement);
+                    addTreeRoot(treeElement);
+                    addParentCapability(treeElement.id, capability);
                 } else {
-                    addChild(treeElement, capability);
+                    addTreeChild(treeElement, capability);
+                    addChildCapability(treeElement.id, capability);
                 }
             }
         };
-        
+
         $scope.saveAndContinue = function() {
             $scope.submitted = true;
         };
-       
 
-        $scope.showSelected = function (sel) {
+        var setCapabilityForSelectedNode = function (capability) {
+
+            $scope.capability = {
+                "name": capability.name,
+                "description": capability.description,
+                "level": capability.level,
+                "state": capability.state
+            };
+        };
+
+        var showChildren = function() {
+            var capability, panelType;
+
+            parentElement.empty();
+
+            getObjectById(capabilityList, $scope.selectedNode.id, function (item) {
+                capability = item;
+            });
+
+            setCapabilityForSelectedNode(capability);
+
+            if (capability.childCapability) {
+                _.each(capability.childCapability, function (item) {
+                    panelType = getPanelType(item.state);
+                    addChildElementVisual(panelType, item);
+                });
+            }
+            
+        };
+
+        $scope.showSelected = function(sel) {
             $scope.selected = sel.label;
             $scope.selectedNode = sel;
+            showChildren();
         };
-       
+
+        var init = function() {
+            $scope.treedata = [];
+
+            $scope.capability = {
+                "name": "test",
+                "description": "test",
+                "level": "Level 1",
+                "state": "Gap"
+            };
+
+            if (!_.isUndefined(organizationContextService.data.organization)) {
+                $scope.orgnizationName = organizationContextService.data.organization.name;
+            }
+
+            if (!_.isUndefined(organizationContextService.data.capabilities)) {
+                capabilityList = organizationContextService.data.capabilities;
+            }
+            
+        };
+
+        init();
     };
 
-    capabilitiesController.$inject = ['$scope'];
+    capabilitiesController.$inject = ['$scope', 'organizationContextService', 'utilitiesService'];
 
     return capabilitiesController;
 });

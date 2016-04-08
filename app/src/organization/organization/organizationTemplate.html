@@ -23,7 +23,7 @@
                     <div class="panel-body">
                         <p>* {{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p>
                         <div class="row">
-                            <form role="form">
+                            <form role="form" name="form">
                                 <div class="col-lg-6">
                                     <div class="form-group" ng-class="{'has-error': form.organizationName.$error.required && (submitted)}">
                                         <label>{{'orgSetUpFieldLabel.name'|translate}} *</label>
@@ -31,44 +31,47 @@
                                                placeholder="Organization Name"
                                                name="organizationName"
                                                type="text"
-                                               ng-model="org.name"
+                                               ng-model="organization.name"
                                                ng-required="true"
                                                ng-minlength="2" />
-                                        <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
                                         <label class="help-block has-error" ng-if="form.organizationName.$error.required && (submitted)">Organization Name is required</label>
                                     </div>
 
-                                    <div class="form-group" ng-class="{'has-error': form.firstName.$error.required && (submitted)}">
+                                    <div class="form-group" ng-class="{'has-error': form.description.$error.required && (submitted)}">
                                         <label>{{'orgSetUpFieldLabel.description'|translate}} *</label>
-                                        <textarea class="form-control" rows="3"></textarea>
-                                        <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
-                                        <label class="help-block has-error" ng-if="form.acronym.$error.required && (submitted)">Acronym is required</label>
+                                        <textarea class="form-control" rows="3"
+                                                name="description"
+                                                ng-model="organization.description"
+                                                ng-required="true"></textarea>
+                                        <label class="help-block has-error" ng-if="form.description.$error.required && (submitted)">Acronym is required</label>
                                     </div>
 
-                                    <div class="form-group" ng-class="{'has-error': form.firstName.$error.required && (submitted)}">
+                                    <div class="form-group" ng-class="{'has-error': form.country.$error.required && (submitted)}">
                                         <label>{{'orgSetUpFieldLabel.country'|translate}} *</label>
-                                        <select class="form-control">
+                                        <select class="form-control"
+                                                name="country"
+                                                ng-model="organization.country"
+                                                ng-required="true">
                                             <option>United States of America</option>
                                             <option>Canada</option>
                                             <option>Mexico</option>
                                             <option>UK</option>
                                             <option>China</option>
                                         </select>
-                                        <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
-                                        <label class="help-block has-error" ng-if="form.acronym.$error.required && (submitted)">Acronym is required</label>
+                                        <label class="help-block has-error" ng-if="form.country.$error.required && (submitted)">Acronym is required</label>
                                     </div>
 
-                                    <div class="form-group" ng-class="{'has-error': form.firstName.$error.required && (submitted)}">
+                                    <div class="form-group" ng-class="{'has-error': form.city.$error.required && (submitted)}">
                                         <label>{{'orgSetUpFieldLabel.city'|translate}} *</label>
-                                        <select class="form-control">
+                                        <select class="form-control" name="city" ng-model="organization.city"
+                                                ng-required="true">
                                             <option>Chicago</option>
                                             <option>St Paul</option>
                                             <option>New York</option>
                                             <option>Boston</option>
                                             <option>Los Angles</option>
                                         </select>
-                                        <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
-                                        <label class="help-block has-error" ng-if="form.acronym.$error.required && (submitted)">Acronym is required</label>
+                                        <label class="help-block has-error" ng-if="form.city.$error.required && (submitted)">Acronym is required</label>
                                     </div>
 
                                     <div class="form-group" ng-class="{'has-error': form.email.$error.pattern || form.email.$error.required && (submitted)}">
@@ -78,63 +81,64 @@
                                                name="email"
                                                type="email"
                                                autofocus value=""
-                                               ng-model="user.username"
+                                               ng-model="organization.email"
                                                ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" />
                                         <label class="help-block" ng-if="form.email.$error.pattern && (submitted)">The Email is invalid</label>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <div class="form-group" ng-class="{'has-error': form.firstName.$error.required && (submitted)}">
+                                    <div class="form-group" ng-class="{'has-error': form.acronym.$error.required && (submitted)}">
                                         <label>{{'orgSetUpFieldLabel.acronym'|translate}} *</label>
                                         <input class="form-control"
                                                placeholder="Acronym"
                                                name="acronym"
                                                type="text"
-                                               ng-model="org.acronym"
+                                               ng-model="organization.acronym"
                                                ng-required="true"
                                                ng-minlength="2" />
-                                        <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
                                         <label class="help-block has-error" ng-if="form.acronym.$error.required && (submitted)">Acronym is required</label>
                                     </div>
 
-                                    <div class="form-group" ng-class="{'has-error': form.firstName.$error.required && (submitted)}">
+                                    <div class="form-group" ng-class="{'has-error': form.address.$error.required && (submitted)}">
                                         <label>{{'orgSetUpFieldLabel.streetAddress'|translate}} *</label>
-                                        <textarea class="form-control" rows="3"></textarea>
-                                        <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
-                                        <label class="help-block has-error" ng-if="form.acronym.$error.required && (submitted)">Acronym is required</label>
+                                        <textarea class="form-control" rows="3" name="address" 
+                                                ng-model="organization.address"
+                                                ng-required="true"></textarea>
+                                        <label class="help-block has-error" ng-if="form.address.$error.required && (submitted)">Acronym is required</label>
                                     </div>
 
-                                    <div class="form-group" ng-class="{'has-error': form.firstName.$error.required && (submitted)}">
+                                    <div class="form-group" ng-class="{'has-error': form.state.$error.required && (submitted)}">
                                         <label>{{'orgSetUpFieldLabel.state'|translate}} *</label>
-                                        <select class="form-control">
+                                        <select class="form-control" name="state"
+                                                ng-model="organization.state"
+                                                ng-required="true">
                                             <option>Illinois</option>
                                             <option>Minnesota</option>
                                             <option>Wisconsin</option>
                                             <option>New York</option>
                                             <option>Washington</option>
                                         </select>
-                                        <!--<p class="help-block" ng-if="!submitted">Requires Minimum 2 characters</p>-->
-                                        <label class="help-block has-error" ng-if="form.acronym.$error.required && (submitted)">Acronym is required</label>
+                                        <label class="help-block has-error" ng-if="form.state.$error.required && (submitted)">Acronym is required</label>
                                     </div>
 
-                                    <div class="form-group" ng-class="{'has-error': form.firstName.$error.required && (submitted)}">
+                                    <div class="form-group" ng-class="{'has-error': form.phone.$error.required && (submitted)}">
                                         <label>{{'orgSetUpFieldLabel.phone'|translate}}</label>
                                         <input class="form-control"
                                                placeholder="Phone Number"
-                                               name="acronym"
+                                               name="phone"
                                                type="text"
-                                               ng-model="org.acronym"
+                                               ng-model="organization.phone"
                                                ng-minlength="15" />
                                     </div>
 
-                                    <div class="form-group" ng-class="{'has-error': form.firstName.$error.required && (submitted)}">
+                                    <div class="form-group" ng-class="{'has-error': form.website.$error.required && (submitted)}">
                                         <label>{{'orgSetUpFieldLabel.website'|translate}}</label>
                                         <input class="form-control"
                                                placeholder="Web Site"
-                                               name="acronym"
+                                               name="website"
                                                type="text"
-                                               ng-model="org.acronym"
+                                               ng-model="organization.website"
                                                ng-minlength="15" />
                                     </div>
                                 </div>
@@ -143,7 +147,7 @@
                     </div>
 
                     <div class="panel-footer">
-                        <a class="btn btn-success" ng-click="SaveAndContinue()">Save & Continue</a>&nbsp;&nbsp;&nbsp;
+                        <a class="btn btn-success" ng-click="SaveAndContinue(form, organization)">Save & Continue</a>&nbsp;&nbsp;&nbsp;
                         <a class="btn btn-default">Save & Exit</a>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/03/31 01:00:16 UTC
+ * digitalkarma - 2016/04/08 03:26:06 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -777,7 +777,26 @@ define('login/loginService',[],function () {
     loginService.$inject = ['$q', 'dk.userApiProxy'];
     return loginService;
 });
-define('app',['require','angular','login/session','login/authIntercepter','login/loginController','login/parentController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','login/authenticationService','login/formAutofillFixDirective','login/loginConstant','route/routes','src/src/services/translateService','login/loginService','topNav/topNavModule','organization/organizationModule'],function(require) {
+define('src/src/services/utilities',[],function () {
+    'user strict';
+    var utilitiesService = function () {
+        var self = this;
+
+        self.guid = function() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
+        };
+    };
+    utilitiesService.$inject = [];
+    return utilitiesService;
+});
+define('app',['require','angular','login/session','login/authIntercepter','login/loginController','login/parentController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','login/authenticationService','login/formAutofillFixDirective','login/loginConstant','route/routes','src/src/services/translateService','login/loginService','src/src/services/utilities','topNav/topNavModule','organization/organizationModule'],function(require) {
 
     'use strict';
 
@@ -800,6 +819,8 @@ define('app',['require','angular','login/session','login/authIntercepter','login
     var routes = require('route/routes');
     var translateService = require('src/src/services/translateService');
     var loginService = require('login/loginService');
+    var utilitiesService = require('src/src/services/utilities');
+
 
     require("topNav/topNavModule");
     require("organization/organizationModule");
@@ -850,6 +871,7 @@ define('app',['require','angular','login/session','login/authIntercepter','login
         .controller('registrationController', registrationController)
         .controller('forgotPasswordController', forgotPasswordController)
         .service('dk.validatorService', validatorService)
+        .service('utilitiesService', utilitiesService)
         .service('Auth', authenticationService)
         .service('dk.loginService', loginService)
         .service('dk.baseApiProxy', baseApiProxy)

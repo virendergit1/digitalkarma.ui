@@ -29,6 +29,8 @@
     var vendorsService = require('vendors/vendorsService');
     var vendorsDirective = require('vendors/vendorsDirective');
 
+    var organizationContextService = require('services/organizationContextService');
+
     var organizationModule = angular.module('my.organizationModule',
     [
         'application.template',
@@ -53,7 +55,8 @@
         .directive('technologiesDirective', technologiesDirective)
         .controller('vendorsController', vendorsController)
         .service('vendorsService', vendorsService)
-        .directive('vendorsDirective', vendorsDirective);
+        .directive('vendorsDirective', vendorsDirective)
+        .service('organizationContextService', organizationContextService);
 
     return organizationModule;
 });

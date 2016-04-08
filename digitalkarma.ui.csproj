@@ -70,6 +70,7 @@
     <Content Include="app\src\organization\capabilities\capabilitiesController.js" />
     <Content Include="app\src\organization\capabilities\capabilitiesDirective.js" />
     <Content Include="app\src\organization\capabilities\capabilitiesService.js" />
+    <Content Include="app\src\organization\services\organizationContextService.js" />
     <Content Include="app\src\organization\organizationModule.js" />
     <Content Include="app\src\organization\organization\organizationTemplate.html" />
     <Content Include="app\src\organization\organization\organizationController.js" />
@@ -101,6 +102,7 @@
     <Content Include="app\src\routes.js" />
     <Content Include="app\src\services\serviceConstant.js" />
     <Content Include="app\src\services\translateService.js" />
+    <Content Include="app\src\services\utilities.js" />
     <Content Include="app\src\services\validatorService.js" />
     <Content Include="app\src\topNav\topNavTemplate.html" />
     <Content Include="app\src\topNav\topNavController.js" />

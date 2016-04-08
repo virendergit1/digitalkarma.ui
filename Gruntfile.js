@@ -119,9 +119,9 @@ module.exports = function(grunt) {
                 files: ['<%= src.js %>', '<%= test.unit %>', '<%= test.karmaConfig %>', 'Gruntfile.js', 'mainJs'],
                 tasks: ['jshint'],
                 options: {
-                    spawn: false,
-                    interrupt: true,
-                    reload: false
+                    //spawn: false,
+                    interrupt: true//,
+                    //reload: false
                 }
             },
             less: {
@@ -404,6 +404,7 @@ module.exports = function(grunt) {
                         'capabilities': './dist/src/src/organization',
                         'technologies': './dist/src/src/organization',
                         'vendors': './dist/src/src/organization',
+                        'services': './dist/src/src/organization',
                         'angular': 'empty:'
                     }
                 }

@@ -21,6 +21,8 @@
     var routes = require('route/routes');
     var translateService = require('src/src/services/translateService');
     var loginService = require('login/loginService');
+    var utilitiesService = require('src/src/services/utilities');
+
 
     require("topNav/topNavModule");
     require("organization/organizationModule");
@@ -71,6 +73,7 @@
         .controller('registrationController', registrationController)
         .controller('forgotPasswordController', forgotPasswordController)
         .service('dk.validatorService', validatorService)
+        .service('utilitiesService', utilitiesService)
         .service('Auth', authenticationService)
         .service('dk.loginService', loginService)
         .service('dk.baseApiProxy', baseApiProxy)
