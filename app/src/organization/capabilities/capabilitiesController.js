@@ -164,6 +164,9 @@
             $scope.submitted = true;
         };
 
+        $scope.deleteCapability = function (node) {
+        };
+
         $scope.displayChildCapability = function (e) {
             var capabilityId = e.currentTarget.id, capabilityItem;
 
@@ -181,8 +184,6 @@
             getObjectById(capabilityList, $scope.selectedNode.id, function (item) {
                 capability = item;
             });
-
-            console.log(capability);
 
             setCapabilityForSelectedNode(capability);
 
