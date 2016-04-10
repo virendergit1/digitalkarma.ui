@@ -34,8 +34,11 @@
     "addChild": "Add child Capability",
     "exists": "Exists",
     "gap": "Gap",
-    "planned":"planned",
+    "planned": "planned",
     "save": "Save",
     "saveAndContinue": "Save & Continue"
+  },
+  "applications": {
+
   }
 }
