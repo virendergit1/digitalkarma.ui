@@ -13,7 +13,7 @@ angular.module('capabilities.template', ['/app/src/organization/capabilities/cap
 angular.module("/app/src/organization/capabilities/capabilitiesTemplate.html", []).run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("/app/src/organization/capabilities/capabilitiesTemplate.html",
-    "<div><top-nav-directive></top-nav-directive></div><div id=page-wrapper><div class=row><div class=col-lg-12><h3 class=page-header>{{orgnizationName}}</h3></div></div><div class=row><div class=col-lg-12><div class=\"panel panel-default\"><div class=panel-body><h3>Organization Capability Setup</h3><p class=text-info>As a best practice there should be 3 levels of hierarchies for capabilities. Below forms allows to setup all the levels of capabilities. You can also review your Capability Architecture in the section below.</p><p>* {{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p><div class=row><div class=col-lg-6><div class=\"panel panel-default\"><div class=panel-heading>Parent Capability for {{orgnizationName}}</div><div class=panel-body><form role=form name=frmCapability><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityName.$error.required && (submitted)}\"><label>Name *</label><input class=form-control placeholder=\"Capability Name\" name=capabilityName ng-model=capability.name ng-required=true ng-minlength=\"2\"/><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityName.$error.required && (submitted)\">Capability Name is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityDescription.$error.required && (submitted)}\"><label>Description *</label><textarea class=form-control rows=3 placeholder=Description name=capabilityDescription ng-model=capability.description ng-required=true ng-minlength=2></textarea><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityDescription.$error.required && (submitted)\">Capability Description is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityLevel.$error.required && (submitted)}\"><label>Capability level *</label><select class=form-control ng-model=capability.level name=capabilityLevel ng-required=true><option>Level 1</option><option>Level 2</option><option>Level 3</option></select><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityLevel.$error.required && (submitted)\">Capability Level is required</label></div><div class=form-group ng-disabled=\"capability.level=='Level 1'\" ng-class=\"{'has-error': frmCapability.capabilityLevel!='Level 1'}\"><div><label>Select Parent Capability</label></div><div><treecontrol class=tree-classic tree-model=treedata node-children=children on-selection=showSelected(node) ng-disabled=\"capability.level=='Level 1'\" expanded-nodes=expandedNodes name=parentNode>{{node.label}}</treecontrol></div><label class=\"help-block has-error\" ng-if=\"capability.level != 'Level 1' && frmCapability.capabilityLevel.$valid\">Parent Capability is now required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityState.$error.required && (submitted)}\"><label>State *</label><select class=form-control ng-model=capability.state name=capabilityState ng-required=true><option>Exists</option><option>Gap</option><option>Planned</option></select><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityState.$error.required && (submitted)\">Capability Gap is required</label></div></form></div></div></div><div class=col-lg-6><div class=\"panel panel-default\"><div class=panel-heading>Add child Capability - {{selected}}<div class=pull-right><span><i class=\"fa fa-square text-success\"></i> Exists&nbsp;</span> <span><i class=\"fa fa-square text-danger\"></i> Gap&nbsp;</span> <span><i class=\"fa fa-square-o\"></i> Planned</span></div></div><div class=panel-body><div id=spaceforbuttons></div></div></div></div></div><div class=col-lg-6><a class=\"btn btn-success\" ng-click=saveAndMore(frmCapability)>Add</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-success\" ng-click=\"saveAndContinue(frmCapability, capability)\">Save & Continue</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-default\">Save & Exit</a></div></div></div></div></div></div>");
+    "<div><top-nav-directive></top-nav-directive></div><div id=page-wrapper><div class=row><div class=col-lg-12><h3 class=page-header>{{orgnizationName}}</h3></div></div><div class=row><div class=col-lg-12><div class=\"panel panel-default\"><div class=panel-body><h3>Organization Capability Setup</h3><p class=text-info>As a best practice there should be 3 levels of hierarchies for capabilities. Below forms allows to setup all the levels of capabilities. You can also review your Capability Architecture in the section below.</p><p>* {{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p><form role=form name=frmCapability><div class=row><div class=col-lg-6><div class=\"panel panel-default\"><div class=panel-heading>Parent Capability for {{orgnizationName}}</div><div class=panel-body><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityName.$error.required && (submitted)}\"><label>Name *</label><input class=form-control placeholder=\"Capability Name\" name=capabilityName ng-model=capability.name ng-required=true ng-minlength=\"2\"/><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityName.$error.required && (submitted)\">Capability Name is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityDescription.$error.required && (submitted)}\"><label>Description *</label><textarea class=form-control rows=3 placeholder=Description name=capabilityDescription ng-model=capability.description ng-required=true ng-minlength=2></textarea><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityDescription.$error.required && (submitted)\">Capability Description is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityLevel.$error.required && (submitted)}\"><label>Capability level *</label><select class=form-control ng-model=capability.level name=capabilityLevel ng-required=true><option>Level 1</option><option>Level 2</option><option>Level 3</option></select><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityLevel.$error.required && (submitted)\">Capability Level is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityLevel !== 'Level 1'}\" ng-disabled=\"capability.level!=='Level 1'\"><div><label>Capabilities</label></div><div><treecontrol class=tree-classic tree-model=treedata node-children=children on-selection=showSelected(node) expanded-nodes=expandedNodes name=parentNode>{{node.label}}</treecontrol></div><label class=\"help-block has-error\" ng-if=\"capability.level != 'Level 1' && frmCapability.capabilityLevel.$valid\">Select Parent Capability</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityState.$error.required && (submitted)}\"><label>State *</label><select class=form-control ng-model=capability.state name=capabilityState ng-required=true><option>Exists</option><option>Gap</option><option>Planned</option></select><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityState.$error.required && (submitted)\">Capability Gap is required</label></div><div class=form-group><label>Planned Completion Date</label><input class=form-control placeholder=\"Planned Completeion date\" name=plannedDate type=date ng-model=capability.plannedDate ng-disabled=\"capability.state !== 'Planned'\"/></div></div></div></div><div class=col-lg-6><div class=\"panel panel-default\"><div class=panel-heading>child Capabilities for - {{selected}}<div class=pull-right><span><i class=\"fa fa-square text-success\"></i> Exists&nbsp;</span> <span><i class=\"fa fa-square text-danger\"></i> Gap&nbsp;</span> <span><i class=\"fa fa-square-o\"></i> Planned</span></div></div><div class=panel-body><div id=spaceforbuttons></div></div></div></div></div></form><div class=col-lg-6><a class=\"btn btn-success\" ng-click=save(frmCapability)>Save</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-success\" ng-click=\"saveAndContinue(frmCapability, capability)\">Save & Continue</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-default\">Save & Exit</a></div></div></div></div></div></div>");
 }]);
 
 define("capabilities/capabilitiesTemplate", function(){});
@@ -79,7 +79,7 @@ define('application/applicationDirective',[],function () {
 define('capabilities/capabilitiesController',[],function() {
     'use strict';
 
-    var capabilitiesController = function ($scope, organizationContextService, utilities) {
+    var capabilitiesController = function ($scope, $compile, organizationContextService, utilities) {
         
         var capabilityList = [],
             parentElement = angular.element(document.querySelector('#spaceforbuttons'));
@@ -96,7 +96,7 @@ define('capabilities/capabilitiesController',[],function() {
                 '</div>' +
                 '</div>' +
                 '</div>' +
-                '<a href="#">' +
+                '<a id="' + capability.id + '" ng-click="displayChildCapability($event)">' +
                 '<div class="panel-footer">' +
                 '<span class="pull-left">View Details</span>' +
                 '<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>' +
@@ -105,10 +105,13 @@ define('capabilities/capabilitiesController',[],function() {
                 '</a>' +
                 '</div>' +
                 '</div';
+
             parentElement.append(element);
+
+            $compile(parentElement)($scope);
         };
 
-        var getPanelType = function(state) {
+       var getPanelType = function(state) {
             if (state === "Exists") {
                 return '<div class="panel panel-green">';
             }
@@ -129,7 +132,7 @@ define('capabilities/capabilitiesController',[],function() {
 
         var addTreeChild = function(childElement, capability) {
             var panelType = getPanelType(capability.state);
-            $scope.capabilityid = childElement.id;
+            capability.id = childElement.id;
             $scope.selectedNode.children.push({ "label": childElement.text, "id": childElement.id, "children": [] });
 
             addChildElementVisual(panelType, capability);
@@ -155,6 +158,7 @@ define('capabilities/capabilitiesController',[],function() {
                 "description": capability.description,
                 "level": capability.level,
                 "state": capability.state,
+                "plannedDate": capability.plannedDate,
                 "childCapability": []
             });
         };
@@ -173,25 +177,63 @@ define('capabilities/capabilitiesController',[],function() {
                 "description": capability.description,
                 "level": capability.level,
                 "state": capability.state,
+                "plannedDate": capability.plannedDate,
                 "childCapability": []
             });
         };
 
-        $scope.saveAndMore = function(form) {
+        var setCapabilityForSelectedNode = function (capability) {
+            $scope.capability = {
+                "name": capability.name,
+                "description": capability.description,
+                "level": capability.level,
+                "state": capability.state,
+                "plannedDate": capability.plannedDate
+            };
+        };
+
+        var updateCapability = function (capability) {
+            var currentCapability;
+
+            getObjectById(capabilityList, $scope.selectedNode.id, function (current) {
+                currentCapability = current;
+            });
+
+            if (!_.isUndefined(currentCapability)) {
+                currentCapability.name = capability.name;
+                currentCapability.description = capability.description;
+                currentCapability.level = capability.level;
+                currentCapability.state = capability.state;
+            }
+        };
+
+        $scope.save = function(form) {
             $scope.submitted = true;
             var treeElement = {},
-                capability = $scope.capability;
+                capability = $scope.capability,
+                currentCapability;
 
             if (form.$valid) {
                 treeElement.id = utilities.guid();
                 treeElement.text = capability.name;
 
+                if (!_.isUndefined($scope.selectedNode)) {
+                    getObjectById(capabilityList, $scope.selectedNode.id, function(current) {
+                        currentCapability = current;
+                    });
+
+                    if (!_.isUndefined($scope.selectedNode) && currentCapability.level === capability.level) {
+                        updateCapability(capability);
+                        return;
+                    }
+                }
+
                 if (capability.level === "Level 1") {
                     addTreeRoot(treeElement);
                     addParentCapability(treeElement.id, capability);
                 } else {
-                    addTreeChild(treeElement, capability);
                     addChildCapability(treeElement.id, capability);
+                    addTreeChild(treeElement, capability);
                 }
             }
         };
@@ -200,14 +242,13 @@ define('capabilities/capabilitiesController',[],function() {
             $scope.submitted = true;
         };
 
-        var setCapabilityForSelectedNode = function (capability) {
+        $scope.displayChildCapability = function (e) {
+            var capabilityId = e.currentTarget.id, capabilityItem;
 
-            $scope.capability = {
-                "name": capability.name,
-                "description": capability.description,
-                "level": capability.level,
-                "state": capability.state
-            };
+            getObjectById(capabilityList, capabilityId, function (item) {
+                capabilityItem = item;
+            });
+            setCapabilityForSelectedNode(capabilityItem);
         };
 
         var showChildren = function() {
@@ -219,6 +260,8 @@ define('capabilities/capabilitiesController',[],function() {
                 capability = item;
             });
 
+            console.log(capability);
+
             setCapabilityForSelectedNode(capability);
 
             if (capability.childCapability) {
@@ -227,7 +270,6 @@ define('capabilities/capabilitiesController',[],function() {
                     addChildElementVisual(panelType, item);
                 });
             }
-            
         };
 
         $scope.showSelected = function(sel) {
@@ -240,10 +282,12 @@ define('capabilities/capabilitiesController',[],function() {
             $scope.treedata = [];
 
             $scope.capability = {
+                "id": null,
                 "name": "test",
                 "description": "test",
                 "level": "Level 1",
-                "state": "Gap"
+                "state": "Gap",
+                "plannedDate": null
             };
 
             if (!_.isUndefined(organizationContextService.data.organization)) {
@@ -253,13 +297,12 @@ define('capabilities/capabilitiesController',[],function() {
             if (!_.isUndefined(organizationContextService.data.capabilities)) {
                 capabilityList = organizationContextService.data.capabilities;
             }
-            
         };
 
         init();
     };
 
-    capabilitiesController.$inject = ['$scope', 'organizationContextService', 'utilitiesService'];
+    capabilitiesController.$inject = ['$scope', '$compile', 'organizationContextService', 'utilitiesService'];
 
     return capabilitiesController;
 });

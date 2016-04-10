@@ -20,15 +20,16 @@
                         You can also review your Capability Architecture in the section below.
                     </p>
                     <p>* {{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Parent Capability for {{orgnizationName}}
-                                </div>
-                                <!-- /.panel-heading -->
-                                <div class="panel-body">
-                                    <form role="form" name="frmCapability">
+                    <form role="form" name="frmCapability">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        Parent Capability for {{orgnizationName}}
+                                    </div>
+                                    <!-- /.panel-heading -->
+                                    <div class="panel-body">
+
                                         <div class="form-group" ng-class="{'has-error': frmCapability.capabilityName.$error.required && (submitted)}">
                                             <label>Name *</label>
                                             <input class="form-control"
@@ -62,24 +63,22 @@
                                             </select>
                                             <label class="help-block has-error" ng-if="frmCapability.capabilityLevel.$error.required && (submitted)">Capability Level is required</label>
                                         </div>
-
-                                        <div class="form-group" ng-disabled="capability.level=='Level 1'" 
-                                             ng-class="{'has-error': frmCapability.capabilityLevel!='Level 1'}">
+                                        <div class="form-group" ng-class="{'has-error': frmCapability.capabilityLevel !== 'Level 1'}"
+                                             ng-disabled="capability.level!=='Level 1'">
                                             <div>
-                                                <label>Select Parent Capability</label>
+                                                <label>Capabilities</label>
                                             </div>
                                             <div>
                                                 <treecontrol class="tree-classic"
                                                              tree-model="treedata"
                                                              node-children="children"
                                                              on-selection="showSelected(node)"
-                                                             ng-disabled="capability.level=='Level 1'"
                                                              expanded-nodes="expandedNodes"
                                                              name="parentNode">
                                                     {{node.label}}
                                                 </treecontrol>
                                             </div>
-                                            <label class="help-block has-error" ng-if="capability.level != 'Level 1' && frmCapability.capabilityLevel.$valid">Parent Capability is now required</label>
+                                            <label class="help-block has-error" ng-if="capability.level != 'Level 1' && frmCapability.capabilityLevel.$valid">Select Parent Capability</label>
                                         </div>
 
                                         <div class="form-group" ng-class="{'has-error': frmCapability.capabilityState.$error.required && (submitted)}">
@@ -91,31 +90,40 @@
                                             </select>
                                             <label class="help-block has-error" ng-if="frmCapability.capabilityState.$error.required && (submitted)">Capability Gap is required</label>
                                         </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                                        <div class="form-group">
+                                            <label>Planned Completion Date</label>
+                                            <input class="form-control"
+                                                   placeholder="Planned Completeion date"
+                                                   name="plannedDate"
+                                                   type="date"
+                                                   ng-model="capability.plannedDate"
+                                                   ng-disabled="capability.state !== 'Planned'"/>
+                                        </div>
 
-                        <!--child capability-->
-                        <div class="col-lg-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Add child Capability - {{selected}}
-                                    <div class="pull-right">
-                                        <span><i class="fa fa-square text-success"></i> Exists&nbsp;</span>
-                                        <span><i class="fa fa-square text-danger"></i> Gap&nbsp;</span>
-                                        <span><i class="fa fa-square-o"></i> Planned</span>
                                     </div>
                                 </div>
-                                <div class="panel-body">
-                                    <div id="spaceforbuttons"></div>
+                            </div>
+                            <!--child capability-->
+                            <div class="col-lg-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        child Capabilities for - {{selected}}
+                                        <div class="pull-right">
+                                            <span><i class="fa fa-square text-success"></i> Exists&nbsp;</span>
+                                            <span><i class="fa fa-square text-danger"></i> Gap&nbsp;</span>
+                                            <span><i class="fa fa-square-o"></i> Planned</span>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="spaceforbuttons"></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
+                        </div>
+                    </form>
                     <div class="col-lg-6">
-                        <a class="btn btn-success" ng-click="saveAndMore(frmCapability)">Add</a>&nbsp;&nbsp;&nbsp;
+                        <a class="btn btn-success" ng-click="save(frmCapability)">Save</a>&nbsp;&nbsp;&nbsp;
                         <a class="btn btn-success" ng-click="saveAndContinue(frmCapability, capability)">Save & Continue</a>&nbsp;&nbsp;&nbsp;
                         <a class="btn btn-default">Save & Exit</a>
                     </div>

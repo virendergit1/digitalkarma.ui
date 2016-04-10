@@ -1,7 +1,7 @@
 ﻿define(function() {
     'use strict';
 
-    var capabilitiesController = function ($scope, organizationContextService, utilities) {
+    var capabilitiesController = function ($scope, $compile, organizationContextService, utilities) {
         
         var capabilityList = [],
             parentElement = angular.element(document.querySelector('#spaceforbuttons'));
@@ -18,7 +18,7 @@
                 '</div>' +
                 '</div>' +
                 '</div>' +
-                '<a href="#">' +
+                '<a id="' + capability.id + '" ng-click="displayChildCapability($event)">' +
                 '<div class="panel-footer">' +
                 '<span class="pull-left">View Details</span>' +
                 '<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>' +
@@ -27,10 +27,13 @@
                 '</a>' +
                 '</div>' +
                 '</div';
+
             parentElement.append(element);
+
+            $compile(parentElement)($scope);
         };
 
-        var getPanelType = function(state) {
+       var getPanelType = function(state) {
             if (state === "Exists") {
                 return '<div class="panel panel-green">';
             }
@@ -51,7 +54,7 @@
 
         var addTreeChild = function(childElement, capability) {
             var panelType = getPanelType(capability.state);
-            $scope.capabilityid = childElement.id;
+            capability.id = childElement.id;
             $scope.selectedNode.children.push({ "label": childElement.text, "id": childElement.id, "children": [] });
 
             addChildElementVisual(panelType, capability);
@@ -77,6 +80,7 @@
                 "description": capability.description,
                 "level": capability.level,
                 "state": capability.state,
+                "plannedDate": capability.plannedDate,
                 "childCapability": []
             });
         };
@@ -95,25 +99,63 @@
                 "description": capability.description,
                 "level": capability.level,
                 "state": capability.state,
+                "plannedDate": capability.plannedDate,
                 "childCapability": []
             });
         };
 
-        $scope.saveAndMore = function(form) {
+        var setCapabilityForSelectedNode = function (capability) {
+            $scope.capability = {
+                "name": capability.name,
+                "description": capability.description,
+                "level": capability.level,
+                "state": capability.state,
+                "plannedDate": capability.plannedDate
+            };
+        };
+
+        var updateCapability = function (capability) {
+            var currentCapability;
+
+            getObjectById(capabilityList, $scope.selectedNode.id, function (current) {
+                currentCapability = current;
+            });
+
+            if (!_.isUndefined(currentCapability)) {
+                currentCapability.name = capability.name;
+                currentCapability.description = capability.description;
+                currentCapability.level = capability.level;
+                currentCapability.state = capability.state;
+            }
+        };
+
+        $scope.save = function(form) {
             $scope.submitted = true;
             var treeElement = {},
-                capability = $scope.capability;
+                capability = $scope.capability,
+                currentCapability;
 
             if (form.$valid) {
                 treeElement.id = utilities.guid();
                 treeElement.text = capability.name;
 
+                if (!_.isUndefined($scope.selectedNode)) {
+                    getObjectById(capabilityList, $scope.selectedNode.id, function(current) {
+                        currentCapability = current;
+                    });
+
+                    if (!_.isUndefined($scope.selectedNode) && currentCapability.level === capability.level) {
+                        updateCapability(capability);
+                        return;
+                    }
+                }
+
                 if (capability.level === "Level 1") {
                     addTreeRoot(treeElement);
                     addParentCapability(treeElement.id, capability);
                 } else {
-                    addTreeChild(treeElement, capability);
                     addChildCapability(treeElement.id, capability);
+                    addTreeChild(treeElement, capability);
                 }
             }
         };
@@ -122,14 +164,13 @@
             $scope.submitted = true;
         };
 
-        var setCapabilityForSelectedNode = function (capability) {
+        $scope.displayChildCapability = function (e) {
+            var capabilityId = e.currentTarget.id, capabilityItem;
 
-            $scope.capability = {
-                "name": capability.name,
-                "description": capability.description,
-                "level": capability.level,
-                "state": capability.state
-            };
+            getObjectById(capabilityList, capabilityId, function (item) {
+                capabilityItem = item;
+            });
+            setCapabilityForSelectedNode(capabilityItem);
         };
 
         var showChildren = function() {
@@ -141,6 +182,8 @@
                 capability = item;
             });
 
+            console.log(capability);
+
             setCapabilityForSelectedNode(capability);
 
             if (capability.childCapability) {
@@ -149,7 +192,6 @@
                     addChildElementVisual(panelType, item);
                 });
             }
-            
         };
 
         $scope.showSelected = function(sel) {
@@ -162,10 +204,12 @@
             $scope.treedata = [];
 
             $scope.capability = {
+                "id": null,
                 "name": "test",
                 "description": "test",
                 "level": "Level 1",
-                "state": "Gap"
+                "state": "Gap",
+                "plannedDate": null
             };
 
             if (!_.isUndefined(organizationContextService.data.organization)) {
@@ -175,13 +219,12 @@
             if (!_.isUndefined(organizationContextService.data.capabilities)) {
                 capabilityList = organizationContextService.data.capabilities;
             }
-            
         };
 
         init();
     };
 
-    capabilitiesController.$inject = ['$scope', 'organizationContextService', 'utilitiesService'];
+    capabilitiesController.$inject = ['$scope', '$compile', 'organizationContextService', 'utilitiesService'];
 
     return capabilitiesController;
 });

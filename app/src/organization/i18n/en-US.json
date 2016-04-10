@@ -22,8 +22,20 @@
       "saveAndExit": "Save & Exit"
     }
   },
-  capabilities: {
+  "capabilities": {
     "setUpText": "Capability Setup",
     "description": "As a best practice there should be 3 levels of hierarchies for capabilities. Below forms allows to setup all the levels of capabilities. You can also review your Capability Architecture in the section below."
+    "Name": "Name",
+    "Description": "Description",
+    "level": "Capability level",
+    "plannedDate": "Planned Completion Date",
+    "selectParent": "Select Parent Capability",
+    "state": "State",
+    "addChild": "Add child Capability",
+    "exists": "Exists",
+    "gap": "Gap",
+    "planned":"planned",
+    "save": "Save",
+    "saveAndContinue": "Save & Continue"
   }
 }
