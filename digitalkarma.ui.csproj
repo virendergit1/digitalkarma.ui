@@ -88,7 +88,7 @@
     <Content Include="app\src\organization\application\general\generalService.js" />
     <Content Include="app\src\organization\application\general\generalTemplate.html" />
     <Content Include="app\src\organization\application\health\healthController.js" />
-    <Content Include="app\src\organization\application\health\healtheDirective.js" />
+    <Content Include="app\src\organization\application\health\healthDirective.js" />
     <Content Include="app\src\organization\application\health\healthService.js" />
     <Content Include="app\src\organization\application\health\healthTemplate.html" />
     <Content Include="app\src\organization\application\security\securityController.js" />
@@ -900,6 +900,7 @@
     <Content Include="dist\src\index.html" />
     <Content Include="dist\src\libs\angular-busy.js" />
     <Content Include="dist\src\main.js" />
+    <Content Include="dist\src\organization\application\applicationModule.js" />
     <Content Include="dist\src\organization\organizationModule.js" />
     <Content Include="dist\src\poc\pocpage.html" />
     <Content Include="dist\src\theme.js" />

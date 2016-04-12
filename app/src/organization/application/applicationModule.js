@@ -43,54 +43,54 @@
 
     var securityController = require('security/securityController');
     var securityService = require('security/securityService');
-    var securityDirective = require('securitysecurityDirective');
+    var securityDirective = require('security/securityDirective');
 
     var usageController = require('usage/usageController');
     var usageService = require('usage/usageService');
     var usageDirective = require('usage/usageDirective');
 
-    var applicationModeule = angular.module('my.applicationModule',
+    var applicationModule = angular.module('my.applicationModule',
     [
         'application.template',
         'businessValue.template',
         'contact.template',
         'cost.template',
-        'deploymen.template',
+        'deployment.template',
         'general.template',
         'health.template',
         'security.template',
         'usage.template'
     ]);
 
-    applicationModeule
+    applicationModule
         .controller('applicationController', applicationController)
         .service('applicationService', applicationService)
         .directive('applicationDirective', applicationDirective)
-        .contoller('businessValueController',businessValueController)
+        .controller('businessValueController',businessValueController)
         .service('businessValueService',businessValueService)
         .directive('businessValueDirective',businessValueDirective)
-        .contoller('conatctController',conatctController)
+        .controller('conatctController',conatctController)
         .service('conatctService',conatctService)
         .directive('conatctDirective',conatctDirective)
-        .contoller('costController',costController)
+        .controller('costController',costController)
         .service('costService',costService)
         .directive('costDirective',costDirective)
-        .contoller('deploymentController',deploymentController)
+        .controller('deploymentController',deploymentController)
         .service('deploymentService',deploymentService)
         .directive('deploymentDirective',deploymentDirective)
-        .contoller('generalController',generalController)
+        .controller('generalController',generalController)
         .service('generalService',generalService)
         .directive('generalDirective',generalDirective)
-        .contoller('healthController', healthController)
+        .controller('healthController', healthController)
         .service('healthService',healthService)
         .directive('healthDirective',healthDirective)
-        .contoller('securityController',securityController)
+        .controller('securityController',securityController)
         .service('securityService',securityService)
         .directive('securityDirective',securityDirective)
-        .contoller('usageController',usageController)
+        .controller('usageController',usageController)
         .service('usageService',usageService)
         .directive('usageDirective',usageDirective);
 
-    return applicationModeule;
+    return applicationModule;
 
 });

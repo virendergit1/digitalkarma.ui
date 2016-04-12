@@ -1,13 +1,3 @@
-angular.module('application.template', ['/app/src/organization/application/applicationTemplate.html']);
-
-angular.module("/app/src/organization/application/applicationTemplate.html", []).run(["$templateCache", function($templateCache) {
-  "use strict";
-  $templateCache.put("/app/src/organization/application/applicationTemplate.html",
-    "<div><div><top-nav-directive></top-nav-directive></div><div id=page-wrapper><div class=row><div class=col-lg-12><h3 class=page-header>Systems / Application Setup</h3></div></div><div class=row><div class=col-lg-12><div class=\"panel panel-default\"><div class=panel-heading>Organization Setup</div><div class=panel-body><p>* {{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p><div class=row><div class=col-lg-6><form class=form-horizontal role=form><div class=form-group><label class=\"control-label col-sm-2\" for=name>Name:</label><div class=col-sm-10><input class=form-control id=name placeholder=\"What is the name of the application\"></div></div><div class=form-group><label class=\"control-label col-sm-2\" for=version>Version:</label><div class=col-sm-10><input class=form-control id=version placeholder=\"Enter Version\"></div></div><div class=form-group><label class=\"control-label col-sm-2\" for=description>Description:</label><div class=col-sm-10><input class=form-control id=description placeholder=\"Enter Description\"></div></div><div class=form-group><label class=\"control-label col-sm-2\" for=region>Region:</label><div class=col-sm-10><input class=form-control id=region placeholder=\"Enter Region\"></div></div><div class=form-group><label class=\"control-label col-sm-2\" for=managedType>Managed Type:</label><div class=col-sm-10><input class=form-control id=managedType placeholder=\"Enter Managed Type\"></div></div></form></div><div class=col-lg-12><ul class=\"nav nav-tabs\"><li class=active><a href=#general data-toggle=tab>General</a></li><li><a href=#contact data-toggle=tab>Contact</a></li><li><a href=#usage data-toggle=tab>Usage</a></li><li><a href=#deployment data-toggle=tab>Deployment</a></li><li><a href=#business data-toggle=tab>Business Value</a></li><li><a href=#cost data-toggle=tab>Cost</a></li><li><a href=#health data-toggle=tab>Health</a></li><li><a href=#security data-toggle=tab>Security</a></li></ul><div class=tab-content><div class=\"tab-pane fade in active\" id=general><h4>General</h4><p></p></div><div class=\"tab-pane fade\" id=contact><h4>Contact</h4><p></p></div><div class=\"tab-pane fade\" id=usage><h4>Usage</h4><p></p></div><div class=\"tab-pane fade\" id=deployment><h4>Deployment</h4><p></p></div><div class=\"tab-pane fade\" id=business><h4>Business Value</h4><p></p></div><div class=\"tab-pane fade\" id=cost><h4>Cost</h4><p></p></div><div class=\"tab-pane fade\" id=health><h4>Health</h4><p></p></div><div class=\"tab-pane fade\" id=security><h4>Security</h4><p></p></div></div></div></div></div><div class=panel-footer><a class=\"btn btn-success\" ng-click=\"Save(form, organization)\">Save</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-success\" ng-click=\"SaveAndContinue(form, organization)\">Save and Continue</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-default\">Save & Exit</a></div></div></div></div></div></div>");
-}]);
-
-define("application/applicationTemplate", function(){});
-
 angular.module('capabilities.template', ['/app/src/organization/capabilities/capabilitiesTemplate.html']);
 
 angular.module("/app/src/organization/capabilities/capabilitiesTemplate.html", []).run(["$templateCache", function($templateCache) {
@@ -48,34 +38,6 @@ angular.module("/app/src/organization/vendors/vendorsTemplate.html", []).run(["$
 
 define("vendors/vendorsTemplate", function(){});
 
-define('application/applicationController',[],function() {
-    'use strict';
-
-    var applicationController = function ($scope) {
-
-    };
-
-    applicationController.$inject = ['$scope'];
-
-    return applicationController;
-});
-;
-define("application/applicationService", function(){});
-
-define('application/applicationDirective',[],function () {
-    'use strict';
-    var applicationDirective = function () {
-        return {
-            restrict: 'E',
-            scope: {},
-            templateUrl: '/app/src/organization/application/applicationTemplate.html',
-            controller: 'applicationController',
-            link: function (scope, element, attrs) {
-            }
-        };
-    };
-    return applicationDirective;
-});
 define('capabilities/capabilitiesController',[],function() {
     'use strict';
 
@@ -435,7 +397,7 @@ define('services/organizationContextService',[],function () {
     organizationContextService.$inject = [];
     return organizationContextService;
 });
-define('organization/organizationModule',['require','application/applicationTemplate','capabilities/capabilitiesTemplate','organization/organizationTemplate','technologies/technologiesTemplate','vendors/vendorsTemplate','angular','application/applicationController','application/applicationService','application/applicationDirective','capabilities/capabilitiesController','capabilities/capabilitiesService','capabilities/capabilitiesDirective','organization/organizationController','organization/organizationService','organization/organizationDirective','technologies/technologiesController','technologies/technologiesService','technologies/technologiesDirective','vendors/vendorsController','vendors/vendorsService','vendors/vendorsDirective','services/organizationContextService'],function(require) {
+define('organization/organizationModule',['require','application/applicationTemplate','capabilities/capabilitiesTemplate','organization/organizationTemplate','technologies/technologiesTemplate','vendors/vendorsTemplate','application/applicationModule','angular','capabilities/capabilitiesController','capabilities/capabilitiesService','capabilities/capabilitiesDirective','organization/organizationController','organization/organizationService','organization/organizationDirective','technologies/technologiesController','technologies/technologiesService','technologies/technologiesDirective','vendors/vendorsController','vendors/vendorsService','vendors/vendorsDirective','services/organizationContextService'],function(require) {
     'use strict';
 
     require('application/applicationTemplate');
@@ -444,11 +406,9 @@ define('organization/organizationModule',['require','application/applicationTemp
     require('technologies/technologiesTemplate');
     require('vendors/vendorsTemplate');
 
-    var angular = require('angular');
+    require("application/applicationModule");
 
-    var applicationController = require('application/applicationController');
-    var applicationService = require('application/applicationService');
-    var applicationDirective = require('application/applicationDirective');
+    var angular = require('angular');
 
     var capabilitiesController = require('capabilities/capabilitiesController');
     var capabilitiesService = require('capabilities/capabilitiesService');
@@ -470,6 +430,7 @@ define('organization/organizationModule',['require','application/applicationTemp
 
     var organizationModule = angular.module('my.organizationModule',
     [
+        'my.applicationModule',
         'application.template',
         'capabilities.template',
         'organization.template',
@@ -478,10 +439,7 @@ define('organization/organizationModule',['require','application/applicationTemp
     ]);
 
     organizationModule
-        .controller('applicationController', applicationController)
-        .service('applicationService', applicationService)
-        .directive('applicationDirective', applicationDirective)
-        .controller('capabilitiesController', capabilitiesController)
+       .controller('capabilitiesController', capabilitiesController)
         .service('capabilitiesService', capabilitiesService)
         .directive('capabilitiesDirective', capabilitiesDirective)
         .controller('organizationController', organizationController)

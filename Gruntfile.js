@@ -51,6 +51,7 @@ module.exports = function(grunt) {
             chartTesterJs: ['<%= pkg.sourceDir %>/src/chartTester/js/*.js'],
             topNavJs: ['<%= pkg.sourceDir %>/src/topNav/*.js'],
             organizationJs: ['<%= pkg.sourceDir %>/src/organization/**/*.js'],
+            applicationJs: ['<%= pkg.sourceDir %>/src/organization/application/*.js'],
             libsJs: ['<%= pkg.sourceDir %>/src/libs/*.js'],
             componentsJs: ['<%= pkg.sourceDir %>/src/components/**/*.js'],
             loginJs: ['<%= pkg.sourceDir %>/src/login/*.js'],
@@ -120,7 +121,7 @@ module.exports = function(grunt) {
                 tasks: ['jshint'],
                 options: {
                     //spawn: false,
-                    interrupt: true//,
+                    interrupt: true //,
                     //reload: false
                 }
             },
@@ -179,6 +180,47 @@ module.exports = function(grunt) {
                 options: setHtml2JsDefaultOptions('vendors.template'),
                 src: '<%= pkg.sourceDir %>/src/organization/vendors/*.html',
                 dest: '<%= distMainDirectory %>/src/organization/vendorsTemplate.js'
+            },
+            //---
+            businessValue: {
+                options: setHtml2JsDefaultOptions('businessValue.template'),
+                src: '<%= pkg.sourceDir %>/src/organization/application/businessValue/*.html',
+                dest: '<%= distMainDirectory %>/src/organization/businessValueTemplate.js'
+            },
+            contact: {
+                options: setHtml2JsDefaultOptions('contact.template'),
+                src: '<%= pkg.sourceDir %>/src/organization/application/contact/*.html',
+                dest: '<%= distMainDirectory %>/src/organization/contactTemplate.js'
+            },
+            cost: {
+                options: setHtml2JsDefaultOptions('cost.template'),
+                src: '<%= pkg.sourceDir %>/src/organization/application/cost/*.html',
+                dest: '<%= distMainDirectory %>/src/organization/costTemplate.js'
+            },
+            deployment: {
+                options: setHtml2JsDefaultOptions('deployment.template'),
+                src: '<%= pkg.sourceDir %>/src/organization/application/deployment/*.html',
+                dest: '<%= distMainDirectory %>/src/organization/deploymentTemplate.js'
+            },
+            general: {
+                options: setHtml2JsDefaultOptions('general.template'),
+                src: '<%= pkg.sourceDir %>/src/organization/application/general/*.html',
+                dest: '<%= distMainDirectory %>/src/organization/generalTemplate.js'
+            },
+            health: {
+                options: setHtml2JsDefaultOptions('health.template'),
+                src: '<%= pkg.sourceDir %>/src/organization/application/health/*.html',
+                dest: '<%= distMainDirectory %>/src/organization/healthTemplate.js'
+            },
+            security: {
+                options: setHtml2JsDefaultOptions('security.template'),
+                src: '<%= pkg.sourceDir %>/src/organization/application/security/*.html',
+                dest: '<%= distMainDirectory %>/src/organization/securityTemplate.js'
+            },
+            usage: {
+                options: setHtml2JsDefaultOptions('usage.template'),
+                src: '<%= pkg.sourceDir %>/src/organization/application/usage*.html',
+                dest: '<%= distMainDirectory %>/src/organization/usageTemplate.js'
             }
         },
         copy: {
@@ -332,13 +374,13 @@ module.exports = function(grunt) {
                     }
                 ]
             },
-            pocPages: {
+            applicationJs: {
                 files: [
                     {
                         expand: true,
                         flatten: true,
-                        src: ['<%= src.pocPages %>'],
-                        dest: '<%= distMainDirectory %>/poc'
+                        src: ['<%= src.applicationJs %>'],
+                        dest: '<%= distMainDirectory %>/src/organization/application'
                     }
                 ]
             }
@@ -400,11 +442,40 @@ module.exports = function(grunt) {
                     out: 'dist/src/organization/organizationModule.js',
                     paths: {
                         'organization': './dist/src/src/organization',
-                        'application': './dist/src/src/organization',
+                        'application': 'empty:',
                         'capabilities': './dist/src/src/organization',
                         'technologies': './dist/src/src/organization',
                         'vendors': './dist/src/src/organization',
                         'services': './dist/src/src/organization',
+                        'businessValue': 'empty:',
+                        'contact': 'empty:',
+                        'cost': 'empty:',
+                        'deployment': 'empty:',
+                        'general': 'empty:',
+                        'health': 'empty:',
+                        'security': 'empty:',
+                        'usage': 'empty:',
+                        'angular': 'empty:'
+                    }
+                }
+            },
+            application: {
+                options: {
+                    optimize: "none",
+                    logLevel: 0,
+                    mainConfigFile: 'main.js',
+                    name: 'application/applicationModule',
+                    out: 'dist/src/organization/application/applicationModule.js',
+                    paths: {
+                        'application': './dist/src/src/organization',
+                        'businessValue': './dist/src/src/organization',
+                        'contact': './dist/src/src/organization',
+                        'cost': './dist/src/src/organization',
+                        'deployment': './dist/src/src/organization',
+                        'general': './dist/src/src/organization',
+                        'health': './dist/src/src/organization',
+                        'security': './dist/src/src/organization',
+                        'usage': './dist/src/src/organization',
                         'angular': 'empty:'
                     }
                 }
@@ -577,7 +648,15 @@ module.exports = function(grunt) {
         'html2js:capabilities',
         'html2js:organization',
         'html2js:technologies',
-        'html2js:vendors'
+        'html2js:vendors',
+        'html2js:businessValue',
+        'html2js:contact',
+        'html2js:cost',
+        'html2js:deployment',
+        'html2js:general',
+        'html2js:health',
+        'html2js:security',
+        'html2js:usage'
     ]);
 
     grunt.registerTask('copyfiles', [
@@ -596,7 +675,7 @@ module.exports = function(grunt) {
         'copy:i18n',
         'copy:topNavJs',
         'copy:organizationJs',
-        'copy:pocPages'
+        'copy:applicationJs'
     ]);
 
     grunt.registerTask('web-start', ['release', 'express:app', 'open:app', 'express-keepalive']);

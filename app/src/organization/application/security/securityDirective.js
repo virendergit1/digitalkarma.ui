@@ -4,7 +4,7 @@
         return {
             restrict: 'E',
             scope: {},
-            templateUrl: '',
+            templateUrl: '/app/src/organization/application/security/securityTemplate.html',
             controller: 'businessValueController',
             link: function (scope, element, attrs) {
             }

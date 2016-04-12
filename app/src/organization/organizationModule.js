@@ -7,11 +7,9 @@
     require('technologies/technologiesTemplate');
     require('vendors/vendorsTemplate');
 
-    var angular = require('angular');
+    require("application/applicationModule");
 
-    var applicationController = require('application/applicationController');
-    var applicationService = require('application/applicationService');
-    var applicationDirective = require('application/applicationDirective');
+    var angular = require('angular');
 
     var capabilitiesController = require('capabilities/capabilitiesController');
     var capabilitiesService = require('capabilities/capabilitiesService');
@@ -33,6 +31,7 @@
 
     var organizationModule = angular.module('my.organizationModule',
     [
+        'my.applicationModule',
         'application.template',
         'capabilities.template',
         'organization.template',
@@ -41,10 +40,7 @@
     ]);
 
     organizationModule
-        .controller('applicationController', applicationController)
-        .service('applicationService', applicationService)
-        .directive('applicationDirective', applicationDirective)
-        .controller('capabilitiesController', capabilitiesController)
+       .controller('capabilitiesController', capabilitiesController)
         .service('capabilitiesService', capabilitiesService)
         .directive('capabilitiesDirective', capabilitiesDirective)
         .controller('organizationController', organizationController)

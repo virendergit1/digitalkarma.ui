@@ -24,6 +24,7 @@ require.config({
         topNav: '../src/topNav/topNavModule',
         angularBreadcrumbs: '../bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs',
         organization: '../src/organization/organizationModule',
+        application: '../src/organization/application/applicationModule',
         angularTreeControl: '../bower_components/angular-tree-control/angular-tree-control'
     },
     shim: {
@@ -84,7 +85,7 @@ require.config({
         },
         'metisMenu': {
             deps: ['jquery'],
-            'metisMenu': { exports:'metisMenu' }
+            'metisMenu': { exports: 'metisMenu' }
         },
         'lodash': {
             'lodash': 'lodash'
@@ -116,8 +117,12 @@ require.config({
             deps: ['angular'],
             'angularBreadcrumbs': { exports: 'angularBreadcrumbs' }
         },
-        'organization': {
+        'application': {
             deps: ['angular'],
+            'application': { exports: 'application' }
+        },
+        'organization': {
+            deps: ['angular', 'application'],
             'organization': { exports: 'organization' }
         },
         'angularTreeControl': {
