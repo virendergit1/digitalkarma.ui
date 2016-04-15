@@ -39,6 +39,14 @@
     "saveAndContinue": "Save & Continue"
   },
   "applications": {
-
+    "general": {
+      "name": "Application Name",
+      "alias": "Alias",
+      "description": "Description",
+      "status": "Status",
+      "currentVersion": "Current Version",
+      "accessLocation": "Access Location",
+      "notes": "Notes"
+    }
   }
 }

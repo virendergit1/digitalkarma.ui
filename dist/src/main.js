@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/04/12 02:11:10 UTC
+ * digitalkarma - 2016/04/15 04:00:26 UTC
 */
 
 require.config({
@@ -12,7 +12,7 @@ require.config({
         jquery: '../bower_components/jquery/dist/jquery.min',
         d3: '../bower_components/d3/d3',
         c3: '../bower_components/c3/c3',
-        bootstrap: '../bower_components/bootstrap/dist/js/bootstrap',
+        bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         angularBootstrap: '../bower_components/angular-bootstrap/ui-bootstrap',
         angularBootstrapTpl: '../bower_components/angular-bootstrap/ui-bootstrap-tpls',
         text: '../bower_components/requirejs-text/text',
@@ -71,6 +71,7 @@ require.config({
             deps: [
                 'jquery',
                 'angular',
+                'bootstrap',
                 'c3',
                 'd3',
                 'uiRouter',
@@ -140,14 +141,26 @@ require.config({
 });
 require(
     [
+        'jquery',
         'app',
         'c3',
         'lodash'
     ],
-    function(app, c3, lodash) {
+    function(jQuery, app, c3, lodash) {
         app.init();
         window.c3 = c3;
         window._ = lodash;
+        window.$ = window.jQuery = $;
+
+        $(document).ready(function() {
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
+            $('body').popover({
+                selector: '[data-toggle="popover"]',
+                trigger: 'hover',
+                placement: 'right'
+            });
+        });
     }
 );
 
