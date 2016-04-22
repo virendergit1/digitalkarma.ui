@@ -31,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="app\src\assets\img\" />
-    <Folder Include="app\src\components\" />
     <Folder Include="app\src\temlapteTester\" />
     <Folder Include="app\tests\lib\" />
     <Folder Include="app\tests\unit\chartTester\" />
@@ -41,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="app\src\apiProxies\organizationApiProxy.js" />
     <Content Include="app\src\dashboard\dashboard.html" />
     <Content Include="app\src\libs\angular-busy.js" />
     <Content Include="app\src\apiProxies\baseApiProxy.js" />

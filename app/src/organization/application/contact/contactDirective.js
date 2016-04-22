@@ -5,7 +5,7 @@
             restrict: 'E',
             scope: {},
             templateUrl: '/app/src/organization/application/contact/contactTemplate.html',
-            controller: 'businessValueController',
+            controller: 'contactController',
             link: function (scope, element, attrs) {
             }
         };

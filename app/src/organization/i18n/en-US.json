@@ -41,12 +41,33 @@
   "applications": {
     "general": {
       "name": "Application Name",
+      "nameHelpText": "The full name of the application; some of the special characters are not allowed in this field (Note: You cannot add two applications with the same name; please check to see if an application with the same name exists before you add a new application)",
       "alias": "Alias",
+      "aliasHelpText": "The short name by which the application is commonly known",
       "description": "Description",
+      "descriptionHelpText": "High-level description of the application and the functionality",
       "status": "Status",
+      "statusHelpText": "The status of the application; emerging, standard, contained, sunset, retired",
       "currentVersion": "Current Version",
+      "currentVersionHelpText": "Current version of the application deployed",
       "accessLocation": "Access Location",
-      "notes": "Notes"
+      "accessLocationHelpText": "Please provide the information about accessing this application. In most cases it will be a URL to the application",
+      "notes": "Notes",
+      "notesHelpText": "Free-form text field to enter any additional information regarding the application"
+    }
+    "contacts": {
+      "businessOwner": "Business Owner",
+      "businessOwnerHelpText": "Is the business sponsor of the application who has the financial ownership of the application and also signs off on the business requirements and attests to the proper functionality of the application system; input at least three letters of the individual’s first name and last name and use the “Look Up” button to obtain narrowed down names; using the “Look Up” button is mandatory to load the correct information",
+      "itOwner": "IT Owner",
+      "itOwnerHelpText": "Is the IT representative who is in charge of the development activities for the application; input at least three letters of the individual’s first name and last name and use the “Look Up” button to obtain narrowed down names; using the “Look Up” button is mandatory to load the correct information",
+      "itSupportContact": "IT Support Contact",
+      "itSupportContactHelpText": "Is the IT representative who is in charge of the support activities for the application; input at least three letters of the individual’s first name and last name and use the “Look Up” button to obtain narrowed down names; using the “Look Up” button is mandatory to load the correct information",
+      "appDevVendor": "Application Development Vendor",
+      "appDevVendorHelpText": "Vendor responsible for application development",
+      "appDevSupportVendor": "Application Support Vendor",
+      "appDevSupportVendorHelpText": "Vendor responsible for application support",
+      "appHostingVendor": "Application Hosting Vendor",
+      "appHostingVendotHelpText": "Vendor responsible for hosting the application"
     }
   }
 }

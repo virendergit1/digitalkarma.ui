@@ -15,6 +15,7 @@
     var serviceConstant = require('src/src/services/serviceConstant');
     var baseApiProxy = require('src/src/apiProxies/baseApiProxy');
     var userApiProxy = require('src/src/apiProxies/userApiProxy');
+    var organizationApiProxy = require('src/src/apiProxies/organizationApiProxy');
     var authenticationService = require('login/authenticationService');
     var formAutofillFixDirective = require('login/formAutofillFixDirective');
     var loginConstant = require('login/loginConstant');
@@ -78,6 +79,7 @@
         .service('dk.loginService', loginService)
         .service('dk.baseApiProxy', baseApiProxy)
         .service('dk.userApiProxy', userApiProxy)
+        .service('organizationApiProxy', organizationApiProxy)
         .service('Session', session)
         .service('AuthInterceptor', authIntercepter)
         .service('translateService', translateService)

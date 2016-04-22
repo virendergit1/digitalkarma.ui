@@ -21,9 +21,9 @@
     var businessValueService = require('businessValue/businessValueService');
     var businessValueDirective = require('businessValue/businessValueDirective');
 
-    var conatctController = require('contact/contactController');
-    var conatctService = require('contact/contactService');
-    var conatctDirective = require('contact/contactDirective');
+    var contactController = require('contact/contactController');
+    var contactService = require('contact/contactService');
+    var contactDirective = require('contact/contactDirective');
 
     var costController = require('cost/costController');
     var costService = require('cost/costController');
@@ -69,9 +69,9 @@
         .controller('businessValueController',businessValueController)
         .service('businessValueService',businessValueService)
         .directive('businessValueDirective',businessValueDirective)
-        .controller('conatctController',conatctController)
-        .service('conatctService',conatctService)
-        .directive('conatctDirective',conatctDirective)
+        .controller('contactController', contactController)
+        .service('contactService', contactService)
+        .directive('contactDirective', contactDirective)
         .controller('costController',costController)
         .service('costService',costService)
         .directive('costDirective',costDirective)

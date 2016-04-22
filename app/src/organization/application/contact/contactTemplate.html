@@ -1,1 +1,26 @@
-﻿<div>Contact</div>
+﻿<div class="row">
+    <div class="col-lg-6">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="businessOwner">Business Owner:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text"
+                           class="form-control"
+                           id="businessOwner"
+                           ng-model="asyncSelected" placeholder="Business Owner loaded via $http"
+                           uib-typeahead="state for state in getBusinessOwner($viewValue)"
+                           typeahead-loading="loadingLocations" typeahead-no-results="noResults">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Business Owner" data-content="Is the business sponsor of the application who has the financial ownership of the application and also signs off on the business requirements and attests to the proper functionality of the application system; input at least three letters of the individual’s first name and last name and use the “Look Up” button to obtain narrowed down names; using the “Look Up” button is mandatory to load the correct information">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                <div ng-show="noResults">
+                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

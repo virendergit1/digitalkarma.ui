@@ -39,7 +39,13 @@
     "angular-translate": "^2.10.0",
     "angular-translate-loader-partial": "^2.10.0",
     "angular-utils-ui-breadcrumbs": "^0.2.2",
-    "angular-tree-control": "^0.2.23"
+    "angular-tree-control": "^0.2.23",
+    "json3": "~3.2.4",
+    "bootstrap-sass": "~3.3.4",
+    "es5-shim": "~2.0.8",
+    "angular-cookies": "~1.0.7",
+    "angular-strap": "~0.7.5",
+    "angular-ui": "~0.4.0"
   },
   "resolutions": {
     "angular": "^1.5.0"
