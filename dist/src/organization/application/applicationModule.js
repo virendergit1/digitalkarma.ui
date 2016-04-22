@@ -157,7 +157,7 @@ define('contact/contactController',[],function() {
 
             return $scope.promise.then(function(data) {
                 return _.filter(data, function (filter) {
-                    return filter.indexOf(val) > -1;
+                    return filter.toLowerCase().indexOf(val.toLowerCase()) > -1;
                 });
             }, function(error) {
                 //--+--reject error
