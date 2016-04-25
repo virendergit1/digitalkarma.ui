@@ -1,1 +1,145 @@
-﻿<div>usage</div>
+﻿<div class="row">
+    <div class="col-lg-6">
+        <form class="form-horizontal" role="form">
+            
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">Capabilities Supported:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" id="appDevVendor">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Capabilities Supported" data-content="Select the capability this Application support">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">User Roles:</label>
+                <div class="input-group custom-search-form">
+                    <ui-select class="form-control"  multiple placeholder="Select Scalability">
+                        
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="User Roles" data-content="Corporate Roles who uses this application">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">Number of Individual Users:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" id="">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Number of Individual Users" data-content="Is the number of users who currently use the application">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">Number of Concurrent Users:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" id="">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Number of Concurrent Users" data-content="Is the number of users who can use the application “simultaneously” with the current capacity of the application">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">Transaction Volume (Daily):</label>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" id="">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Transaction Volume (Daily)" data-content="Number of business transactions processed by the application per day">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">Region:</label>
+                <div class="input-group custom-search-form">
+                    <select class="form-control">
+                        <option value="" selected disabled>Select Region</option>
+                        <option>Global</option>
+                        <option>Regional</option>
+                    </select>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Region" data-content="The extent of usage of the application; if the application has multiregion footprint, select “Global”; if the application is used across a region, then select “Regional”.">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">Other:region:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" id="">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="" data-content="">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">Language(s) Supported:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" id="">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Language(s) Supported" data-content="This field is meant to capture the language(s) in which this application supports; “user interface” available in;"><i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">Availability:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" id="">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Availability" data-content="This field identifies the availability of the application for end users; select the appropriate availability by choosing 24 x 7 basis, weekday including holidays, and so on">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">Scalability:</label>
+                <div class="input-group custom-search-form">
+                    <select class="form-control" placeholder="Select Scalability">
+                        <option value="" selected disabled>Select Scalability</option>
+                        <option>1 - Cannot double the current number of users </option>
+                        <option>2 - Cannot double the current number of users without a serious service disruption</option>
+                        <option>3 - Can double the current number of users with only a minor service disruption</option>
+                        <option>4 - Can double the current number of users without any service disruption</option>
+                        <option>5 - Can more than double the current number of users without any service disruption</option>
+                    </select>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Scalability" 
+                                data-content="This field identifies the relative scalability of the application. While selecting the field, consider the question, “how will the application work if the number of users on the application doubles?” The intention in obtaining this information is to gauge the ability to “leverage” an application (that satisfies specific functional needs) across multiple geographies, divisions, etc. 
+                                                Please rate the application using the following criteria. This application   
+                                                1.  Cannot double the current number of users    
+                                                2.  Cannot double the current number of users without a serious service disruption   
+                                                3.  Can double the current number of users with only a minor service disruption   
+                                                4.  Can double the current number of users without any service disruption   
+                                                5.  Can more than double the current number of users without any service disruption">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

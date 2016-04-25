@@ -7,7 +7,7 @@
                     <input type="text"
                            class="form-control"
                            id="businessOwner"
-                           ng-model="asyncSelected" placeholder="Business Owner loaded via $http"
+                           ng-model="businessOwner" placeholder=""
                            uib-typeahead="state for state in getBusinessOwner($viewValue)"
                            typeahead-loading="loadingLocations" typeahead-no-results="noResults">
                     <span class="input-group-btn">
@@ -19,6 +19,84 @@
                 <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                 <div ng-show="noResults">
                     <i class="glyphicon glyphicon-remove"></i> No Results Found
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="itOwner">IT Owner:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text"
+                           class="form-control"
+                           id="itOwner"
+                           ng-model="itOwner" placeholder=""
+                           uib-typeahead="state for state in getITOwner($viewValue)"
+                           typeahead-loading="loadingLocations" typeahead-no-results="noResults">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="IT Owner" data-content="Is the IT representative who is in charge of the development activities for the application; input at least three letters of the individual’s first name and last name and use the “Look Up” button to obtain narrowed down names; using the “Look Up” button is mandatory to load the correct information">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                <div ng-show="noResults">
+                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="itSupportContact">IT Support Contact:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text"
+                           class="form-control"
+                           id="itSupportContact"
+                           ng-model="itSupportContact" placeholder=""
+                           uib-typeahead="state for state in getITSupportContact($viewValue)"
+                           typeahead-loading="loadingLocations" typeahead-no-results="noResults">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="IT Support Contact" data-content="Is the IT representative who is in charge of the support activities for the application; input at least three letters of the individual’s first name and last name and use the “Look Up” button to obtain narrowed down names; using the “Look Up” button is mandatory to load the correct information">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                <div ng-show="noResults">
+                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appDevVendor">Application Development Vendor:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" id="appDevVendor">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Description" data-content="Vendor responsible for application development">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appSupport">Application Support Vendor:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" id="appSupport">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Description" data-content="Vendor responsible for application development">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class=" form-group">
+                <label class="control-label col-sm-3" for="appHostingVendor">Application Hosting Vendor:</label>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" id="appHostingVendor">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-container="body" data-toggle="popover" data-placement="top" title="Description" data-content="Vendor responsible for application support">
+                            <i class="fa fa-info"></i>
+                        </button>
+                    </span>
                 </div>
             </div>
         </form>
