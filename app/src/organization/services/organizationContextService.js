@@ -1,11 +1,12 @@
 ﻿define(function () {
     'user strict';
-    var organizationContextService = function () {
+    var organizationContextService = function ($rootScope) {
         var self = this;
 
         self.data = {};
+
     };
 
-    organizationContextService.$inject = [];
+    organizationContextService.$inject = ['$rootScope'];
     return organizationContextService;
 });

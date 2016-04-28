@@ -36,6 +36,27 @@
         };
 
 
+        self.saveOrgnaization = function(organizationData) {
+            var deferred = $q.defer();
+            var formData = { 'organization': organizationData };
+            var apiUrl = config.baseURL + '/v1/organizations';
+
+            var httpConfig = baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.PUT, '', formData);
+
+            $http(httpConfig)
+                .success(function(data) {
+                    if (isApiResponseInvalid(data)) {
+                        deferred.reject(data);
+                    } else {
+                        deferred.resolve(data);
+                    }
+                }).error(function(error) {
+                    deferred.reject(error);
+                });
+
+            return deferred.promise;
+        };
+
     };
 
     organizationApiProxy.$inject = ['$http', '$q', 'dk.validatorService', 'dk.configConstant', 'dk.serviceConstant', 'dk.baseApiProxy'];

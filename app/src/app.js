@@ -101,20 +101,20 @@
             //and authorized to move onto the next state
             //console.log($state);
             //$rootScope.$on('$stateChangeStart', function (event, next) {
-                //var authorizedRoles = next.data.authorizedRoles;
+            //    var authorizedRoles = next.data.authorizedRoles;
 
-                //if (authorizedRoles[0] === "initial") {
-                //    return;
-                //}
+            //    if (authorizedRoles[0] === "initial") {
+            //        return;
+            //    }
                 
-                //if (!Auth.isAuthorized(authorizedRoles)) {
-                //    event.preventDefault();
-                //    if (Auth.isAuthenticated()) {
-                //        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-                //    } else {
-                //        $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-                //    }
-                //}
+            //    if (!Auth.isAuthorized(authorizedRoles)) {
+            //        event.preventDefault();
+            //        if (Auth.isAuthenticated()) {
+            //            $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+            //        } else {
+            //            $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+            //        }
+            //    }
             //});
 
             /* To show current active state on menu */

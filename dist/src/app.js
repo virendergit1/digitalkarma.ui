@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/04/25 03:21:45 UTC
+ * digitalkarma - 2016/04/28 02:31:21 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -43,9 +43,9 @@ define('login/authIntercepter',[],function() {
 define('login/loginController',[],function() {
     'use strict';
 
-    var loginController = function ($scope, $rootScope, $state, $window, authenticationService, idle, $translate) {
+    var loginController = function($scope, $rootScope, $state, $window, authenticationService, idle, $translate, organizationContextService) {
         var self = this;
-       
+
         $scope.isUserLoggedIn = false;
 
         $scope.delay = 0;
@@ -56,14 +56,14 @@ define('login/loginController',[],function() {
 
         var getErrorMessage = function(error) {
             switch (error) {
-                case "BAD_PASSWORD":
-                    return $translate.instant('loginResponse.badPassword');
-                case "NOT_FOUND":
-                    return $translate.instant('loginResponse.notFound');
-                case "NOT_PROVIDED":
-                    return $translate.instant('loginResponse.notProvided');
-                default:
-                    return $translate.instant('loginResponse.error');
+            case "BAD_PASSWORD":
+                return $translate.instant('loginResponse.badPassword');
+            case "NOT_FOUND":
+                return $translate.instant('loginResponse.notFound');
+            case "NOT_PROVIDED":
+                return $translate.instant('loginResponse.notProvided');
+            default:
+                return $translate.instant('loginResponse.error');
             }
         };
 
@@ -72,20 +72,35 @@ define('login/loginController',[],function() {
             $scope.loginErrorMessage = getErrorMessage(error.response);
         };
 
-        $scope.email = "viren@dk.com";
+        $scope.email = "ch_virender@yahoo.com";
         $scope.password = "viren";
 
-        $scope.validateUser = function (userName, password) {
+        var setOrganizationData = function() {
+            organizationContextService.data.organization = $rootScope.currentUser.userInfo.organization;
+        };
+
+        var redirectUserBasedOnUserState = function() {
+            if (!_.isUndefined($rootScope.currentUser)) {
+                if ($rootScope.currentUser.userInfo.organization) {
+                    setOrganizationData();
+                    $state.transitionTo('dashboard');
+                } else {
+                    $state.transitionTo('organization');
+                }
+            }
+        };
+
+        $scope.validateUser = function(userName, password) {
             $scope.submitted = true;
 
             if ($scope.login.email.$valid && $scope.login.password.$valid) {
 
                 $scope.promise = authenticationService.validateUser(userName, password);
 
-                $scope.promise.then(function (data) {
+                $scope.promise.then(function(data) {
                     data = data || {};
                     if (data.isValidUser) {
-                        $state.transitionTo('home');
+                        redirectUserBasedOnUserState();
                         idle.watch();
                     } else {
                         $scope.isShowLoginError = true;
@@ -98,7 +113,7 @@ define('login/loginController',[],function() {
         };
     };
 
-    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate'];
+    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate', 'organizationContextService'];
 
     return loginController;
 });
@@ -474,6 +489,27 @@ define('src/src/apiProxies/organizationApiProxy',[],function () {
         };
 
 
+        self.saveOrgnaization = function(organizationData) {
+            var deferred = $q.defer();
+            var formData = { 'organization': organizationData };
+            var apiUrl = config.baseURL + '/v1/organizations';
+
+            var httpConfig = baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.PUT, '', formData);
+
+            $http(httpConfig)
+                .success(function(data) {
+                    if (isApiResponseInvalid(data)) {
+                        deferred.reject(data);
+                    } else {
+                        deferred.resolve(data);
+                    }
+                }).error(function(error) {
+                    deferred.reject(error);
+                });
+
+            return deferred.promise;
+        };
+
     };
 
     organizationApiProxy.$inject = ['$http', '$q', 'dk.validatorService', 'dk.configConstant', 'dk.serviceConstant', 'dk.baseApiProxy'];
@@ -496,41 +532,42 @@ define('login/authenticationService',[],function() {
         self.validateUser = function(userName, password) {
             var deferred = $q.defer();
 
-            var loginData = {
-                user: userName,
-                userRole: ["Contributor"]
-            };
-            createUserSession(loginData);
-            deferred.resolve({
-                isValidUser: true
-            });
+            //var loginData = {
+            //    user: userName,
+            //    userRole: ["Contributor"]
+            //};
+            //createUserSession(loginData);
+            //deferred.resolve({
+            //    isValidUser: true
+            //});
 
-            //userApiProxy.checkUserLogins(userName, password)
-            //    .then(function(data) {
-            //        if (!_.isEmpty(data)) {
-            //            if (data.username === userName) {
-            //                var loginData = {
-            //                    user: data.username,
-            //                    userRole: data.authorities
-            //                };
+            userApiProxy.checkUserLogins(userName, password)
+                .then(function(data) {
+                    if (!_.isEmpty(data)) {
+                        if (data.username === userName) {
+                            var loginData = {
+                                user: data.username,
+                                userRole: data.authorities,
+                                userInfo: data
+                            };
 
-            //                delete data.password;
+                            delete data.password;
 
-            //                createUserSession(loginData);
+                            createUserSession(loginData);
 
-            //                deferred.resolve({
-            //                    isValidUser: true
-            //                });
-            //            }
-            //        }
-            //    }, function(error) {
-            //        $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-            //        deferred.reject({
-            //            response: error,
-            //            isValidUser: false
-            //        });
+                            deferred.resolve({
+                                isValidUser: true
+                            });
+                        }
+                    }
+                }, function(error) {
+                    $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+                    deferred.reject({
+                        response: error,
+                        isValidUser: false
+                    });
 
-            //    });
+                });
             return deferred.promise;
         };
 
@@ -942,20 +979,20 @@ define('app',['require','angular','login/session','login/authIntercepter','login
             //and authorized to move onto the next state
             //console.log($state);
             //$rootScope.$on('$stateChangeStart', function (event, next) {
-                //var authorizedRoles = next.data.authorizedRoles;
+            //    var authorizedRoles = next.data.authorizedRoles;
 
-                //if (authorizedRoles[0] === "initial") {
-                //    return;
-                //}
+            //    if (authorizedRoles[0] === "initial") {
+            //        return;
+            //    }
                 
-                //if (!Auth.isAuthorized(authorizedRoles)) {
-                //    event.preventDefault();
-                //    if (Auth.isAuthenticated()) {
-                //        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-                //    } else {
-                //        $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-                //    }
-                //}
+            //    if (!Auth.isAuthorized(authorizedRoles)) {
+            //        event.preventDefault();
+            //        if (Auth.isAuthenticated()) {
+            //            $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+            //        } else {
+            //            $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+            //        }
+            //    }
             //});
 
             /* To show current active state on menu */

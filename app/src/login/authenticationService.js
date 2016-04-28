@@ -15,41 +15,42 @@
         self.validateUser = function(userName, password) {
             var deferred = $q.defer();
 
-            var loginData = {
-                user: userName,
-                userRole: ["Contributor"]
-            };
-            createUserSession(loginData);
-            deferred.resolve({
-                isValidUser: true
-            });
+            //var loginData = {
+            //    user: userName,
+            //    userRole: ["Contributor"]
+            //};
+            //createUserSession(loginData);
+            //deferred.resolve({
+            //    isValidUser: true
+            //});
 
-            //userApiProxy.checkUserLogins(userName, password)
-            //    .then(function(data) {
-            //        if (!_.isEmpty(data)) {
-            //            if (data.username === userName) {
-            //                var loginData = {
-            //                    user: data.username,
-            //                    userRole: data.authorities
-            //                };
+            userApiProxy.checkUserLogins(userName, password)
+                .then(function(data) {
+                    if (!_.isEmpty(data)) {
+                        if (data.username === userName) {
+                            var loginData = {
+                                user: data.username,
+                                userRole: data.authorities,
+                                userInfo: data
+                            };
 
-            //                delete data.password;
+                            delete data.password;
 
-            //                createUserSession(loginData);
+                            createUserSession(loginData);
 
-            //                deferred.resolve({
-            //                    isValidUser: true
-            //                });
-            //            }
-            //        }
-            //    }, function(error) {
-            //        $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-            //        deferred.reject({
-            //            response: error,
-            //            isValidUser: false
-            //        });
+                            deferred.resolve({
+                                isValidUser: true
+                            });
+                        }
+                    }
+                }, function(error) {
+                    $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+                    deferred.reject({
+                        response: error,
+                        isValidUser: false
+                    });
 
-            //    });
+                });
             return deferred.promise;
         };
 
