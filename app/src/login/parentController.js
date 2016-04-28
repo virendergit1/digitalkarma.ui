@@ -57,7 +57,6 @@
                 templateUrl: 'timedout-dialog.html',
                 windowClass: 'modal-danger'
             });
-            console.log($scope.isUserLoggedIn);
 
             $scope.isUserLoggedIn = false;
             $state.go('login');

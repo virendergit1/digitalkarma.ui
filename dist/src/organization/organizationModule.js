@@ -317,7 +317,6 @@ define('organization/organizationController',[],function () {
         var init = function () {
             $scope.organization = {};
             $scope.organization = organizationContextService.data.organization;
-            console.log($scope.organization);
         };
 
         init();

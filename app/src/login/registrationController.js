@@ -25,10 +25,7 @@
             }
         ];
 
-        //console.log($translate.instant('userRole'));
-        //$scope.roleItems = $translate.instant('userRole');
-
-        var onUserRegistrationReject = function(error) {
+       var onUserRegistrationReject = function(error) {
             $scope.showMessageRegistration = true;
             $scope.successMessage = $translate.instant('loginResponse.userRegistrationError');
         };

@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/04/28 02:31:21 UTC
+ * digitalkarma - 2016/04/28 02:42:00 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -176,7 +176,6 @@ define('login/parentController',[],function() {
                 templateUrl: 'timedout-dialog.html',
                 windowClass: 'modal-danger'
             });
-            console.log($scope.isUserLoggedIn);
 
             $scope.isUserLoggedIn = false;
             $state.go('login');
@@ -267,10 +266,7 @@ define('login/registrationController',[],function () {
             }
         ];
 
-        //console.log($translate.instant('userRole'));
-        //$scope.roleItems = $translate.instant('userRole');
-
-        var onUserRegistrationReject = function(error) {
+       var onUserRegistrationReject = function(error) {
             $scope.showMessageRegistration = true;
             $scope.successMessage = $translate.instant('loginResponse.userRegistrationError');
         };
