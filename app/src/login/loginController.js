@@ -1,7 +1,8 @@
 ﻿define(function() {
     'use strict';
 
-    var loginController = function($scope, $rootScope, $state, $window, authenticationService, idle, $translate, organizationContextService) {
+    var loginController = function ($scope, $rootScope, $state, $window, authenticationService,
+                                    idle, $translate, organizationContextService, session) {
         var self = this;
 
         $scope.isUserLoggedIn = false;
@@ -30,8 +31,8 @@
             $scope.loginErrorMessage = getErrorMessage(error.response);
         };
 
-        $scope.email = "ch_virender@yahoo.com";
-        $scope.password = "viren";
+        $scope.email = "rammanoher@yahoo.com";
+        $scope.password = "ram";
 
         var setOrganizationData = function() {
             organizationContextService.data.organization = $rootScope.currentUser.userInfo.organization;
@@ -71,7 +72,7 @@
         };
     };
 
-    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate', 'organizationContextService'];
+    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate', 'organizationContextService', 'Session'];
 
     return loginController;
 });

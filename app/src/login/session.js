@@ -7,6 +7,7 @@
         self.create = function (user) {
             this.user = user;
             this.userRole = user.userRole;
+            self.user = user;
         };
         self.destroy = function () {
             this.user = null;

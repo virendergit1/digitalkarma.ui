@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/04/28 02:42:00 UTC
+ * digitalkarma - 2016/04/29 03:41:25 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -10,6 +10,7 @@ define('login/session',[],function() {
         self.create = function (user) {
             this.user = user;
             this.userRole = user.userRole;
+            self.user = user;
         };
         self.destroy = function () {
             this.user = null;
@@ -43,7 +44,8 @@ define('login/authIntercepter',[],function() {
 define('login/loginController',[],function() {
     'use strict';
 
-    var loginController = function($scope, $rootScope, $state, $window, authenticationService, idle, $translate, organizationContextService) {
+    var loginController = function ($scope, $rootScope, $state, $window, authenticationService,
+                                    idle, $translate, organizationContextService, session) {
         var self = this;
 
         $scope.isUserLoggedIn = false;
@@ -72,8 +74,8 @@ define('login/loginController',[],function() {
             $scope.loginErrorMessage = getErrorMessage(error.response);
         };
 
-        $scope.email = "ch_virender@yahoo.com";
-        $scope.password = "viren";
+        $scope.email = "rammanoher@yahoo.com";
+        $scope.password = "ram";
 
         var setOrganizationData = function() {
             organizationContextService.data.organization = $rootScope.currentUser.userInfo.organization;
@@ -113,7 +115,7 @@ define('login/loginController',[],function() {
         };
     };
 
-    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate', 'organizationContextService'];
+    loginController.$inject = ['$scope', '$rootScope', '$state', '$window', 'Auth', 'Idle', '$translate', 'organizationContextService', 'Session'];
 
     return loginController;
 });
