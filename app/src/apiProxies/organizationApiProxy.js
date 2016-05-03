@@ -38,7 +38,13 @@
 
         self.saveOrgnaization = function(organizationData) {
             var deferred = $q.defer();
-            var formData = { 'organization': organizationData };
+
+            var formData = JSON.stringify({
+                'organization': organizationData
+            });
+
+            //$http.defaults.headers.common['Content-Type']
+
             var apiUrl = config.baseURL + '/v1/organizations';
 
             var httpConfig = baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.PUT, '', formData);

@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/04/29 03:41:25 UTC
+ * digitalkarma - 2016/05/03 03:32:55 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -377,7 +377,7 @@ define('src/src/apiProxies/baseApiProxy',[], function() {
 define('src/src/apiProxies/userApiProxy',[],function() {
     'use strict';
 
-    var userApiProxy = function($http, $q, validatorService, config, serviceConstant, baseApiProxy) {
+    var userApiProxy = function ($http, $q, validatorService, config, serviceConstant, baseApiProxy) {
         var self = this;
 
         var isApiResponseInvalid = function(response) {
@@ -386,7 +386,11 @@ define('src/src/apiProxies/userApiProxy',[],function() {
 
         self.checkUserLogins = function(userId, password) {
             var deferred = $q.defer();
-            var formData = { "username": userId, "password": password };
+
+            var formData = JSON.stringify({
+                "username": userId,
+                "password": password
+            });
 
             var httpConfig = baseApiProxy.getJSONHttpConfig(config.loginUrl, serviceConstant.httpVerb.POST, '', formData);
 
@@ -489,7 +493,13 @@ define('src/src/apiProxies/organizationApiProxy',[],function () {
 
         self.saveOrgnaization = function(organizationData) {
             var deferred = $q.defer();
-            var formData = { 'organization': organizationData };
+
+            var formData = JSON.stringify({
+                'organization': organizationData
+            });
+
+            //$http.defaults.headers.common['Content-Type']
+
             var apiUrl = config.baseURL + '/v1/organizations';
 
             var httpConfig = baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.PUT, '', formData);
@@ -916,10 +926,11 @@ define('app',['require','angular','login/session','login/authIntercepter','login
     ]);
 
     app.config(function ($httpProvider) {
-        $httpProvider.defaults.headers.common = {};
-        $httpProvider.defaults.headers.post = {};
-        $httpProvider.defaults.headers.put = {};
-        $httpProvider.defaults.headers.patch = {};
+        //$httpProvider.defaults.headers.common = {};
+        //$httpProvider.defaults.headers.post = {};
+        //$httpProvider.defaults.headers.put = {};
+        //$httpProvider.defaults.headers.patch = {};
+        $httpProvider.defaults.withCredentials = true;
     });
 
     app.config(['KeepaliveProvider', 'IdleProvider', function (keepaliveProvider, idleProvider) {

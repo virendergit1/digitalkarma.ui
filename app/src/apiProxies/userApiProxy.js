@@ -1,7 +1,7 @@
 ﻿define(function() {
     'use strict';
 
-    var userApiProxy = function($http, $q, validatorService, config, serviceConstant, baseApiProxy) {
+    var userApiProxy = function ($http, $q, validatorService, config, serviceConstant, baseApiProxy) {
         var self = this;
 
         var isApiResponseInvalid = function(response) {
@@ -10,7 +10,11 @@
 
         self.checkUserLogins = function(userId, password) {
             var deferred = $q.defer();
-            var formData = { "username": userId, "password": password };
+
+            var formData = JSON.stringify({
+                "username": userId,
+                "password": password
+            });
 
             var httpConfig = baseApiProxy.getJSONHttpConfig(config.loginUrl, serviceConstant.httpVerb.POST, '', formData);
 

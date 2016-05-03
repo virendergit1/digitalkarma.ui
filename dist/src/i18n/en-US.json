@@ -30,7 +30,7 @@
   "organization": "organization",
   "welcome": "Welcome",
   "setupYourOrganization": "Set your organization",
-  "orgSetupMessage": "Your account has been setup. As a next step, may start setting up your organization and other related information.",
+  "orgSetupMessage": "Your account has been setup. As a next step, you may start setting up your organization and other related information.",
   "setupNewOrg": "Setup a new Organization",
   "associateWithExistingOrg": "Associate with an existing organization",
   "orgSetUpFieldLabel": {
