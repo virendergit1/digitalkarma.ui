@@ -33,8 +33,7 @@
     "tag": "v0.2.2",
     "commit": "0c44e044d5ac2ff2109ba1a6e501348db0131b6b"
   },
-  "_source": "git://github.com/michaelbromley/angularUtils-uiBreadcrumbs.git",
+  "_source": "https://github.com/michaelbromley/angularUtils-uiBreadcrumbs.git",
   "_target": "^0.2.2",
-  "_originalSource": "angular-utils-ui-breadcrumbs",
-  "_direct": true
+  "_originalSource": "angular-utils-ui-breadcrumbs"
 }

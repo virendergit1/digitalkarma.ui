@@ -23,12 +23,17 @@
     var translateService = require('src/src/services/translateService');
     var loginService = require('login/loginService');
     var utilitiesService = require('src/src/services/utilities');
+    var alertTypeConstant = require('src/src/services/alertTypeConstant');
+    var alertService = require('src/src/services/alertService');
 
 
     require("topNav/topNavModule");
     require("organization/organizationModule");
 
-    var app = angular.module('myApp', ['dk.topNav',
+    var app = angular.module('myApp',
+    [
+        'ngAnimate',
+        'dk.topNav',
         'ui.router',
         'ngIdle',
         'ui.bootstrap',
@@ -36,7 +41,8 @@
         'pascalprecht.translate',
         'angularUtils.directives.uiBreadcrumbs',
         'my.organizationModule',
-        'treeControl'
+        'treeControl',
+        'inform'
     ]);
 
     app.config(function ($httpProvider) {
@@ -88,6 +94,8 @@
         .constant('dk.configConstant', configConstant)
         .constant('USER_ROLES', loginConstant.USER_ROLES)
         .constant('AUTH_EVENTS', loginConstant.AUTH_EVENTS)
+        .constant('alertTypeConstant', alertTypeConstant)
+        .service('alertService', alertService)
         .directive('formAutofillFix', formAutofillFixDirective)
         .config(function($httpProvider) {
             $httpProvider.interceptors.push([

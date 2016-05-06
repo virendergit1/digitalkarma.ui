@@ -13,7 +13,7 @@ angular.module('organization.template', ['/app/src/organization/organization/org
 angular.module("/app/src/organization/organization/organizationTemplate.html", []).run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("/app/src/organization/organization/organizationTemplate.html",
-    "<div><div><top-nav-directive></top-nav-directive></div><div id=page-wrapper><div class=row><div class=col-lg-12><h3 class=page-header>{{'welcome' | translate}} {{userName}}<br/><small>{{'orgSetupMessage' | translate}}</small></h3></div></div><div class=row><div class=col-lg-12><div class=\"panel panel-default\"><div class=panel-heading>Organization Setup</div><div class=panel-body><p>* {{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p><div class=row><form role=form name=form><div class=col-lg-6><div class=form-group ng-class=\"{'has-error': form.organizationName.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.name'|translate}} *</label><input class=form-control placeholder=\"Organization Name\" name=organizationName ng-model=organization.name ng-required=true ng-minlength=\"2\"/><label class=\"help-block has-error\" ng-if=\"form.organizationName.$error.required && (submitted)\">Organization Name is required</label></div><div class=form-group ng-class=\"{'has-error': form.description.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.description'|translate}}</label><textarea class=form-control rows=3 name=description ng-model=organization.description></textarea></div><div class=form-group ng-class=\"{'has-error': form.country.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.country'|translate}}</label><select class=form-control name=country ng-model=organization.country><option>United States of America</option><option>Canada</option><option>Mexico</option><option>UK</option><option>China</option></select><label class=\"help-block has-error\" ng-if=\"form.country.$error.required && (submitted)\">Acronym is required</label></div><div class=form-group ng-class=\"{'has-error': form.city.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.city'|translate}}</label><select class=form-control name=city ng-model=organization.city><option>Chicago</option><option>St Paul</option><option>New York</option><option>Boston</option><option>Los Angles</option></select></div><div class=form-group ng-class=\"{'has-error': form.email.$error.pattern || form.email.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.email' | translate}}</label><input class=form-control placeholder=E-mail name=email type=email autofocus ng-model=organization.email ng-pattern=\"/^[_a-z0-9]+(\\.[_a-z0-9]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$/\"/><label class=help-block ng-if=\"form.email.$error.pattern && (submitted)\">The Email is invalid</label></div></div><div class=col-lg-6><div class=form-group ng-class=\"{'has-error': form.acronym.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.acronym'|translate}}</label><input class=form-control placeholder=Acronym name=acronym ng-model=organization.acronym ng-minlength=\"2\"/></div><div class=form-group ng-class=\"{'has-error': form.address.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.streetAddress'|translate}}</label><textarea class=form-control rows=3 name=address ng-model=organization.address></textarea></div><div class=form-group ng-class=\"{'has-error': form.state.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.state'|translate}}</label><select class=form-control name=state ng-model=organization.state><option>Illinois</option><option>Minnesota</option><option>Wisconsin</option><option>New York</option><option>Washington</option></select></div><div class=form-group ng-class=\"{'has-error': form.phone.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.phone'|translate}}</label><input class=form-control placeholder=\"Phone Number\" name=phone ng-model=organization.phone ng-minlength=\"15\"/></div><div class=form-group ng-class=\"{'has-error': form.website.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.website'|translate}}</label><input class=form-control placeholder=\"Web Site\" name=website ng-model=organization.website ng-minlength=\"15\"/></div></div></form></div></div><div class=panel-footer><a class=\"btn btn-success\" ng-click=\"SaveAndContinue(form, organization)\">Save & Continue</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-default\">Save & Exit</a></div></div></div></div></div></div>");
+    "<div><div><top-nav-directive></top-nav-directive></div><div id=page-wrapper><div class=row><div class=col-lg-12><h3 class=page-header>{{'welcome' | translate}} {{userName}}<br/><small>{{'orgSetupMessage' | translate}}</small></h3></div></div><div class=row cg-busy={promise:promise,templateUrl:templateUrl,message:message,backdrop:backdrop,delay:delay,minDuration:minDuration}><div class=col-lg-12><div class=\"panel panel-default\"><div class=panel-heading>Organization Setup</div><div class=panel-body><p>* {{'orgSetUpFieldLabel.mandatoryFiels'|translate}}</p><div class=row><form role=form name=form><div class=col-lg-6><div class=form-group ng-class=\"{'has-error': form.organizationName.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.name'|translate}} *</label><input class=form-control placeholder=\"Organization Name\" name=organizationName ng-model=organization.name ng-required=true ng-minlength=\"2\"/><label class=\"help-block has-error\" ng-if=\"form.organizationName.$error.required && (submitted)\">Organization Name is required</label></div><div class=form-group ng-class=\"{'has-error': form.description.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.description'|translate}}</label><textarea class=form-control rows=3 name=description ng-model=organization.description></textarea></div><div class=form-group ng-class=\"{'has-error': form.country.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.country'|translate}}</label><select class=form-control name=country ng-model=organization.country><option>United States of America</option><option>Canada</option><option>Mexico</option><option>UK</option><option>China</option></select><label class=\"help-block has-error\" ng-if=\"form.country.$error.required && (submitted)\">Acronym is required</label></div><div class=form-group ng-class=\"{'has-error': form.city.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.city'|translate}}</label><select class=form-control name=city ng-model=organization.city><option>Chicago</option><option>St Paul</option><option>New York</option><option>Boston</option><option>Los Angles</option></select></div><div class=form-group ng-class=\"{'has-error': form.email.$error.pattern || form.email.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.email' | translate}}</label><input class=form-control placeholder=E-mail name=email type=email autofocus ng-model=organization.email ng-pattern=\"/^[_a-z0-9]+(\\.[_a-z0-9]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$/\"/><label class=help-block ng-if=\"form.email.$error.pattern && (submitted)\">The Email is invalid</label></div></div><div class=col-lg-6><div class=form-group ng-class=\"{'has-error': form.acronym.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.acronym'|translate}}</label><input class=form-control placeholder=Acronym name=acronym ng-model=organization.acronym ng-minlength=\"2\"/></div><div class=form-group ng-class=\"{'has-error': form.address.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.streetAddress'|translate}}</label><textarea class=form-control rows=3 name=address ng-model=organization.address></textarea></div><div class=form-group ng-class=\"{'has-error': form.state.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.state'|translate}}</label><select class=form-control name=state ng-model=organization.state><option>Illinois</option><option>Minnesota</option><option>Wisconsin</option><option>New York</option><option>Washington</option></select></div><div class=form-group ng-class=\"{'has-error': form.phone.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.phone'|translate}}</label><input class=form-control placeholder=\"Phone Number\" name=phone ng-model=organization.phone ng-minlength=\"15\"/></div><div class=form-group ng-class=\"{'has-error': form.website.$error.required && (submitted)}\"><label>{{'orgSetUpFieldLabel.website'|translate}}</label><input class=form-control placeholder=\"Web Site\" name=website ng-model=organization.website ng-minlength=\"15\"/></div></div></form></div></div><div class=panel-footer><a class=\"btn btn-success\" ng-click=\"SaveAndContinue(form, organization)\">Save & Continue</a>&nbsp;&nbsp;&nbsp; <a class=\"btn btn-default\">Save & Exit</a></div></div></div></div></div></div>");
 }]);
 
 define("organization/organizationTemplate", function(){});
@@ -286,27 +286,60 @@ define('capabilities/capabilitiesDirective',[],function () {
     };
     return capabilitiesDirective;
 });
-define('organization/organizationController',[],function () {
+define('organization/organizationController',[],function() {
     'use strict';
 
-    var organizationController = function ($scope, $state, organizationContextService, utilities, organizationService, session) {
+    var organizationController = function($scope,
+        $state,
+        organizationContextService,
+        utilities,
+        organizationService,
+        session,
+        alertTypeConstant,
+        alertService
+    ) {
 
-        var saveOrgnaization = function(organization) {
-            $scope.promise = organizationService.saveOrgnaization(organization);
+        $scope.delay = 0;
+        $scope.minDuration = 0;
+        $scope.message = 'Saving...';
+        $scope.backdrop = true;
+        $scope.promise = null;
+
+        var getAction = function() {
+            if (session.user.userInfo.organization) {
+                return "update";
+            } else {
+                return "add";
+            }
+        };
+
+        var showSaveStatus = function (data) {
+            //TODO:use translation here for success message
+
+            if (data.code === 'ORGANIZATION_CREATED' || data.code === 'ORGANIZATION_UPDATED') {
+                alertService.addAlert("Organization data is saved successfully successfully", alertTypeConstant.alertType.SUCCESS);
+
+            } else {
+                alertService.addAlert("Error saving organization data. Please try again.", alertTypeConstant.alertType.DANGER);
+            }
+        };
+
+        var saveOrgnaization = function (organization) {
+            var action = getAction();
+
+            $scope.promise = organizationService.saveOrgnaization(organization, action);
 
             $scope.promise.then(function(data) {
                 data = data || {};
-
+                showSaveStatus(data);
             });
-
         };
 
-        $scope.SaveAndContinue = function (form, organization) {
+        $scope.SaveAndContinue = function(form, organization) {
             $scope.submitted = true;
-            
+
             if (form.$valid) {
                 $scope.organization.id = utilities.guid();
-                organizationContextService.data.organization = organization;
 
                 if (saveOrgnaization(organization)) {
                     $state.transitionTo('capabilities');
@@ -314,16 +347,37 @@ define('organization/organizationController',[],function () {
             }
         };
 
-        var init = function () {
+        var getOrganizationById = function() {
+            if (session.user.userInfo.organization) {
+                $scope.promise = organizationService.getOrganizationById(session.user.userInfo.organization.organizationId);
+
+                $scope.promise.then(function (data) {
+                    data = data || {};
+                    $scope.organization = data;
+                    organizationContextService.data.organization = data;
+                });
+            }
+        };
+
+        var init = function() {
             $scope.userName = session.user.userInfo.firstName + " " + session.user.userInfo.lastName;
             $scope.organization = {};
-            $scope.organization = organizationContextService.data.organization;
+            getOrganizationById();
         };
 
         init();
     };
 
-    organizationController.$inject = ['$scope', '$state', 'organizationContextService', 'utilitiesService', 'organizationService', 'Session'];
+    organizationController.$inject = [
+        '$scope',
+        '$state',
+        'organizationContextService',
+        'utilitiesService',
+        'organizationService',
+        'Session',
+        'alertTypeConstant',
+        'alertService'
+    ];
 
     return organizationController;
 });
@@ -332,15 +386,29 @@ define('organization/organizationService',[],function() {
     var organizationService = function($q, organizationApiProxy) {
         var self = this;
 
-        self.saveOrgnaization = function(organization) {
+        self.saveOrgnaization = function (organization, action) {
             var deferred = $q.defer();
 
-            organizationApiProxy.saveOrgnaization(organization)
+            organizationApiProxy.saveOrgnaization(organization, action)
                 .then(function(data) {
                     if (!_.isEmpty(data)) {
                         deferred.resolve(data);
                     }
                 }, function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        };
+
+        self.getOrganizationById = function(orgId) {
+            var deferred = $q.defer();
+
+            organizationApiProxy.getOrganizationById(orgId)
+                .then(function (data) {
+                    if (!_.isEmpty(data)) {
+                        deferred.resolve(data);
+                    }
+                }, function (error) {
                     deferred.reject(error);
                 });
             return deferred.promise;

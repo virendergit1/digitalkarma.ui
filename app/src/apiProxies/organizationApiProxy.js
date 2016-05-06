@@ -35,19 +35,27 @@
             //return data1;
         };
 
+        var getHttpConfigForAction = function (action, organizationData) {
+            var apiUrl, orgId;
+            if (action === "save") {
+                apiUrl = config.baseURL + '/v1/organizations';
+                return baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.PUT, '', organizationData);
+            } else {
+                orgId = organizationData.organizationId;
+                apiUrl = config.baseURL + '/v1/organizations/' + orgId;
+                var data = {
+                    "organizationId": 1,
+                    "name": "Proctor & Gamble123",
+                    "alias": null
+                };
+                return baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.POST, '', organizationData);
+            }
+        };
 
-        self.saveOrgnaization = function(organizationData) {
+        self.saveOrgnaization = function(organizationData, action) {
             var deferred = $q.defer();
 
-            var formData = JSON.stringify({
-                'organization': organizationData
-            });
-
-            //$http.defaults.headers.common['Content-Type']
-
-            var apiUrl = config.baseURL + '/v1/organizations';
-
-            var httpConfig = baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.PUT, '', formData);
+            var httpConfig = getHttpConfigForAction(action, organizationData);
 
             $http(httpConfig)
                 .success(function(data) {
@@ -63,6 +71,24 @@
             return deferred.promise;
         };
 
+        self.getOrganizationById = function (orgId) {
+            var apiUrl = config.baseURL + '/v1/organizations/' + orgId;
+            var deferred = $q.defer();
+            var httpConfig = baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.GET, '', '');
+
+            $http(httpConfig)
+               .success(function (data) {
+                   if (isApiResponseInvalid(data)) {
+                       deferred.reject(data);
+                   } else {
+                       deferred.resolve(data);
+                   }
+               }).error(function (error) {
+                   deferred.reject(error);
+               });
+
+            return deferred.promise;
+        };
     };
 
     organizationApiProxy.$inject = ['$http', '$q', 'dk.validatorService', 'dk.configConstant', 'dk.serviceConstant', 'dk.baseApiProxy'];

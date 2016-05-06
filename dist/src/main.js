@@ -1,10 +1,11 @@
 /**
- * digitalkarma - 2016/05/03 03:32:55 UTC
+ * digitalkarma - 2016/05/06 02:16:26 UTC
 */
 
 require.config({
     paths: {
         angular: '../bower_components/angular/angular',
+        angularAnimate: '../bower_components/angular-animate/angular-animate.min',
         uiRouter: '../bower_components/angular-ui-router/release/angular-ui-router',
         ngResource: '../bower_components/angular-resource/angular-resource',
         angularScenario: '../bower_components/angular-scenario/angular-scenario',
@@ -28,7 +29,8 @@ require.config({
         angularBreadcrumbs: '../bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs',
         organization: '../src/organization/organizationModule',
         application: '../src/organization/application/applicationModule',
-        angularTreeControl: '../bower_components/angular-tree-control/angular-tree-control'
+        angularTreeControl: '../bower_components/angular-tree-control/angular-tree-control',
+        angularInform: '../bower_components/angular-inform/dist/angular-inform.min'
     },
     shim: {
         'jquery': {
@@ -53,6 +55,10 @@ require.config({
         'angular': {
             'exports': 'angular'
         },
+        'angularAnimate': {
+            deps: ['angular'],
+            'angularAnimate': 'ngAnimate'
+        },
         'ngResource': {
             deps: ['angular']
         },
@@ -71,6 +77,7 @@ require.config({
             deps: [
                 'jquery',
                 'angular',
+                'angularAnimate',
                 'bootstrap',
                 'c3',
                 'd3',
@@ -84,7 +91,8 @@ require.config({
                 'angularBreadcrumbs',
                 'metisMenu',
                 'organization',
-                'angularTreeControl'
+                'angularTreeControl',
+                'angularInform'
             ]
         },
         'metisMenu': {
@@ -132,6 +140,10 @@ require.config({
         'angularTreeControl': {
             deps: ['angular'],
             'angularTreeControl': { exports: 'angularTreeControl' }
+        },
+        'angularInform': {
+            deps: ['angular'],
+            'angularInform': { exports: 'angularInform' }
         }
     },
     priority: [

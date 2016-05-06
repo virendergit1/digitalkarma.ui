@@ -3,7 +3,6 @@
 
     var loginController = function ($scope, $rootScope, $state, $window, authenticationService,
                                     idle, $translate, organizationContextService, session) {
-        var self = this;
 
         $scope.isUserLoggedIn = false;
 

@@ -1,5 +1,5 @@
 /**
- * digitalkarma - 2016/05/03 03:32:55 UTC
+ * digitalkarma - 2016/05/06 02:16:26 UTC
 */
 define('login/session',[],function() {
     'user strict';
@@ -46,7 +46,6 @@ define('login/loginController',[],function() {
 
     var loginController = function ($scope, $rootScope, $state, $window, authenticationService,
                                     idle, $translate, organizationContextService, session) {
-        var self = this;
 
         $scope.isUserLoggedIn = false;
 
@@ -490,19 +489,27 @@ define('src/src/apiProxies/organizationApiProxy',[],function () {
             //return data1;
         };
 
+        var getHttpConfigForAction = function (action, organizationData) {
+            var apiUrl, orgId;
+            if (action === "save") {
+                apiUrl = config.baseURL + '/v1/organizations';
+                return baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.PUT, '', organizationData);
+            } else {
+                orgId = organizationData.organizationId;
+                apiUrl = config.baseURL + '/v1/organizations/' + orgId;
+                var data = {
+                    "organizationId": 1,
+                    "name": "Proctor & Gamble123",
+                    "alias": null
+                };
+                return baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.POST, '', organizationData);
+            }
+        };
 
-        self.saveOrgnaization = function(organizationData) {
+        self.saveOrgnaization = function(organizationData, action) {
             var deferred = $q.defer();
 
-            var formData = JSON.stringify({
-                'organization': organizationData
-            });
-
-            //$http.defaults.headers.common['Content-Type']
-
-            var apiUrl = config.baseURL + '/v1/organizations';
-
-            var httpConfig = baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.PUT, '', formData);
+            var httpConfig = getHttpConfigForAction(action, organizationData);
 
             $http(httpConfig)
                 .success(function(data) {
@@ -518,6 +525,24 @@ define('src/src/apiProxies/organizationApiProxy',[],function () {
             return deferred.promise;
         };
 
+        self.getOrganizationById = function (orgId) {
+            var apiUrl = config.baseURL + '/v1/organizations/' + orgId;
+            var deferred = $q.defer();
+            var httpConfig = baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.GET, '', '');
+
+            $http(httpConfig)
+               .success(function (data) {
+                   if (isApiResponseInvalid(data)) {
+                       deferred.reject(data);
+                   } else {
+                       deferred.resolve(data);
+                   }
+               }).error(function (error) {
+                   deferred.reject(error);
+               });
+
+            return deferred.promise;
+        };
     };
 
     organizationApiProxy.$inject = ['$http', '$q', 'dk.validatorService', 'dk.configConstant', 'dk.serviceConstant', 'dk.baseApiProxy'];
@@ -884,7 +909,48 @@ define('src/src/services/utilities',[],function () {
     utilitiesService.$inject = [];
     return utilitiesService;
 });
-define('app',['require','angular','login/session','login/authIntercepter','login/loginController','login/parentController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','src/src/apiProxies/organizationApiProxy','login/authenticationService','login/formAutofillFixDirective','login/loginConstant','route/routes','src/src/services/translateService','login/loginService','src/src/services/utilities','topNav/topNavModule','organization/organizationModule'],function(require) {
+define('src/src/services/alertTypeConstant',[],function() {
+    return {
+        "alertType": {
+            DEFAULT: 'default',
+            PRIMARY: 'primary',
+            SUCCESS: 'success',
+            INFO: 'info',
+            WARNING: 'warning',
+            DANGER: 'danger'
+        }
+    };
+});
+define('src/src/services/alertService',[],function () {
+    'user strict';
+    var alertService = function (inform) {
+        var self = this;
+
+        self.addAlert = function(alert, type) {
+            inform.add(alert, {
+                ttl: 2000, type: type
+            });
+        };
+
+        self.addAlertWithoutTimeToLive = function (alert, type) {
+            inform.add(alert, {
+                ttl: 0, type: type
+            });
+        };
+
+        self.removeAlert = function (id) {
+            inform.remove(id);
+        };
+
+        self.clearAlert = function () {
+            inform.clear();
+        };
+    };
+
+    alertService.$inject = ['inform'];
+    return alertService;
+});
+define('app',['require','angular','login/session','login/authIntercepter','login/loginController','login/parentController','login/registrationController','login/forgotPasswordController','src/src/services/validatorService','src/src/config/config','src/src/services/serviceConstant','src/src/apiProxies/baseApiProxy','src/src/apiProxies/userApiProxy','src/src/apiProxies/organizationApiProxy','login/authenticationService','login/formAutofillFixDirective','login/loginConstant','route/routes','src/src/services/translateService','login/loginService','src/src/services/utilities','src/src/services/alertTypeConstant','src/src/services/alertService','topNav/topNavModule','organization/organizationModule'],function(require) {
 
     'use strict';
 
@@ -909,12 +975,17 @@ define('app',['require','angular','login/session','login/authIntercepter','login
     var translateService = require('src/src/services/translateService');
     var loginService = require('login/loginService');
     var utilitiesService = require('src/src/services/utilities');
+    var alertTypeConstant = require('src/src/services/alertTypeConstant');
+    var alertService = require('src/src/services/alertService');
 
 
     require("topNav/topNavModule");
     require("organization/organizationModule");
 
-    var app = angular.module('myApp', ['dk.topNav',
+    var app = angular.module('myApp',
+    [
+        'ngAnimate',
+        'dk.topNav',
         'ui.router',
         'ngIdle',
         'ui.bootstrap',
@@ -922,7 +993,8 @@ define('app',['require','angular','login/session','login/authIntercepter','login
         'pascalprecht.translate',
         'angularUtils.directives.uiBreadcrumbs',
         'my.organizationModule',
-        'treeControl'
+        'treeControl',
+        'inform'
     ]);
 
     app.config(function ($httpProvider) {
@@ -974,6 +1046,8 @@ define('app',['require','angular','login/session','login/authIntercepter','login
         .constant('dk.configConstant', configConstant)
         .constant('USER_ROLES', loginConstant.USER_ROLES)
         .constant('AUTH_EVENTS', loginConstant.AUTH_EVENTS)
+        .constant('alertTypeConstant', alertTypeConstant)
+        .service('alertService', alertService)
         .directive('formAutofillFix', formAutofillFixDirective)
         .config(function($httpProvider) {
             $httpProvider.interceptors.push([

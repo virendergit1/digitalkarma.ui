@@ -2,10 +2,12 @@
   "organization": {
     "text": "organization",
     "welcome": "Welcome",
-    "setupYourOrganization": "Set your organization",
+    "setupYourOrganization": "Setup your organization",
     "orgSetupMessage": "Your account has been setup. As a next step, may start setting up your organization and other related information.",
     "setupNewOrg": "Setup a new Organization",
     "associateWithExistingOrg": "Associate with an existing organization",
+    "orgSaveSucess": "Organization is created successfully",
+    "orgSaveError": "Error saving organization data. Please try again.",
     "orgSetUpFieldLabel": {
       "mandatoryFiels": "Mandatory fields",
       "name": "Name",
