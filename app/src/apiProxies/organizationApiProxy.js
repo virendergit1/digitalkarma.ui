@@ -1,20 +1,16 @@
 ﻿define(function () {
     'use strict';
 
-    var organizationApiProxy = function ($http, $q, validatorService, config, serviceConstant, baseApiProxy) {
+    var organizationApiProxy = function (config, serviceConstant, baseApiProxy) {
         var self = this;
 
-        var isApiResponseInvalid = function (response) {
-            return (!response && validatorService.isValidJson(response));
-        };
-
-        self.getBusinessOwners = function(val) {
-            var deferred = $q.defer();
+       self.getBusinessOwners = function(val) {
+            //var deferred = $q.defer();
 
             var data1 = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
 
 
-            deferred.resolve(data1);
+            //deferred.resolve(data1);
 
             //var formData = { 'organizationId': organizationId };
 
@@ -31,8 +27,8 @@
             //        deferred.reject(error);
             //    });
 
-            return deferred.promise;
-            //return data1;
+            //return deferred.promise;
+            return data1;
         };
 
         var getHttpConfigForAction = function (action, organizationData) {
@@ -43,54 +39,22 @@
             } else {
                 orgId = organizationData.organizationId;
                 apiUrl = config.baseURL + '/v1/organizations/' + orgId;
-                var data = {
-                    "organizationId": 1,
-                    "name": "Proctor & Gamble123",
-                    "alias": null
-                };
-                return baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.POST, '', organizationData);
+               return baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.POST, '', organizationData);
             }
         };
 
         self.saveOrgnaization = function(organizationData, action) {
-            var deferred = $q.defer();
-
             var httpConfig = getHttpConfigForAction(action, organizationData);
-
-            $http(httpConfig)
-                .success(function(data) {
-                    if (isApiResponseInvalid(data)) {
-                        deferred.reject(data);
-                    } else {
-                        deferred.resolve(data);
-                    }
-                }).error(function(error) {
-                    deferred.reject(error);
-                });
-
-            return deferred.promise;
+            return baseApiProxy.getApiResponse(httpConfig);
         };
 
         self.getOrganizationById = function (orgId) {
             var apiUrl = config.baseURL + '/v1/organizations/' + orgId;
-            var deferred = $q.defer();
             var httpConfig = baseApiProxy.getJSONHttpConfig(apiUrl, serviceConstant.httpVerb.GET, '', '');
-
-            $http(httpConfig)
-               .success(function (data) {
-                   if (isApiResponseInvalid(data)) {
-                       deferred.reject(data);
-                   } else {
-                       deferred.resolve(data);
-                   }
-               }).error(function (error) {
-                   deferred.reject(error);
-               });
-
-            return deferred.promise;
+            return baseApiProxy.getApiResponse(httpConfig);
         };
     };
 
-    organizationApiProxy.$inject = ['$http', '$q', 'dk.validatorService', 'dk.configConstant', 'dk.serviceConstant', 'dk.baseApiProxy'];
+    organizationApiProxy.$inject = ['dk.configConstant', 'dk.serviceConstant', 'dk.baseApiProxy'];
     return organizationApiProxy;
 });

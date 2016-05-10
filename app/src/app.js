@@ -46,11 +46,7 @@
     ]);
 
     app.config(function ($httpProvider) {
-        //$httpProvider.defaults.headers.common = {};
-        //$httpProvider.defaults.headers.post = {};
-        //$httpProvider.defaults.headers.put = {};
-        //$httpProvider.defaults.headers.patch = {};
-        $httpProvider.defaults.withCredentials = true;
+       $httpProvider.defaults.withCredentials = true;
     });
 
     app.config(['KeepaliveProvider', 'IdleProvider', function (keepaliveProvider, idleProvider) {

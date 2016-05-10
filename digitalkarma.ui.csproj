@@ -31,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="app\src\assets\img\" />
-    <Folder Include="app\src\temlapteTester\" />
     <Folder Include="app\tests\lib\" />
     <Folder Include="app\tests\unit\chartTester\" />
     <Folder Include="dist\bower_components\bootstrap-sass\assets\images\" />

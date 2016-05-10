@@ -61,13 +61,17 @@
 
         var getOrganizationById = function() {
             if (session.user.userInfo.organization) {
+
                 $scope.promise = organizationService.getOrganizationById(session.user.userInfo.organization.organizationId);
 
-                $scope.promise.then(function (data) {
-                    data = data || {};
-                    $scope.organization = data;
-                    organizationContextService.data.organization = data;
-                });
+                $scope.promise
+                    .then(function(data) {
+                        data = data || {};
+                        $scope.organization = data;
+                        organizationContextService.data.organization = data;
+                    }, function(error) {
+                        console.log(error);
+                    });
             }
         };
 
