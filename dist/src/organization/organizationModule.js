@@ -1,9 +1,15 @@
-angular.module('capabilities.template', ['/app/src/organization/capabilities/capabilitiesTemplate.html']);
+angular.module('capabilities.template', ['/app/src/organization/capabilities/capabilitiesTemplate.html', '/app/src/organization/capabilities/details/manageCapability.html']);
 
 angular.module("/app/src/organization/capabilities/capabilitiesTemplate.html", []).run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("/app/src/organization/capabilities/capabilitiesTemplate.html",
-    "<div><top-nav-directive></top-nav-directive></div><div id=page-wrapper><div class=row><div class=col-lg-12><h3 class=page-header>{{orgnizationName}} Capability setup<br/><small>As a best practice there should be 3 levels of hierarchies for capabilities. Below forms allows to setup all the levels of capabilities. You can also review your Capability Architecture in the section below.</small></h3></div></div><div class=row><div class=col-lg-12><div class=\"panel panel-default\"><div class=panel-heading>Capability Setup</div><div class=panel-body><div class=row><form role=form name=form><div class=panel-body><a class=\"btn btn-success\" data-toggle=modal data-target=#myModal><span class=\"glyphicon glyphicon-plus\"></span> Add Capability</a></div><div class=\"modal fade\" id=myModal tabindex=-1 role=dialog aria-labelledby=myModalLabel aria-hidden=true><div class=modal-dialog><div class=modal-content><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true>&times;</button><h4 class=modal-title id=myModalLabel>Add Capability</h4></div><div class=modal-body><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityName.$error.required && (submitted)}\"><label>Name *</label><input class=form-control placeholder=\"Capability Name\" name=capabilityName ng-model=capability.name ng-required=true ng-minlength=\"2\"/><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityName.$error.required && (submitted)\">Capability Name is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityDescription.$error.required && (submitted)}\"><label>Description *</label><textarea class=form-control rows=3 placeholder=Description name=capabilityDescription ng-model=capability.description ng-required=true ng-minlength=2></textarea><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityDescription.$error.required && (submitted)\">Capability Description is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityLevel.$error.required && (submitted)}\"><label>Capability level *</label><select class=form-control ng-model=capability.level name=capabilityLevel ng-required=true><option>Level 1</option><option>Level 2</option><option>Level 3</option></select><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityLevel.$error.required && (submitted)\">Capability Level is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityState.$error.required && (submitted)}\"><label>State *</label><select class=form-control ng-model=capability.state name=capabilityState ng-required=true><option>Exists</option><option>Gap</option><option>Planned</option></select><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityState.$error.required && (submitted)\">Capability Gap is required</label></div><div class=form-group><label>Planned Completion Date</label><input class=form-control placeholder=\"Planned Completeion date\" name=plannedDate type=date ng-model=capability.plannedDate ng-disabled=\"capability.state !== 'Planned'\"/></div></div><div class=modal-footer><button type=button class=\"btn btn-default\" data-dismiss=modal>Close</button> <button type=button class=\"btn btn-success\">Save</button></div></div></div></div></form></div></div></div></div></div></div>");
+    "<div><top-nav-directive></top-nav-directive></div><div id=page-wrapper><div class=row><div class=col-lg-12><h3 class=page-header>{{orgnizationName}} Capability setup<br/><small>As a best practice there should be 3 levels of hierarchies for capabilities. Below forms allows to setup all the levels of capabilities. You can also review your Capability Architecture in the section below.</small></h3></div></div><div class=row><div class=col-lg-12><a class=\"btn btn-success\" ng-click=addCapability()><span class=\"glyphicon glyphicon-plus\"></span> Add Capability</a></div></div><div class=row><form role=form name=frmCapability><div>&nbsp;</div><div class=col-lg-6 name=capbilityContainer id=capbilityContainer></div></form></div></div>");
+}]);
+
+angular.module("/app/src/organization/capabilities/details/manageCapability.html", []).run(["$templateCache", function($templateCache) {
+  "use strict";
+  $templateCache.put("/app/src/organization/capabilities/details/manageCapability.html",
+    "<div class=\"modal fade\" id=myModal tabindex=-1 role=dialog aria-labelledby=myModalLabel aria-hidden=true><div class=modal-dialog><div class=modal-content><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true>&times;</button><h4 class=modal-title id=myModalLabel>Add Capability</h4></div><div class=modal-body><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityName.$error.required && (submitted)}\"><label>Name *</label><input class=form-control placeholder=\"Capability Name\" name=capabilityName ng-model=capability.name ng-required=true ng-minlength=\"2\"/><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityName.$error.required && (submitted)\">Capability Name is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityDescription.$error.required && (submitted)}\"><label>Description *</label><textarea class=form-control rows=3 placeholder=Description name=capabilityDescription ng-model=capability.description ng-required=true ng-minlength=2></textarea><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityDescription.$error.required && (submitted)\">Capability Description is required</label></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityLevel.$error.required && (submitted)}\"><label>Capability level *</label><div class=form-control>Division (Level - 1)</div></div><div class=form-group ng-class=\"{'has-error': frmCapability.capabilityState.$error.required && (submitted)}\"><label>State *</label><select class=form-control ng-model=capability.state name=capabilityState ng-required=true><option>Exists</option><option>Gap</option><option>Planned</option></select><label class=\"help-block has-error\" ng-if=\"frmCapability.capabilityState.$error.required && (submitted)\">Capability Gap is required</label></div><div class=form-group><label>Planned Completion Date</label><input class=form-control placeholder=\"Planned Completeion date\" name=plannedDate type=date ng-model=capability.plannedDate ng-disabled=\"capability.state !== 'Planned'\"/></div></div><div class=modal-footer><button type=button class=\"btn btn-default\">Close</button> <button type=button class=\"btn btn-success\" ng-click=addCapability(capability)>Save</button></div></div></div></div>");
 }]);
 
 define("capabilities/capabilitiesTemplate", function(){});
@@ -41,233 +47,73 @@ define("vendors/vendorsTemplate", function(){});
 define('capabilities/capabilitiesController',[],function() {
     'use strict';
 
-    var capabilitiesController = function ($scope, $compile, organizationContextService, utilities) {
+    var capabilitiesController = function ($scope, $compile, organizationContextService, utilities, $uibModal) {
         
-        var capabilityList = [],
-            parentElement = angular.element(document.querySelector('#spaceforbuttons'));
+        $scope.addCapability = function () {
+            $uibModal.open({
+                animation:true,
+                templateUrl: '/app/src/organization/capabilities/details/manageCapability.html',
+                controller: 'manageCapabilityController',
+                resolve:{}
+            });
+        };
+    };
 
-        var addChildElementVisual = function(panelType, capability) {
-            var element = '<div class="col-lg-3 col-md-6">' +
-                panelType +
+    capabilitiesController.$inject = ['$scope', '$compile', 'organizationContextService', 'utilitiesService', '$uibModal'];
+
+    return capabilitiesController;
+});
+define('capabilities/details/manageCapabilityController',[],function () {
+    'use strict';
+
+    var manageCapabilityController = function ($scope, $compile, organizationContextService, utilities) {
+        console.log('yo yo');
+        var addParentCapability = function (capability) {
+            var elementId = "1";//utilities.guid();
+
+            var element = '<div class="panel panel-default">' +
                 '<div class="panel-heading">' +
-                '<div class="row">' +
-                '<div class="col-xs-3">' +
+                capability.name +
+                '<div class="pull-right"><div class="btn-group"><button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span> Add Child Capability</button></div></div>' +
                 '</div>' +
-                '<div class="col-xs-9 text-right">' +
-                '<div>' + capability.name + '</div>' +
+                '<div class="panel-body">' +
+                '<div class="flot-chart" id=' + elementId + '></div>' +
                 '</div>' +
-                '</div>' +
-                '</div>' +
-                '<a href="" id="' + capability.id + '" ng-click="displayChildCapability($event)">' +
-                '<div class="panel-footer">' +
-                '<span class="pull-left">View Details</span>' +
-                '<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>' +
-                '<div class="clearfix"></div>' +
-                '</div>' +
-                '</a>' +
-                '</div>' +
-                '</div';
+                '</div>';
+            var parentElement = angular.element(document.querySelector('#capbilityContainer'));
 
             parentElement.append(element);
 
             $compile(parentElement)($scope);
         };
 
-       var getPanelType = function(state) {
-            if (state === "Exists") {
-                return '<div class="panel panel-green">';
-            }
+        var addChildCapabilityLevel2 = function (capability) {
+            var elementId = "2";//utilities.guid();
 
-            if (state === "Gap") {
-                return '<div class="panel panel-danger">';
-            }
+            var element = '<div class="panel panel-default">' +
+                '<div class="panel-heading">' +
+                capability.name +
+                '<div class="pull-right"><a class="btn btn-success" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span> Add Capability</a></div>' +
+                '</div>' +
+                '<div class="panel-body">' +
+                '<div class="flot-chart" id=' + elementId + '></div>' +
+                '</div>' +
+                '</div>';
+            var parentElement = angular.element(document.querySelector('#capbilityContainer'));
 
-            if (state === "Planned") {
-                return '<div class="panel panel-default">';
-            }
-            return '<div class="panel panel-green">';
+            parentElement.append(element);
+
+            $compile(parentElement)($scope);
         };
 
-        var addTreeRoot = function(rootElement) {
-            $scope.treedata.push({ "label": rootElement.text, "id": rootElement.id, "children": [] });
+        $scope.addCapability = function (capability) {
+            addParentCapability(capability);
         };
-
-        var addTreeChild = function(childElement, capability) {
-            var panelType = getPanelType(capability.state);
-            capability.id = childElement.id;
-            $scope.selectedNode.children.push({ "label": childElement.text, "id": childElement.id, "children": [] });
-
-            addChildElementVisual(panelType, capability);
-        };
-
-        var getObjectById = function(list, id, callback) {
-            _.each(list, function(item) {
-                if (item.id === id) {
-                    callback(item);
-                }
-                if (item.childCapability) {
-                    getObjectById(item.childCapability, id, callback);
-                }
-            });
-        };
-
-        var addParentCapability = function (id, capability) {
-            capability.id = id;
-            capability.parentId = null;
-            capabilityList.push({
-                "id":id,
-                "name": capability.name,
-                "description": capability.description,
-                "level": capability.level,
-                "state": capability.state,
-                "plannedDate": capability.plannedDate,
-                "childCapability": []
-            });
-        };
-
-        var addChildCapability = function (id, capability) {
-            var parentCapability;
-
-            getObjectById(capabilityList, $scope.selectedNode.id, function (parent) {
-                parentCapability = parent;
-            });
-
-            parentCapability.childCapability.push({
-                "id": id,
-                "parentId": $scope.selectedNode.id,
-                "name": capability.name,
-                "description": capability.description,
-                "level": capability.level,
-                "state": capability.state,
-                "plannedDate": capability.plannedDate,
-                "childCapability": []
-            });
-        };
-
-        var setCapabilityForSelectedNode = function (capability) {
-            $scope.capability = {
-                "name": capability.name,
-                "description": capability.description,
-                "level": capability.level,
-                "state": capability.state,
-                "plannedDate": capability.plannedDate
-            };
-        };
-
-        var updateCapability = function (capability) {
-            var currentCapability;
-
-            getObjectById(capabilityList, $scope.selectedNode.id, function (current) {
-                currentCapability = current;
-            });
-
-            if (!_.isUndefined(currentCapability)) {
-                currentCapability.name = capability.name;
-                currentCapability.description = capability.description;
-                currentCapability.level = capability.level;
-                currentCapability.state = capability.state;
-            }
-        };
-
-        $scope.save = function(form) {
-            $scope.submitted = true;
-            var treeElement = {},
-                capability = $scope.capability,
-                currentCapability;
-
-            if (form.$valid) {
-                treeElement.id = utilities.guid();
-                treeElement.text = capability.name;
-
-                if (!_.isUndefined($scope.selectedNode)) {
-                    getObjectById(capabilityList, $scope.selectedNode.id, function(current) {
-                        currentCapability = current;
-                    });
-
-                    if (!_.isUndefined($scope.selectedNode) && currentCapability.level === capability.level) {
-                        updateCapability(capability);
-                        return;
-                    }
-                }
-
-                if (capability.level === "Level 1") {
-                    addTreeRoot(treeElement);
-                    addParentCapability(treeElement.id, capability);
-                } else {
-                    addChildCapability(treeElement.id, capability);
-                    addTreeChild(treeElement, capability);
-                }
-            }
-        };
-
-        $scope.saveAndContinue = function() {
-            $scope.submitted = true;
-        };
-
-        $scope.deleteCapability = function (node) {
-        };
-
-        $scope.displayChildCapability = function (e) {
-            var capabilityId = e.currentTarget.id, capabilityItem;
-
-            getObjectById(capabilityList, capabilityId, function (item) {
-                capabilityItem = item;
-            });
-            setCapabilityForSelectedNode(capabilityItem);
-        };
-
-        var showChildren = function() {
-            var capability, panelType;
-
-            parentElement.empty();
-
-            getObjectById(capabilityList, $scope.selectedNode.id, function (item) {
-                capability = item;
-            });
-
-            setCapabilityForSelectedNode(capability);
-
-            if (capability.childCapability) {
-                _.each(capability.childCapability, function (item) {
-                    panelType = getPanelType(item.state);
-                    addChildElementVisual(panelType, item);
-                });
-            }
-        };
-
-        $scope.showSelected = function(sel) {
-            $scope.selected = sel.label;
-            $scope.selectedNode = sel;
-            showChildren();
-        };
-
-        var init = function() {
-            $scope.treedata = [];
-
-            $scope.capability = {
-                "id": null,
-                "name": "test",
-                "description": "test",
-                "level": "Level 1",
-                "state": "Gap",
-                "plannedDate": null
-            };
-
-            if (!_.isUndefined(organizationContextService.data.organization)) {
-                $scope.orgnizationName = organizationContextService.data.organization.name;
-            }
-
-            if (!_.isUndefined(organizationContextService.data.capabilities)) {
-                capabilityList = organizationContextService.data.capabilities;
-            }
-        };
-
-        init();
     };
 
-    capabilitiesController.$inject = ['$scope', '$compile', 'organizationContextService', 'utilitiesService'];
+    manageCapabilityController.$inject = ['$scope', '$compile', 'organizationContextService', 'utilitiesService'];
 
-    return capabilitiesController;
+    return manageCapabilityController;
 });
 ;
 define("capabilities/capabilitiesService", function(){});
@@ -504,7 +350,7 @@ define('services/organizationContextService',[],function () {
     organizationContextService.$inject = ['$rootScope'];
     return organizationContextService;
 });
-define('organization/organizationModule',['require','application/applicationTemplate','capabilities/capabilitiesTemplate','organization/organizationTemplate','technologies/technologiesTemplate','vendors/vendorsTemplate','application/applicationModule','angular','capabilities/capabilitiesController','capabilities/capabilitiesService','capabilities/capabilitiesDirective','organization/organizationController','organization/organizationService','organization/organizationDirective','technologies/technologiesController','technologies/technologiesService','technologies/technologiesDirective','vendors/vendorsController','vendors/vendorsService','vendors/vendorsDirective','services/organizationContextService'],function(require) {
+define('organization/organizationModule',['require','application/applicationTemplate','capabilities/capabilitiesTemplate','organization/organizationTemplate','technologies/technologiesTemplate','vendors/vendorsTemplate','application/applicationModule','angular','capabilities/capabilitiesController','capabilities/details/manageCapabilityController','capabilities/capabilitiesService','capabilities/capabilitiesDirective','organization/organizationController','organization/organizationService','organization/organizationDirective','technologies/technologiesController','technologies/technologiesService','technologies/technologiesDirective','vendors/vendorsController','vendors/vendorsService','vendors/vendorsDirective','services/organizationContextService'],function(require) {
     'use strict';
 
     require('application/applicationTemplate');
@@ -518,6 +364,7 @@ define('organization/organizationModule',['require','application/applicationTemp
     var angular = require('angular');
 
     var capabilitiesController = require('capabilities/capabilitiesController');
+    var manageCapabilityController = require('capabilities/details/manageCapabilityController');
     var capabilitiesService = require('capabilities/capabilitiesService');
     var capabilitiesDirective = require('capabilities/capabilitiesDirective');
 
@@ -547,6 +394,7 @@ define('organization/organizationModule',['require','application/applicationTemp
 
     organizationModule
        .controller('capabilitiesController', capabilitiesController)
+        .controller('manageCapabilityController', manageCapabilityController)
         .service('capabilitiesService', capabilitiesService)
         .directive('capabilitiesDirective', capabilitiesDirective)
         .controller('organizationController', organizationController)

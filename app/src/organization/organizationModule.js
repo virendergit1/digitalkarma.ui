@@ -12,6 +12,7 @@
     var angular = require('angular');
 
     var capabilitiesController = require('capabilities/capabilitiesController');
+    var manageCapabilityController = require('capabilities/details/manageCapabilityController');
     var capabilitiesService = require('capabilities/capabilitiesService');
     var capabilitiesDirective = require('capabilities/capabilitiesDirective');
 
@@ -41,6 +42,7 @@
 
     organizationModule
        .controller('capabilitiesController', capabilitiesController)
+        .controller('manageCapabilityController', manageCapabilityController)
         .service('capabilitiesService', capabilitiesService)
         .directive('capabilitiesDirective', capabilitiesDirective)
         .controller('organizationController', organizationController)

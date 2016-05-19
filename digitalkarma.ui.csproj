@@ -103,6 +103,8 @@
     <Content Include="app\src\organization\capabilities\capabilitiesController.js" />
     <Content Include="app\src\organization\capabilities\capabilitiesDirective.js" />
     <Content Include="app\src\organization\capabilities\capabilitiesService.js" />
+    <Content Include="app\src\organization\capabilities\details\manageCapability.html" />
+    <Content Include="app\src\organization\capabilities\details\manageCapabilityController.js" />
     <Content Include="app\src\services\alertTypeConstant.js" />
     <Content Include="app\src\services\alertService.js" />
     <Content Include="app\src\organization\services\organizationContextService.js" />

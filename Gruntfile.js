@@ -7,7 +7,7 @@ module.exports = function(grunt) {
             rename: function(moduleName) {
                 return '/' + moduleName;
             },
-            base: '',
+            base: "",
             module: moduleTemplateNamespace,
             useStrict: true,
             htmlmin: {
@@ -163,7 +163,8 @@ module.exports = function(grunt) {
             },
             capabilities: {
                 options: setHtml2JsDefaultOptions('capabilities.template'),
-                src: '<%= pkg.sourceDir %>/src/organization/capabilities/*.html',
+                src: ['<%= pkg.sourceDir %>/src/organization/capabilities/*.html',
+                    '<%= pkg.sourceDir %>/src/organization/capabilities/details/*.html'],
                 dest: '<%= distMainDirectory %>/src/organization/capabilitiesTemplate.js'
             },
             organization: {
@@ -444,6 +445,7 @@ module.exports = function(grunt) {
                         'organization': './dist/src/src/organization',
                         'application': 'empty:',
                         'capabilities': './dist/src/src/organization',
+                        'capabilities/details': './dist/src/src/organization',
                         'technologies': './dist/src/src/organization',
                         'vendors': './dist/src/src/organization',
                         'services': './dist/src/src/organization',
