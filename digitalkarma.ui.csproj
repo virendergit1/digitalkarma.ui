@@ -1462,8 +1462,10 @@
     <Content Include="Gruntfile.js" />
     <Content Include="index.html" />
     <Content Include="main.js" />
+    <Content Include="server.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".eslintignore" />
     <None Include="app\src\i18n\en-US.json" />
     <None Include="app\src\less\app-common-mixins.less" />
     <None Include="app\src\less\app-common.less" />
@@ -2107,8 +2109,8 @@
     <None Include="dist\src\css\app-common.css.map" />
     <None Include="dist\src\css\app-common.min.css.map" />
     <None Include="dist\src\i18n\en-US.json" />
+    <None Include="eslintrc.json" />
     <None Include="index.php" />
-    <None Include="jshintrc.json" />
     <None Include="package.json" />
     <None Include="README.md" />
   </ItemGroup>

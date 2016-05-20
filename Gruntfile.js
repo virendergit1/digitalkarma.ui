@@ -2,6 +2,8 @@
 module.exports = function(grunt) {
     'use strict';
 
+    var path = require('path');
+
     var setHtml2JsDefaultOptions = function(moduleTemplateNamespace) {
         return {
             rename: function(moduleName) {
@@ -72,14 +74,13 @@ module.exports = function(grunt) {
             karmaConfig: '<%= pkg.sourceDir %>/tests/config/karma.conf.js',
             unit: ['<%= pkg.sourceDir %>/tests/unit/**/*.js']
         },
-        jshint: {
+        eslint: {
             options: {
-                jshintrc: 'jshintrc.json',
-                reporter: require('jshint-stylish')
+                configFile: "eslintrc.json",
+                ignore: true,
+                ignorePath: ".eslintignore"
             },
-            files: {
-                src: ['Gruntfile.js', '<%= src.js %>', '<%= test.unit %>']
-            }
+            src: ['Gruntfile.js', '<%= src.js %>', '<%= test.unit %>']
         },
         karma: {
             options: {
@@ -588,25 +589,26 @@ module.exports = function(grunt) {
         },
         concurrent: {
             dev: {
-                tasks: ['watch:release', 'jshint', 'watch'],
+                tasks: ['watch:release', 'eslint', 'watch'],
                 options: {
                     logConcurrentOutput: true
                 }
             }
         },
         express: {
-            app: {
+            server: {
                 options: {
                     port: 59456,
-                    hostname: 'localhost',
-                    scheme: 'http',
-                    showStack: true
+                    hostname: "localhost",
+                    server: path.resolve('./server.js'),
+                    bases: [path.resolve('dist/src')],
+                    debug: true
                 }
             }
         },
         open: {
-            app: {
-                path: 'http://localhost:<%= express.app.options.port %>/<%= distMainDirectory %>/index.html'
+            server: {
+                path: 'http://localhost:<%= express.server.options.port %>/'
             }
         },
         concat: {
@@ -620,7 +622,7 @@ module.exports = function(grunt) {
     grunt.registerTask('release', [
         'clean:distChartTesterCompDirectory',
         'buildcss',
-        'jshint',
+        'eslint',
         //'karma:integration',
         //"replaceClassname:reports",
         //'versionCopyBowerComponents',
@@ -680,21 +682,12 @@ module.exports = function(grunt) {
         'copy:applicationJs'
     ]);
 
-    grunt.registerTask('web-start', ['release', 'express:app', 'open:app', 'express-keepalive']);
+    grunt.registerTask('web-start', ['release', 'express:server', 'open:server', 'express-keepalive']);
     grunt.registerTask('dev', ['release', 'concurrent']);
 
-    require('load-grunt-tasks')(grunt);
+    require('load-grunt-tasks')(grunt, { pattern: ['grunt-*', 'grunt*', '@*/grunt-*'] });
     require('time-grunt')(grunt);
 
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-html2js');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-express');
-    grunt.loadNpmTasks('grunt-contrib-compress');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-version-copy-bower-components');
+    
 
 };
